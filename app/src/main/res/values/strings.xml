@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Projekt1Rain</string>
+    <string name="title_favoriten">Favoriten</string>
+    <string name="title_kartenansicht">Kartenansicht</string>
+    <string name="title_einstellungen">Einstellungen</string>
+    <string name="Foryou" />
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="foryou">For You</string>
+    <string name="Kartenansicht">Kartenansicht</string>
+    <string name="Einstellungen">Einstellungen</string>
+    <string name="line1">line1</string>
+</resources>
