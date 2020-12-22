@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
-import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity() {
         val mapViewFragment = MapViewFragment()
         val settingsFragment = SettingsFragment()
         makeCurrentFragment(foryoufragment)
-      val navController: NavController = findNavController(R.id.nav_graph)
-        findViewById<BottomNavigationView>(R.id.nav_view)
-                .setupWithNavController(navController)
+        /*  val navController: NavController = findNavController(R.id.nav_graph)
+          findViewById<BottomNavigationView>(R.id.nav_view)
+                  .setupWithNavController(navController)*/
         nav_view.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.forYouFragment -> makeCurrentFragment(foryoufragment)
@@ -45,16 +45,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
 
-
-
-}
     private fun makeCurrentFragment(fragment: Fragment) =
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.container, fragment)
-                commit()
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.container, fragment)
+            commit()
 
-            }
+        }
 
 }
 

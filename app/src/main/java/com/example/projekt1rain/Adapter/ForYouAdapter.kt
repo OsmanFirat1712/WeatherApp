@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.R
 
-class ForYouAdapter(requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(var content:ArrayList<String>, requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val view =
@@ -25,6 +25,7 @@ class ForYouAdapter(requireContext: Context) : RecyclerView.Adapter<ForYouAdapte
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+
+        return content.size
     }
 }
