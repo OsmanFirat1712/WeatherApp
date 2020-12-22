@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.projekt1rain.Adapter.ForYouAdapter
+import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -38,7 +39,7 @@ class ForYouFragment : Fragment() {
         foryouadapter = ForYouAdapter(requireContext())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = foryouadapter
+            //adapter = foryouadapter
             setHasFixedSize(true)
         }
 /*

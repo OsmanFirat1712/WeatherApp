@@ -10,4 +10,5 @@
     <string name="Kartenansicht">Kartenansicht</string>
     <string name="Einstellungen">Einstellungen</string>
     <string name="line1">line1</string>
+    <string name="map_key" translatable="false">AIzaSyDAkpBNsNGOfwHqAaq2RNxDxYfccNAD9wY</string>
 </resources>
