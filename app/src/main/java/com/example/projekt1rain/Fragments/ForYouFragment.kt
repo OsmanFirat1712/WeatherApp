@@ -36,7 +36,7 @@ class ForYouFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
-        foryouadapter = ForYouAdapter(requireContext())
+        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             //adapter = foryouadapter
@@ -61,7 +61,7 @@ class ForYouFragment : Fragment() {
          }*/
 
         val flba: FloatingActionButton = view.findViewById(R.id.flab)
-        flba.setOnClickListener() { startDetailListFragment() }
+        flba.setOnClickListener() { startMapViewFragment() }
     }
 
     private fun setToolbar() {
@@ -73,7 +73,7 @@ class ForYouFragment : Fragment() {
         }
     }
 
-    private fun startDetailListFragment() {
+    private fun startMapViewFragment() {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container, MapViewFragment())
             .addToBackStack(null)

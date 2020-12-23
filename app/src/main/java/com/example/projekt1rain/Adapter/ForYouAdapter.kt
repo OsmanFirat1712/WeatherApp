@@ -4,6 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.R
 
@@ -24,7 +27,9 @@ class ForYouAdapter(requireContext: Context)/* : RecyclerView.Adapter<ForYouAdap
 
     }
 
+
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+
+        return content.size
     }
 }*/
