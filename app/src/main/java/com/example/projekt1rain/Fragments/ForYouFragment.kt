@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.projekt1rain.Adapter.ForYouAdapter
+import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,10 +36,10 @@ class ForYouFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
-        foryouadapter = ForYouAdapter(requireContext())
+        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = foryouadapter
+            //adapter = foryouadapter
             setHasFixedSize(true)
         }
 /*
@@ -60,7 +61,7 @@ class ForYouFragment : Fragment() {
          }*/
 
         val flba: FloatingActionButton = view.findViewById(R.id.flab)
-        flba.setOnClickListener() { startDetailListFragment() }
+        flba.setOnClickListener() { startMapViewFragment() }
     }
 
     private fun setToolbar() {
@@ -72,7 +73,7 @@ class ForYouFragment : Fragment() {
         }
     }
 
-    private fun startDetailListFragment() {
+    private fun startMapViewFragment() {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container, MapViewFragment())
             .addToBackStack(null)
