@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.R
 
-class ForYouAdapter(var content: ArrayList<String>, requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(requireContext: Context)/* : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val view =
@@ -32,4 +32,4 @@ class ForYouAdapter(var content: ArrayList<String>, requireContext: Context) : R
 
         return content.size
     }
-}
+}*/

@@ -39,7 +39,7 @@ class ForYouFragment : Fragment() {
         foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = foryouadapter
+            //adapter = foryouadapter
             setHasFixedSize(true)
         }
 /*
