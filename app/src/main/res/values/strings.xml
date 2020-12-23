@@ -9,6 +9,8 @@
     <string name="foryou">For You</string>
     <string name="Kartenansicht">Kartenansicht</string>
     <string name="Einstellungen">Einstellungen</string>
-    <string name="line1">line1</string>
-    <string name="map_key" translatable="false">AIzaSyDAkpBNsNGOfwHqAaq2RNxDxYfccNAD9wY</string>
+    <string name="line1">CityName</string>
+    <string name="uhrzeit">Uhrzeit</string>
+    <string name="temperatur">Temperatur</string>
+    <string name="tagNacht">Tag/Nacht</string>
 </resources>
