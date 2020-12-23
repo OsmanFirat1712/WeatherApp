@@ -7,73 +7,61 @@ import com.beust.klaxon.Klaxon
 private val klaxon = Klaxon()
 
 @Entity
-data class CurrentWeather (
+data class CurrentWeather(
+    //PrimaryKey for Room
     @PrimaryKey(autoGenerate = true) var id:Long,
-    open val coord: Coord,
-    open val weather: List<Weather>,
-    open val base: String,
-    open val main: Main,
-    open val visibility: Long,
-    open val wind: Wind,
-    open val clouds: Clouds,
-    open val dt: Long,
-    open val sys: Sys,
-    open val timezone: Long,
-    open val name: String,
-    open val cod: Long
+    val base: String,
+    val clouds: Clouds,
+    val cod: Int,
+    val coord: Coord,
+    val dt: Int,
+    val main: Main,
+    val name: String,
+    val sys: Sys,
+    val timezone: Int,
+    val visibility: Int,
+    val weather: List<Weather>,
+    val wind_deg: Int,
+    val uvi: Double,
+    val wind_speed: Double,
+    val wind: Wind
 ) {
-    public fun toJson() = klaxon.toJsonString(this)
+    data class Clouds(
+        val all: Int
+    )
 
-    companion object {
-        public fun fromJson(json: String) = klaxon.parse<CurrentWeather>(json)
-    }
+    data class Coord(
+        val lat: Double,
+        val lon: Double
+    )
+
+    data class Main(
+        val feels_like: Double,
+        val humidity: Int,
+        val pressure: Int,
+        val temp: Double,
+        val temp_max: Double,
+        val temp_min: Double
+    )
+
+    data class Sys(
+        val country: String,
+        val id: Int,
+        val message: Double,
+        val sunrise: Int,
+        val sunset: Int,
+        val type: Int
+    )
+
+    data class Weather(
+        val description: String,
+        val icon: String,
+        val id: Int,
+        val main: String
+    )
+
+    data class Wind(
+        val deg: Int,
+        val speed: Double
+    )
 }
-
-data class Clouds (
-    val all: Long
-)
-
-data class Coord (
-    val lon: Double,
-    val lat: Double
-)
-
-data class Main (
-    val temp: Double,
-
-    @Json(name = "feels_like")
-    val feelsLike: Double,
-
-    @Json(name = "temp_min")
-    val tempMin: Double,
-
-    @Json(name = "temp_max")
-    val tempMax: Double,
-
-    val pressure: Long,
-    val humidity: Long
-)
-
-annotation class Json(val name: String)
-
-data class Sys (
-    val type: Long,
-    val id: Long,
-    val message: Double,
-    val country: String,
-    val sunrise: Long,
-    val sunset: Long
-)
-
-data class Weather (
-    val id: Long,
-    val main: String,
-    val description: String,
-    val icon: String
-)
-
-data class Wind (
-    val speed: Double,
-    val deg: Long
-)
-

@@ -1,23 +1,37 @@
 package com.example.projekt1rain
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
+import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
+import com.example.projekt1rain.Room.City
+import com.example.projekt1rain.Room.LocalJSONParser
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val dataService: DataService = (getApplication() as MyApp).dataService
 
+
+        //GET JSON
+        val jsonFileString =
+            LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
+        Log.i("data", jsonFileString.toString())
+        val gson = Gson()
+        //PARSE JSON TO STRING
+        val listPersonType = object : TypeToken<List<City>>() {}.type
+        val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
+        city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
         setToolbar()
 
         findViewById<BottomNavigationView>(R.id.nav_view)
@@ -53,7 +67,6 @@ class MainActivity : AppCompatActivity() {
             commit()
 
         }
-
 }
 
 

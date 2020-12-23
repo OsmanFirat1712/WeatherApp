@@ -1,10 +1,10 @@
 package com.example.projekt1rain.Room
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.projekt1rain.CurrentWeather
 import com.example.projekt1rain.Minutely
 import com.example.projekt1rain.OneCall
-import com.example.projekt1rain.Weather
 
 
 @Dao
@@ -23,7 +23,7 @@ interface WeatherDao{
     suspend fun getWeatherbyId(currentWeatherid:Long):CurrentWeather
 
     @Query("SELECT * FROM CurrentWeather")
-    suspend fun getWeatherList():List<Weather>
+    suspend fun getWeatherList():List<CurrentWeather.Weather>
 
 
     @Insert
@@ -40,5 +40,26 @@ interface WeatherDao{
 
     @Query("SELECT * FROM OneCall")
     suspend fun getOneCallList():List<Minutely>
+
+
+
+    @Insert
+    suspend fun insert (city: City)
+
+    @Delete
+    suspend fun delete (city: City)
+
+    @Update
+    suspend fun update (city: City)
+
+    @Query ("SELECT * FROM City WHERE cityid = :cityid")
+    suspend fun getCitybyId(cityid:Long):City
+
+    @Query("SELECT * FROM City")
+    fun  getLiveDataCityList():LiveData<List<City>>
+
+/*
+    @Query("SELECT * FROM OneCall")
+    suspend fun getCity():List<Minutely>*/
 
 }

@@ -4,10 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.R
 
-class ForYouAdapter(var content:ArrayList<String>, requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(var content: ArrayList<String>, requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val view =
@@ -23,6 +26,7 @@ class ForYouAdapter(var content:ArrayList<String>, requireContext: Context) : Re
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
+
 
     override fun getItemCount(): Int {
 
