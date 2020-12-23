@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
-import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
