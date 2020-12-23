@@ -12,6 +12,7 @@ import com.example.projekt1rain.Adapter.ForYouAdapter
 import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
+import com.example.projekt1rain.WeaterApi.RetrofitWeatherApi
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.recylerviewforyou1.*
 
@@ -22,6 +23,7 @@ class ForYouFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbar()
+
 
     }
 
