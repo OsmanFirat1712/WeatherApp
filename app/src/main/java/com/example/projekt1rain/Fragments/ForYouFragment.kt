@@ -57,8 +57,9 @@ class ForYouFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //       foryouadapter = ForYouAdapter(requireContext())
-        foryouRecyclerView.apply {
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
+        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
+        recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             //  adapter = foryouadapter
             setHasFixedSize(true)

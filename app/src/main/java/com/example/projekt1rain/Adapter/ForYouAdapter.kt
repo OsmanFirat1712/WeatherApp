@@ -4,9 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
+
+import androidx.cardview.widget.CardView
+
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.DataWeatherClass
 import com.example.projekt1rain.R
@@ -68,7 +73,9 @@ class ForYouAdapter(weatherClass: DataWeatherClass) :
 
 
     override fun getItemCount(): Int {
-        return 1 //favorites.sizes
+
+        return content.size //favorites.sizes
+
     }
 
 }
