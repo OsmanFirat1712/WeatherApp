@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1rain.R
 
-class ForYouAdapter(requireContext: Context)/* : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(requireContext: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val view =
@@ -15,16 +15,22 @@ class ForYouAdapter(requireContext: Context)/* : RecyclerView.Adapter<ForYouAdap
         return ViewHolder(view)
     }
 
+
+
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
         TODO("Not yet implemented")
     }
+
+
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
 
+
+
     override fun getItemCount(): Int {
         TODO("Not yet implemented")
     }
-}*/
+}
