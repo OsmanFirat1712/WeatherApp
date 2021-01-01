@@ -3,6 +3,8 @@ package com.example.projekt1rain
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.beust.klaxon.Klaxon
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 private val klaxon = Klaxon()
 
@@ -36,11 +38,23 @@ data class CurrentWeather(
     )
 
     data class Main(
+        @SerializedName("feels_like")
+        @Expose
         val feels_like: Double,
+        @SerializedName("humidity")
+        @Expose
         val humidity: Int,
+        @SerializedName("pressure")
+        @Expose
         val pressure: Int,
+        @SerializedName("temp")
+        @Expose
         val temp: Double,
+        @SerializedName("tempMax")
+        @Expose
         val temp_max: Double,
+        @SerializedName("tempMin")
+        @Expose
         val temp_min: Double
     )
 

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.example.projekt1rain.DataStorag.DataClass
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
@@ -30,8 +31,8 @@ class MainActivity() : AppCompatActivity() {
         val gson = Gson()
         //PARSE JSON TO STRING
         val listPersonType = object : TypeToken<List<City>>() {}.type
-        val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
-        city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
+        //val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
+        //city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
         setToolbar()
 
         findViewById<BottomNavigationView>(R.id.nav_view)
@@ -50,6 +51,8 @@ class MainActivity() : AppCompatActivity() {
             }
             true
         }
+
+        //dataService.getCurrentCallFromApi()
     }
 
     private fun setToolbar() {
@@ -67,6 +70,8 @@ class MainActivity() : AppCompatActivity() {
             commit()
 
         }
+
+
 }
 
 

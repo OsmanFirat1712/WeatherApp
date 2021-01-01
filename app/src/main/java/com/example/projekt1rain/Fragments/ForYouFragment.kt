@@ -4,88 +4,75 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.ListView
-import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.projekt1rain.Adapter.ForYouAdapter
+import com.example.projekt1rain.DataWeatherClass
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import com.example.projekt1rain.Fbiragments.MapViewFragment
+import com.example.projekt1rain.ForYouConstruktor
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.Entry
+import com.example.projekt1rain.RetrofitApi.RetrofitSetup
+import com.example.projekt1rain.RetrofitApi.WeatherLocation
+import com.example.projekt1rain.RetrofitApi.retrofitResponse
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.foryoufragment.*
 import kotlinx.android.synthetic.main.recylerviewforyou1.*
+import kotlinx.android.synthetic.main.recylerviewforyou1.view.*
+import javax.security.auth.callback.Callback
 
 class ForYouFragment : Fragment() {
-
-    //    private lateinit var foryouadapter: ForYouAdapter
-
+    
     private lateinit var foryouRecyclerView: RecyclerView
-    private lateinit var layoutManager: LinearLayoutManager
+    private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var foryoucardview: CardView
     private lateinit var adapter: ForYouAdapter
     private lateinit var listView: ListView
+    private lateinit var retrofitsetup: RetrofitSetup
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbar()
+        //you can call the retrofit response
+        //retrofitResponse()
 
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.recylerviewforyou1, container, false)
-        foryouRecyclerView = view.findViewById(R.id.recyclerviewforyou)
-        //layoutManager = LinearLayoutManager(activity.,RecyclerView.VERTICAL,false)
-        return view
+        return inflater.inflate(R.layout.recylerviewforyou1, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
-        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            //  adapter = foryouadapter
-            setHasFixedSize(true)
+        recyclerviewforyou.apply {
+            val forYouConstruktorList = adapterGenerate(20)
+            adapter =ForYouAdapter(forYouConstruktorList)
+            layoutManager = LinearLayoutManager(activity)
+            recyclerviewforyou.setHasFixedSize(true)
 
-//            foryoucardview.setOnClickListener { startForYouFragment() }
         }
-/*
-
-        adapter2 = ForYouAdapter(requireContext())
-
-        view.findViewById<RecyclerView>(R.id.recylerviewforyou).apply {
-
-            layoutManager = LinearLayoutManager(context)
-            adapter = adapter2
-            adapter = ForYouAdapter(requireContext())
-            setHasFixedSize(true)
-        }
-*/
-
-        /* val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
-         swipeRefresh?.setOnRefreshListener {
-             swipeRefresh.isRefreshing = false
-         }*/
 
         val flba: FloatingActionButton = view.findViewById(R.id.flab)
         flba.setOnClickListener() { startMapViewFragment() }
+    }
+
+    private fun adapterGenerate(size : Int) : List<ForYouConstruktor>{
+        val list = ArrayList<ForYouConstruktor>()
+
+        val item = ForYouConstruktor("adana", 22,22,R.drawable.ic_baseline_settings_24,R.drawable.ic_baseline_add_location_alt_24)
+
+        list += item
+
+        return list
     }
 
     private fun setToolbar() {
@@ -111,13 +98,6 @@ class ForYouFragment : Fragment() {
             .commit()
     }
 
-    /*  private fun initRecyclerVIew() {
-          foryouRecyclerView = findViewByID(R.id.)
-          adapter=ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1)
-          listView.foryouadaptar = adapter
-      }
-      private fun initDataweather()
-      content = DataWeatherClass*/
 }
 
 

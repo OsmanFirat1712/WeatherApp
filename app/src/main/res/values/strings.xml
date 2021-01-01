@@ -13,4 +13,5 @@
     <string name="uhrzeit">Uhrzeit</string>
     <string name="temperatur">Temperatur</string>
     <string name="tagNacht">Tag/Nacht</string>
+    <string name="map_key" >AIzaSyDAkpBNsNGOfwHqAaq2RNxDxYfccNAD9wY</string>
 </resources>
