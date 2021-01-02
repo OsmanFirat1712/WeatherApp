@@ -52,12 +52,19 @@ class ForYouFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
+/*        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())*/
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            //adapter = foryouadapter
+            setHasFixedSize(true)
         recyclerviewforyou.apply {
             val forYouConstruktorList = adapterGenerate(20)
             adapter =ForYouAdapter(forYouConstruktorList)
             layoutManager = LinearLayoutManager(activity)
             recyclerviewforyou.setHasFixedSize(true)
+
 
         }
 

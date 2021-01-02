@@ -27,6 +27,14 @@ import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+<<<<<<< HEAD
+
+private const val TAG = "MapViewFragment"
+
+class MapViewFragment : Fragment(), OnMapReadyCallback {
+    private lateinit var nMap: GoogleMap
+    private var markers: MutableList<Marker> = mutableListOf<Marker>()
+=======
 import kotlinx.android.synthetic.main.mapviewfragment.*
 import java.lang.reflect.Array.set
 import java.nio.file.Paths.get
@@ -36,6 +44,7 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
     companion object{
         private lateinit var nMap: GoogleMap
 
+>>>>>>> dev
 
         private var markers:MutableList<Marker> = mutableListOf<Marker>()
     }
@@ -78,12 +87,19 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
                 ).show()
                 showAlertDialog(latlng)
 
+<<<<<<< HEAD
+                val address = getAddress(latlng.latitude, latlng.longitude)
+                Log.d(TAG, "test5 $address ${latlng.latitude} ${latlng.longitude}")
+                Toast.makeText(requireContext(), "test" + address, Toast.LENGTH_LONG).show()
+
+=======
 
                 val address= getAddress(latlng.latitude, latlng.longitude)
                 retrofitResponse(address)
 
                 Log.d(TAG,"test5 $address")
                 Toast.makeText(requireContext(),"test"+address,Toast.LENGTH_LONG).show()
+>>>>>>> dev
             }
         }
     }
@@ -141,8 +157,8 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun setToolbar(){
-        val actionBar : ActionBar? =(requireActivity() as MainActivity).supportActionBar
+    private fun setToolbar() {
+        val actionBar: ActionBar? = (requireActivity() as MainActivity).supportActionBar
         actionBar?.apply {
             title = getString(R.string.Kartenansicht)
             setDisplayShowTitleEnabled(true)
