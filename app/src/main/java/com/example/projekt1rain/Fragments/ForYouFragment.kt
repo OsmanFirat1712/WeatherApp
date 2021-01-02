@@ -13,7 +13,6 @@ import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.recylerviewforyou1.*
 
 class ForYouFragment : Fragment() {
 
@@ -36,7 +35,7 @@ class ForYouFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
-        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())
+/*        foryouadapter = ForYouAdapter(content = ArrayList(), requireContext())*/
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             //adapter = foryouadapter

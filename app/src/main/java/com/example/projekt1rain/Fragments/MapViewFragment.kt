@@ -20,14 +20,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.mapviewfragment.*
 
 private const val TAG = "MapViewFragment"
-class MapViewFragment: Fragment(), OnMapReadyCallback {
 
+class MapViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var nMap: GoogleMap
-    private var markers:MutableList<Marker> = mutableListOf<Marker>()
-
+    private var markers: MutableList<Marker> = mutableListOf<Marker>()
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -66,17 +64,16 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
                 ).show()
                 showAlertDialog(latlng)
 
-
-
                 val address = getAddress(latlng.latitude, latlng.longitude)
-                Log.d(TAG,"test5 $address ${latlng.latitude} ${latlng.longitude}")
-                Toast.makeText(requireContext(),"test"+address,Toast.LENGTH_LONG).show()
+                Log.d(TAG, "test5 $address ${latlng.latitude} ${latlng.longitude}")
+                Toast.makeText(requireContext(), "test" + address, Toast.LENGTH_LONG).show()
 
             }
 
         }
 
     }
+
     private fun getAddress(lat: Double, lng: Double): String {
         val geocoder = Geocoder(requireContext())
         val list = geocoder.getFromLocation(lat, lng, 1)
@@ -122,8 +119,8 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun setToolbar(){
-        val actionBar : ActionBar? =(requireActivity() as MainActivity).supportActionBar
+    private fun setToolbar() {
+        val actionBar: ActionBar? = (requireActivity() as MainActivity).supportActionBar
         actionBar?.apply {
             title = getString(R.string.Kartenansicht)
             setDisplayShowTitleEnabled(true)
