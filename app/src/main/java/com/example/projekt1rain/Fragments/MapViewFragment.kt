@@ -1,6 +1,7 @@
 package com.example.projekt1rain.Fbiragments
 
 import android.content.DialogInterface
+import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -13,20 +14,40 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.projekt1rain.CurrentWeather
+import com.example.projekt1rain.ForYouConstruktor
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
+import com.example.projekt1rain.RetrofitApi.RetrofitSetup
+import com.example.projekt1rain.RetrofitApi.retrofitResponse
+import com.example.projekt1rain.Room.City
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+<<<<<<< HEAD
 
 private const val TAG = "MapViewFragment"
 
 class MapViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var nMap: GoogleMap
     private var markers: MutableList<Marker> = mutableListOf<Marker>()
+=======
+import kotlinx.android.synthetic.main.mapviewfragment.*
+import java.lang.reflect.Array.set
+import java.nio.file.Paths.get
 
+private const val TAG = "MapViewFragment"
+class MapViewFragment: Fragment(), OnMapReadyCallback {
+    companion object{
+        private lateinit var nMap: GoogleMap
+
+>>>>>>> dev
+
+        private var markers:MutableList<Marker> = mutableListOf<Marker>()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -35,7 +56,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
         map_view.onResume()
         map_view.getMapAsync(this)
         setToolbar()
-
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -43,6 +63,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
         if (map != null) {
             nMap = map
         }
+        nMap.uiSettings.setZoomControlsEnabled(true)
+
 
         map?.let {
             nMap = it
@@ -52,6 +74,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                 markers.remove(markerToDelete)
                 markerToDelete.remove()
             }
+
 
             nMap.setOnMapLongClickListener { latlng ->
 
@@ -64,21 +87,36 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
                 ).show()
                 showAlertDialog(latlng)
 
+<<<<<<< HEAD
                 val address = getAddress(latlng.latitude, latlng.longitude)
                 Log.d(TAG, "test5 $address ${latlng.latitude} ${latlng.longitude}")
                 Toast.makeText(requireContext(), "test" + address, Toast.LENGTH_LONG).show()
 
+=======
+
+                val address= getAddress(latlng.latitude, latlng.longitude)
+                retrofitResponse(address)
+
+                Log.d(TAG,"test5 $address")
+                Toast.makeText(requireContext(),"test"+address,Toast.LENGTH_LONG).show()
+>>>>>>> dev
             }
-
         }
-
     }
 
     private fun getAddress(lat: Double, lng: Double): String {
+
         val geocoder = Geocoder(requireContext())
         val list = geocoder.getFromLocation(lat, lng, 1)
-        return list[0].getAddressLine(0)
-        //val stateName: String = addresses[0].getAddressLine(1)
+        if (list != null && list.size > 0) {
+            list.forEach {
+                if (it.getLocality() != null && it.getLocality().length > 0) {
+                    return it.getLocality();
+                }
+            }
+
+        }
+    return ""
     }
 
     private fun showAlertDialog(latlng: LatLng) {
@@ -128,3 +166,5 @@ class MapViewFragment : Fragment(), OnMapReadyCallback {
         }
     }
 }
+
+

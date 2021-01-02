@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.projekt1rain.DataStorag.DataClass
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.Fbiragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
@@ -41,6 +42,9 @@ class MainActivity() : AppCompatActivity() {
         val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
         city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
         dataService.saveCities(city)
+        //val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
+        //city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
+        setToolbar()
 
         val nav = findViewById<BottomNavigationView>(R.id.nav_view)
         val foryoufragment = ForYouFragment()
@@ -58,6 +62,8 @@ class MainActivity() : AppCompatActivity() {
             }
             true
         }
+
+        //dataService.getCurrentCallFromApi()
     }
 
     private fun setToolbar() {
