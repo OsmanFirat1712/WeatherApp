@@ -28,10 +28,12 @@ class DataClass:DataService {
     }
 
     override fun getOneCallFromApi(callback: Callback): OneCall {
+
         TODO("Not yet implemented")
     }
 
     override fun saveCurrentCallFromApi(currentWeather: List<CurrentWeather>, callback: Callback) {
+
         TODO("Not yet implemented")
     }
 

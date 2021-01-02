@@ -8,7 +8,6 @@
 >
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewforyou"
         android:layout_width="410dp"
@@ -20,7 +19,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/foryoufragment"/>
+        tools:listitem="@layout/foryoufragment"
+        />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
