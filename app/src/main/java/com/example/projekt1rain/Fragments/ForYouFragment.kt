@@ -69,8 +69,10 @@ class ForYouFragment : Fragment() {
         val list = ArrayList<ForYouConstruktor>()
 
         val item = ForYouConstruktor("adana", 22,22,R.drawable.ic_baseline_settings_24,R.drawable.ic_baseline_add_location_alt_24)
+        val item2 = ForYouConstruktor("istanbul",23,26,R.drawable.common_google_signin_btn_icon_light,R.drawable.ic_baseline_settings_24)
 
         list += item
+        list += item2
 
         return list
     }

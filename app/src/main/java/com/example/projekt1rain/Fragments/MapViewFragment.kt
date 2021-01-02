@@ -80,7 +80,6 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
 
 
                 val address= getAddress(latlng.latitude, latlng.longitude)
-
                 retrofitResponse(address)
 
                 Log.d(TAG,"test5 $address")
