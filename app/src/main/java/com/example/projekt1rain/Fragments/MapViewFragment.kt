@@ -18,6 +18,7 @@ import com.example.projekt1rain.CurrentWeather
 import com.example.projekt1rain.ForYouConstruktor
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
+import com.example.projekt1rain.RetrofitApi.CurrentWeatherResponse
 import com.example.projekt1rain.RetrofitApi.RetrofitSetup
 import com.example.projekt1rain.RetrofitApi.retrofitResponse
 import com.example.projekt1rain.Room.City
@@ -35,9 +36,8 @@ private const val TAG = "MapViewFragment"
 class MapViewFragment: Fragment(), OnMapReadyCallback {
     companion object{
         private lateinit var nMap: GoogleMap
-
-
         private var markers:MutableList<Marker> = mutableListOf<Marker>()
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -113,10 +113,12 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val marker = nMap.addMarker(
-                MarkerOptions().position(latlng).title("my new marker").snippet(
-                    "a cool snippet"
+                    MarkerOptions().position(latlng).title("Temperature").snippet(
+                    "7"
                 )
+
             )
+            marker.showInfoWindow()
             markers.add(marker)
 
             dialog.dismiss()

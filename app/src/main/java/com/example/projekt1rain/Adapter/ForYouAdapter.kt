@@ -35,6 +35,7 @@ private lateinit var person: Person
 private lateinit var weatherClass: MutableList<DataWeatherClass>
 
 
+
 class ForYouAdapter(private val forYouConstruktorList:List<ForYouConstruktor>) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
