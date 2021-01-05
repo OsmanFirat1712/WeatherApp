@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.RoomWarnings
 import com.example.projekt1rain.Coord
-import com.example.projekt1rain.ViewModel.CurrentWeather2
+import com.example.projekt1rain.CurrentWeather
 import com.google.gson.annotations.SerializedName
 //Entity for CITYLIST.JSON ASSET
 @Entity (tableName = "City")
@@ -14,7 +14,6 @@ data class City (
     val name: String,
     val state: String,
     val country: String,
-    @Embedded(prefix = "coord")
     val coord: Coord,
     @PrimaryKey(autoGenerate = true) var cityid:Long
 

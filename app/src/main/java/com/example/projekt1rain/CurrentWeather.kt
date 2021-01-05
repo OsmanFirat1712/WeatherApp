@@ -15,63 +15,64 @@ private val klaxon = Klaxon()
 data class CurrentWeather @JvmOverloads constructor(
     //PrimaryKey for Room
     @PrimaryKey(autoGenerate = false) var id: Long,
-    val base: String? = null,
-    val clouds: Clouds? = null,
-    val cod: Int? = null,
-    val coord: Coord? = null,
-    val dt: Int? = null,
-    val main: Main? = null,
-    val name: String? = null,
-    val sys: Sys? = null,
-    val timezone: Int? = null,
-    val visibility: Int? = null,
-    val weather: List<Weather>? = null,
+    val base: String? ,
+    val clouds: Clouds?,
+    val cod: Int? ,
+    val coord: Coord?,
+    val dt: Int? ,
+    val main: Main? ,
+    val name: String? ,
+    val sys: Sys? ,
+    val timezone: Int? ,
+    val visibility: Int? ,
+    val weather: List<Weather>?,
     @SerializedName("wind_deg")
-    val windDeg: Int? = null,
-    val uvi: Double? = null,
+    val windDeg: Int?,
+    val uvi: Double? ,
     @SerializedName("wind_speed")
-    val windSpeed: Double? = null,
-    val wind: Wind? = null
+    val windSpeed: Double?,
+    val wind: Wind?
 )
 
 
 data class Clouds(
-    val all: Int? = null
+    val all: Int?
 )
 data class Coord(
-    val lat: Double? = null,
-    val lon: Double? = null
-)
+    val lat: Double?,
+    val lon: Double?
+    )
 
 data class Main(
-    val feels_like: Double? = null,
-    val humidity: Int? = null,
-    val pressure: Int? = null,
-    val temp: Double? = null,
+    @SerializedName("feels_like")
+    val feelsLike: Double?,
+    val humidity: Int? ,
+    val pressure: Int?,
+    val temp: Double?,
     @SerializedName("temp_max")
-    val tempMax: Double? = null,
+    val tempMax: Double?,
     @SerializedName("temp_min")
-    val tempMin: Double? = null,
+    val tempMin: Double?,
 )
 
 data class Sys(
-    val country: String? = null,
-    val id: Int? = null,
-    val message: Double? = null,
-    val sunrise: Int? = null,
-    val sunset: Int? = null,
-    val type: Int? = null,
+    val country: String?,
+    val id: Int?,
+    val message: Double?,
+    val sunrise: Int? ,
+    val sunset: Int? ,
+    val type: Int? ,
 )
 
 data class Weather(
-    val description: String? = null,
-    val icon: String? = null,
-    val id: Int? = null,
-    val main: String? = null
+    val description: String?,
+    val icon: String?,
+    val id: Int?,
+    val main: String?
 )
 
 data class Wind(
-    val deg: Int? = null,
-    val speed: Double? = null
+    val deg: Int?,
+    val speed: Double?
 )
 

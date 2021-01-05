@@ -2,15 +2,11 @@ package com.example.projekt1rain
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.projekt1rain.DataStorag.DataClass
 import com.example.projekt1rain.DataStorag.DataService
-import com.example.projekt1rain.Fbiragments.MapViewFragment
+import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
 import com.example.projekt1rain.Room.City
@@ -19,18 +15,18 @@ import com.example.projekt1rain.Room.WeatherDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.security.AccessController.getContext
+import java.util.concurrent.Executors
+
 
 class MainActivity() : AppCompatActivity() {
     private lateinit var dataService: DataService
     private lateinit var database: WeatherDatabase
     private lateinit var cities: List<City>
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val dataService: DataService = (getApplication() as MyApp).dataService
+        val dataService: DataService = (application as MyApp).dataService
         setToolbar()
         /* weatherDatabase.weatherDao.getLiveDataCityList(cities)*/
         val jsonFileString =
@@ -39,9 +35,10 @@ class MainActivity() : AppCompatActivity() {
         val gson = Gson()
         //PARSE JSON TO STRING
         val listPersonType = object : TypeToken<List<City>>() {}.type
-        val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
-        city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
-        dataService.saveCities(city)
+        val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
+        cities.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
+        Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
+
         //val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
         //city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
         setToolbar()

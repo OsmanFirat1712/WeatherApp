@@ -10,6 +10,7 @@ import com.google.gson.Gson
 
 
 import com.example.projekt1rain.*
+import com.example.projekt1rain.RetrofitApi.CurrentWeatherResponse
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
@@ -32,7 +33,7 @@ class ObjectConverter {
     }
 
     @TypeConverter
-    fun fromWeather(weather: CurrentWeather): String {
+    fun fromWeather(weather:  CurrentWeather): String {
         return Gson().toJson(weather)
     }
 
@@ -111,4 +112,17 @@ class ObjectConverter {
     fun toCity(city: String): City {
         return Gson().fromJson(city, City::class.java)
     }
+
+
+    @TypeConverter
+    fun fromMain2(currentWeatherResponse: CurrentWeatherResponse): String {
+        return Gson().toJson(currentWeatherResponse)
+    }
+
+    @TypeConverter
+    fun toMain2(currentWeatherResponse: String): CurrentWeatherResponse? {
+        return Gson().fromJson(currentWeatherResponse, CurrentWeatherResponse::class.java)
+    }
+
+
 }
