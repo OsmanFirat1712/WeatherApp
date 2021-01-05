@@ -1,7 +1,6 @@
-package com.example.projekt1rain.Fbiragments
+package  com.example.projekt1rain.Fragments
 
 import android.content.DialogInterface
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -10,43 +9,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.projekt1rain.CurrentWeather
-import com.example.projekt1rain.ForYouConstruktor
-import com.example.projekt1rain.MainActivity
-import com.example.projekt1rain.R
-import com.example.projekt1rain.RetrofitApi.RetrofitSetup
+import com.example.projekt1rain.*
+import com.example.projekt1rain.DataStorag.DataService
+import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.RetrofitApi.retrofitResponse
-import com.example.projekt1rain.Room.City
+import com.example.projekt1rain.Room.Favorites
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-<<<<<<< HEAD
-
-private const val TAG = "MapViewFragment"
-
-class MapViewFragment : Fragment(), OnMapReadyCallback {
-    private lateinit var nMap: GoogleMap
-    private var markers: MutableList<Marker> = mutableListOf<Marker>()
-=======
 import kotlinx.android.synthetic.main.mapviewfragment.*
-import java.lang.reflect.Array.set
-import java.nio.file.Paths.get
 
 private const val TAG = "MapViewFragment"
-class MapViewFragment: Fragment(), OnMapReadyCallback {
-    companion object{
+
+class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
+    private var favorites: List<Favorites> = emptyList()
+
+    companion object {
         private lateinit var nMap: GoogleMap
-
->>>>>>> dev
-
-        private var markers:MutableList<Marker> = mutableListOf<Marker>()
+        private var markers: MutableList<Marker> = mutableListOf<Marker>()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -65,7 +51,6 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
         }
         nMap.uiSettings.setZoomControlsEnabled(true)
 
-
         map?.let {
             nMap = it
 
@@ -76,30 +61,41 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
             }
 
 
+            favorites.forEach { favorite ->
+                val lat = favorite.currentWeatherResponse?.coord?.lat
+                val lon = favorite.currentWeatherResponse?.coord?.lon
+
+                if (lat != null && lon != null)
+                    nMap.addMarker(MarkerOptions().position(LatLng(lat, lon)))
+            }
+
+
             nMap.setOnMapLongClickListener { latlng ->
+
 
                 Log.i(TAG, "onMapLongClickListener" + latlng)
 
                 Toast.makeText(
-                    requireContext(),
-                    "this is toast message" + latlng,
-                    Toast.LENGTH_SHORT
+                        requireContext(),
+                        "this is toast message" + latlng,
+                        Toast.LENGTH_SHORT
                 ).show()
                 showAlertDialog(latlng)
 
-<<<<<<< HEAD
+
                 val address = getAddress(latlng.latitude, latlng.longitude)
-                Log.d(TAG, "test5 $address ${latlng.latitude} ${latlng.longitude}")
-                Toast.makeText(requireContext(), "test" + address, Toast.LENGTH_LONG).show()
-
-=======
-
-                val address= getAddress(latlng.latitude, latlng.longitude)
                 retrofitResponse(address)
 
-                Log.d(TAG,"test5 $address")
-                Toast.makeText(requireContext(),"test"+address,Toast.LENGTH_LONG).show()
->>>>>>> dev
+                Log.d(TAG, "test5 $address")
+                Toast.makeText(requireContext(), "test" + address, LENGTH_LONG).show()
+            }
+
+            nMap.setOnMarkerClickListener {
+
+                MarkerOptions().position(it.position).title("my new marker").snippet(
+                        "a cool snippet"
+                )
+                true
             }
         }
     }
@@ -116,22 +112,22 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
             }
 
         }
-    return ""
+        return ""
     }
 
     private fun showAlertDialog(latlng: LatLng) {
         val dialog =
-            AlertDialog.Builder(requireContext())
-                .setTitle("Create a marker").setMessage("add marker...")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Ok", null)
-                .show()
+                AlertDialog.Builder(requireContext())
+                        .setTitle("Create a marker").setMessage("add marker...")
+                        .setNegativeButton("Cancel", null)
+                        .setPositiveButton("Ok", null)
+                        .show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val marker = nMap.addMarker(
-                MarkerOptions().position(latlng).title("my new marker").snippet(
-                    "a cool snippet"
-                )
+                    MarkerOptions().position(latlng).title("my new marker").snippet(
+                            "a cool snippet"
+                    )
             )
             markers.add(marker)
 
@@ -145,15 +141,17 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.mapviewfragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+        dataService.getFavorites(this)
 
     }
 
@@ -165,6 +163,8 @@ class MapViewFragment: Fragment(), OnMapReadyCallback {
             setHomeButtonEnabled(true)
         }
     }
+
+    override fun onComplete(favorites: List<Favorites>) {
+        this.favorites = favorites
+    }
 }
-
-

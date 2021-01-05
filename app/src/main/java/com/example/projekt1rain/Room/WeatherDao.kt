@@ -3,8 +3,6 @@ package com.example.projekt1rain.Room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.projekt1rain.CurrentWeather
-import com.example.projekt1rain.ViewModel.CURRENT_WEATHER_ID
-import com.example.projekt1rain.ViewModel.CurrentWeather2
 
 
 @Dao
@@ -56,16 +54,16 @@ interface WeatherDao{
 
 
     @Insert
-    suspend fun insert (city: City)
+     fun insert (city: City)
 
     @Delete
-    suspend fun delete (city: City)
+     fun delete (city: City)
 
     @Update
-    suspend fun update (city: City)
+     fun update (city: City)
 
-    @Query ("SELECT * FROM City WHERE cityid = :cityid")
-    suspend fun getCitybyId(cityid:Long):City
+    @Query ("SELECT * FROM City WHERE name = :name")
+    fun getCitybyId(name:String):City
 
     @Query("SELECT * FROM City")
     fun  getLiveDataCityList():LiveData<List<City>>
@@ -78,14 +76,18 @@ interface WeatherDao{
 
 
     @Insert
-    suspend fun insert (favorites: Favorites)
+     fun insertfavorites (favorites: Favorites)
 
     @Delete
-    suspend fun delete (favorites: Favorites)
+     fun delete (favorites: Favorites)
 
     @Update
-    suspend fun update (favorites: Favorites)
+     fun update (favorites: Favorites)
 
     @Query ("SELECT * FROM Favorites")
     fun getFavoritesList():List<Favorites>
+
+
+    @Query ("SELECT * FROM Favorites WHERE address = :address")
+    fun favoritbyadress(address:String):Favorites
 }
