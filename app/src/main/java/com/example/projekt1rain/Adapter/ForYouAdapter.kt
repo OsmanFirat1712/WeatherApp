@@ -55,10 +55,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
             temperture.text = """${curentItem.currentWeatherResponse?.main?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
-    /*        Glide.with(itemView.context)
-                    .load(iconUrl)
-                    .into(itemView.ivCityPicture)*/
-            /*  holder.temperture.text = (curentItem.currentWeatherResponse?.main?.temp?.minus(273.15.toInt())).toString() + " °C"*/
+
         }
     }
 

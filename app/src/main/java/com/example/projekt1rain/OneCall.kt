@@ -49,7 +49,7 @@ data class Minutely(
 data class Hourly(
     val dt: Long,
     val precipitation: Long,
-    val temp: Long,
+    val temp: Double,
     val pressure: Int,
     val humidity: Int,
     val dew_point: Double,
@@ -75,8 +75,6 @@ data class Daily(
     val dewPoint: Double,
     @SerializedName("wind_deg")
     val windDeg: Int,
-
-
 
     )
 
