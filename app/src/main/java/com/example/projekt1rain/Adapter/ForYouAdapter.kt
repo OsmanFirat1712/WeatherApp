@@ -4,6 +4,7 @@ package com.example.projekt1rain.Adapter
 import android.app.Person
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,34 +61,51 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 /*        val iconUrl = "http://openweathermap.org/img/w/${curentItem.currentWeatherResponse?.weather?.icon}@2x.png"*/
 
         holder.apply {
-          Glide.with(itemView)
-                    .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.weather?.first()?.icon}.png")
-                    .into(itemView.ivCityPicture)
+       /*     Glide.with(itemView)
+                .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.weather?.weather?.first()?.icon}.png")
+                .into(itemView.ivCityPicture)*/
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
-            temperture.text = """${curentItem.currentWeatherResponse?.main?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
+            temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
 
-            val list = mutableListOf(
-                Entry(0.0F, 0.0F),
-                Entry(2f, 0.0f),
-                Entry(3f, 0.0f),
-                Entry(4F,curentItem.currentWeatherResponse?.main?.temp?.toInt()?.minus(273.15.toInt()).toString().toFloat()
-                )
 
+
+
+
+            val list = mutableListOf<Entry>(
             )
 
+            var counter = 0.0f
+            curentItem.currentWeatherResponse?.hourly?.forEach {
+                while (counter<12)
+                list.add(Entry(counter++, it.temp.toInt().minus(273.15.toInt().toString().toFloat())))
 
 
 
+
+            }
+
+
+
+            val xValsDateLabel2 = ArrayList<Float>()
+
+            curentItem.currentWeatherResponse?.hourly?.forEach {
+                xValsDateLabel2.add(it.temp.toInt().minus(273.15.toInt().toString().toFloat()))
+            }
 
 
             val xValsDateLabel = ArrayList<String>()
 
             val xValsOriginalMillis = ArrayList<Long>()
-            xValsOriginalMillis.add(1555275494836L)
-            xValsOriginalMillis.add(1585578525900L)
-            xValsOriginalMillis.add(1596679626245L)
-            xValsOriginalMillis.add(1609990727820L)
+
+/*            curentItem.forEach{ currentitem ->
+                }*/
+/*
+            curentItem.currentWeatherResponse?.hourly?.get(2)?.dt?.let { xValsOriginalMillis.add(it? })
+*/
+           curentItem.currentWeatherResponse?.hourly?.forEach {
+               xValsOriginalMillis.add(it.dt)
+           }
 
             for (i in xValsOriginalMillis) {
                 val mm = i / 60 % 60
@@ -98,9 +116,12 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 
             val cl : ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
-            val barEntries = list.map{Entry(it.x, it.y,xValsDateLabel)}
+/*
+            val barEntries = list.map{ it?.let { it1 -> Entry(it1.x, it.y, xValsDateLabel) } }
+*/
+            val barEntries = list.map{ Entry(it.x,it.y,xValsDateLabel)}
             val dataSet = LineDataSet(barEntries, "BUGEL")
-            dataSet.fillAlpha =110
+            dataSet.fillAlpha =50
             dataSet.color = Color.RED
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
             chart.description.text = ""
@@ -113,13 +134,13 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             val xAxis = chart.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
-            xAxis.labelCount = 4
+            xAxis.labelCount = 6
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
 
             chart.data = LineData(dataSet)
 
-            xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
+            chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
 
        /*     val xLabel = ArrayList<String>()

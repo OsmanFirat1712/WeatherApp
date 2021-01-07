@@ -6,11 +6,11 @@ import com.example.projekt1rain.CurrentWeather.*
 import com.google.gson.annotations.SerializedName
 
 class CurrentWeatherResponse {
-    var main: Main? = null
-    var coord:Coord? = null
-    var weather:List<Weather>? = null
-    val hourly: List<Hourly>? = null
-    val minutely: List<Minutely>? = null
+   var main: Main? = null
+    var lat:Double? = null
+    var lon:Double?= null
+    var current:CurrentWeather? = null
+    var hourly: List<Hourly>? = null
 
 
 }

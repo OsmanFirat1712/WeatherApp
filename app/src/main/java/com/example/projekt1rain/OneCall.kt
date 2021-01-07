@@ -1,4 +1,5 @@
 package com.example.projekt1rain
+import android.net.LinkAddress
 import com.example.projekt1rain.CurrentWeather
 
 
@@ -23,7 +24,7 @@ data class OneCall @JvmOverloads constructor(
         @SerializedName("timezone_offset")
         val timezoneOffset: Long,
 
-        val weather: CurrentWeather,
+        val weather: List<CurrentWeather>,
         val current: CurrentWeather,
         val daily: List<Daily>,
         val minutely: List<Minutely>,
