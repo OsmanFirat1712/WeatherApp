@@ -15,9 +15,10 @@ interface CallWeatherApi {
     @GET("onecall")
     fun getDailyForecast(@retrofit2.http.Query("lat") lat: Double?,
                          @retrofit2.http.Query("lon") long: Double?,
-                         @retrofit2.http.Query("exclude") hourly: Int?,
                          @retrofit2.http.Query("appid") apiKey: String?,
     ):Call<CurrentWeatherResponse?>?
+
+    
 
 
 }

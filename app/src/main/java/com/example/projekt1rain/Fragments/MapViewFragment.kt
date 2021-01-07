@@ -22,6 +22,7 @@ import com.example.projekt1rain.*
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.RetrofitApi.retrofitResponse
+import com.example.projekt1rain.RetrofitApi.retrofitResponse2
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -112,8 +113,10 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
                 showAlertDialog(latlng)
 
 
+
                 val address = getAddress(latlng.latitude, latlng.longitude)
                 retrofitResponse(address)
+                retrofitResponse2(latlng.latitude,latlng.longitude)
 
 
                 Log.d(TAG, "test5 $address")
@@ -138,7 +141,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
         }
         return ""
     }
-
 
 
     fun startBtn(view: View){

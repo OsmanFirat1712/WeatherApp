@@ -13,6 +13,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Executors
+import java.util.function.DoubleBinaryOperator
 
 private const val TAG = "Retrofit Connection"
 private lateinit var favorites:Favorites
@@ -23,13 +24,7 @@ object RetrofitSetup {
     var urlAll = "api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}"
     var url = "https://api.openweathermap.org/data/2.5/"
     val apiKey = "d459f98ffa705ad3f6c5e02f86d9fab9"
-
-    //val latHourly = favorites.currentWeatherResponse?.coord?.lat
-    //val lonHourly = favorites.currentWeatherResponse?.coord?.lon
-
-
-
-
+    
 }
 
 fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
@@ -68,8 +63,16 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
 
         }
     })
+}
 
-    val weatherOneCallResponse =weatherApi.getDailyForecast(33.441792,-94.037689,3,RetrofitSetup.apiKey)
+fun retrofitResponse2(lat:Double,long:Double){
+    val retrofit = Retrofit.Builder()
+        .baseUrl(RetrofitSetup.url)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    val weatherApi = retrofit.create(CallWeatherApi::class.java)
+
+    val weatherOneCallResponse =weatherApi.getDailyForecast(lat,long,RetrofitSetup.apiKey)
     weatherOneCallResponse!!.enqueue(object :Callback<CurrentWeatherResponse?>{
         override fun onResponse(
             call: Call<CurrentWeatherResponse?>,
@@ -99,4 +102,7 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
 
     })
 }
+
+
+
 
