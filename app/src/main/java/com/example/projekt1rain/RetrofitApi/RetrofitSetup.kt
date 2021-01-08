@@ -7,6 +7,8 @@ import com.example.projekt1rain.Room.Favorites
 import com.example.projekt1rain.Room.WeatherDatabase
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,11 +22,10 @@ private lateinit var favorites:Favorites
 
 
 object RetrofitSetup {
-
+    //var test = MapViewFragment.address
     var urlAll = "api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}"
     var url = "https://api.openweathermap.org/data/2.5/"
     val apiKey = "d459f98ffa705ad3f6c5e02f86d9fab9"
-    
 }
 
 fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
@@ -45,10 +46,6 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
                 Log.d(TAG,"Error")
             }
 
-            Executors.newSingleThreadExecutor().execute {val favorites = Favorites(0L, address, response.body())
-                dataBase.currentWeatherDao().insertfavorites(favorites)}
-
-
             val mydata = response.body()
             val main = mydata!!.main
             val temp = main!!.temp
@@ -64,10 +61,15 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
         }
     })
 }
-fun retrofitResponse2(lat:Double,long:Double){
+
+fun retrofitResponse2(lat:Double,long:Double,address: String,dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
+    val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }).build()
     val retrofit = Retrofit.Builder()
         .baseUrl(RetrofitSetup.url)
         .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
         .build()
     val weatherApi = retrofit.create(CallWeatherApi::class.java)
 
@@ -93,11 +95,10 @@ fun retrofitResponse2(lat:Double,long:Double){
             Log.d("TAG","hourlyPressure : " + hourlyPressure)
             Log.d("TAG","temppppp : " + tempp)
 
-            val daily = myOneCallData!!.daily
-            val dailyTemperature = daily?.get(3)?.temp
-            val dailytemp = (dailyTemperature!! - 273.15).toInt()
 
-            Log.d("TAG","dailyTemp" + dailytemp)
+            Executors.newSingleThreadExecutor().execute {val favorites = Favorites(0L, address,response.body())
+                dataBase.currentWeatherDao().insertfavorites(favorites)}
+
 
         }
 
