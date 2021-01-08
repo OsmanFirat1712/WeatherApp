@@ -1,6 +1,7 @@
 package com.example.projekt1rain.Adapter
 
 
+import android.annotation.SuppressLint
 import android.app.Person
 import android.content.Context
 import android.graphics.Color
@@ -55,21 +56,19 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
 
         val curentItem = forYouConstruktorList[position]
 /*        val iconUrl = "http://openweathermap.org/img/w/${curentItem.currentWeatherResponse?.weather?.icon}@2x.png"*/
 
         holder.apply {
-            /*     Glide.with(itemView)
-                     .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.weather?.weather?.first()?.icon}.png")
-                     .into(itemView.ivCityPicture)*/
+            Glide.with(itemView)
+                    .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.current?.weather?.first()?.icon}@2x.png")
+                    .into(itemView.ivCityPicture)
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
             temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
-
-
-
 
 
             val list = mutableListOf<Entry>()
@@ -77,7 +76,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             val xValsOriginalMillis = ArrayList<Long>()
 
             curentItem.currentWeatherResponse?.hourly?.forEachIndexed { index, hourly ->
-                if (index < 24) {
+                if (index < 12) {
                     val temp = hourly.temp.toInt().minus(273.15.toInt().toString().toFloat())
                     list.add(Entry(index.toFloat(), temp))
                     xValsOriginalMillis.add(hourly.dt)
@@ -91,25 +90,26 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
                 xValsDateLabel.add(mDateTime)
             }
 
-            val cl : ConstraintLayout = itemView.findViewById(R.id.constraint)
+            val cl: ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
 
-            val barEntries = list.map{ Entry(it.x,it.y,xValsDateLabel)}
-            val dataSet = LineDataSet(barEntries, "BUGEL")
-            dataSet.fillAlpha =50
-            dataSet.color = Color.RED
+            val barEntries = list.map { Entry(it.x, it.y, xValsDateLabel) }
+            val dataSet = LineDataSet(barEntries, "Temperatur den nächsten Stunden")
+            dataSet.fillAlpha = 5000
+            dataSet.color = Color.BLUE
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
             chart.description.text = ""
-            chart.legend.isEnabled = false
+            chart.legend.isEnabled = true
             chart.invalidate()
             chart.axisRight.isEnabled = false
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
 
+
             val xAxis = chart.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
-            xAxis.labelCount = 6
+            xAxis.labelCount = 4
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
 
@@ -147,7 +147,6 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
     */
 
 
-
             /*        Glide.with(itemView.context)
                             .load(iconUrl)
                             .into(itemView.ivCityPicture)*/
@@ -165,8 +164,6 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
         var iconUrl = "http://openweathermap.org/img/wn/10d@2x"
 
 
-
-
     }
 
     override fun getItemCount(): Int {
@@ -179,7 +176,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
         notifyDataSetChanged()
     }
 
-    private fun  getDate(date: Long): String {
+    private fun getDate(date: Long): String {
         val timeFormatter = SimpleDateFormat("dd.MM.yyyy")
         return timeFormatter.format(Date(date * 1000L))
     }
