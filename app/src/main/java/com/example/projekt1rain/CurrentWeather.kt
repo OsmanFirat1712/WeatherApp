@@ -16,7 +16,7 @@ data class CurrentWeather @JvmOverloads constructor(
     //PrimaryKey for Room
     @PrimaryKey(autoGenerate = false) var id: Long,
     val base: String? ,
-    val clouds: Clouds?,
+    val clouds: Int?,
     val cod: Int? ,
     val coord: Coord?,
     val dt: Int? ,
@@ -24,6 +24,7 @@ data class CurrentWeather @JvmOverloads constructor(
     val name: String? ,
     val sys: Sys? ,
     val timezone: Int? ,
+    val temp:Double?,
     val visibility: Int? ,
     val weather: List<Weather>?,
     @SerializedName("wind_deg")

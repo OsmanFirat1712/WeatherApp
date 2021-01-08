@@ -124,5 +124,40 @@ class ObjectConverter {
         return Gson().fromJson(currentWeatherResponse, CurrentWeatherResponse::class.java)
     }
 
+    @TypeConverter
+    fun fromListtoStringMinutely(value: String?): List<Minutely> {
+        val listType: Type = object : TypeToken<List<Minutely?>?>() {}.type
+        return Gson().fromJson<List<Minutely>>(value, listType)
+    }
+
+    @TypeConverter
+    fun listtoStringMinutely(list: List<Minutely?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun fromListtoStringHourly(value: String?): List<Hourly> {
+        val listType: Type = object : TypeToken<List<Hourly?>?>() {}.type
+        return Gson().fromJson<List<Hourly>>(value, listType)
+    }
+
+    @TypeConverter
+    fun listtoStringHourly(list: List<Hourly?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun fromListtoStringDaily(value: String?): List<Daily> {
+        val listType: Type = object : TypeToken<List<Daily?>?>() {}.type
+        return Gson().fromJson<List<Daily>>(value, listType)
+    }
+
+    @TypeConverter
+    fun listtoStringDaily(list: List<Daily?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
 
 }

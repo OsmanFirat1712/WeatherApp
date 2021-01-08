@@ -3,6 +3,7 @@ package com.example.projekt1rain.Room
 import android.content.Context
 import androidx.room.*
 import com.example.projekt1rain.CurrentWeather
+import com.example.projekt1rain.OneCall
 
 @Database(
         entities = [City::class, CurrentWeather::class, Favorites::class],

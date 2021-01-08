@@ -75,15 +75,15 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
 
             favorites.forEach { favorite ->
-                val lat = favorite.currentWeatherResponse?.coord?.lat
-                val lon = favorite.currentWeatherResponse?.coord?.lon
+                val lat = favorite.currentWeatherResponse?.lat
+                val lon = favorite.currentWeatherResponse?.lon
 
                 if (lat != null && lon != null)
                     nMap.addMarker(MarkerOptions().position(LatLng(lat, lon))
 
                         //Need icon
                         .title("Temperature :")
-                        .snippet(favorite.currentWeatherResponse?.main?.temp?.toInt()?.minus(273.15.toInt()).toString()+"°C"))
+                        .snippet(favorite.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()+"°C"))
             }
 
             nMap.setOnMapLongClickListener { latlng ->
@@ -102,7 +102,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
                 val address = getAddress(latlng.latitude, latlng.longitude)
                 retrofitResponse(address)
-                retrofitResponse2(latlng.latitude,latlng.longitude)
+                retrofitResponse2(latlng.latitude,latlng.longitude,address)
 
 
                 Log.d(TAG, "test5 $address")
