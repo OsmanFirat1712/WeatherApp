@@ -61,9 +61,9 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 /*        val iconUrl = "http://openweathermap.org/img/w/${curentItem.currentWeatherResponse?.weather?.icon}@2x.png"*/
 
         holder.apply {
-       /*     Glide.with(itemView)
-                .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.weather?.weather?.first()?.icon}.png")
-                .into(itemView.ivCityPicture)*/
+            /*     Glide.with(itemView)
+                     .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.weather?.weather?.first()?.icon}.png")
+                     .into(itemView.ivCityPicture)*/
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
             temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
@@ -72,40 +72,17 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 
 
 
-            val list = mutableListOf<Entry>(
-            )
-
-            var counter = 0.0f
-            curentItem.currentWeatherResponse?.hourly?.forEach {
-                while (counter<12)
-                list.add(Entry(counter++, it.temp.toInt().minus(273.15.toInt().toString().toFloat())))
-
-
-
-
-            }
-
-
-
-            val xValsDateLabel2 = ArrayList<Float>()
-
-            curentItem.currentWeatherResponse?.hourly?.forEach {
-                xValsDateLabel2.add(it.temp.toInt().minus(273.15.toInt().toString().toFloat()))
-            }
-
-
+            val list = mutableListOf<Entry>()
             val xValsDateLabel = ArrayList<String>()
-
             val xValsOriginalMillis = ArrayList<Long>()
 
-/*            curentItem.forEach{ currentitem ->
-                }*/
-/*
-            curentItem.currentWeatherResponse?.hourly?.get(2)?.dt?.let { xValsOriginalMillis.add(it? })
-*/
-           curentItem.currentWeatherResponse?.hourly?.forEach {
-               xValsOriginalMillis.add(it.dt)
-           }
+            curentItem.currentWeatherResponse?.hourly?.forEachIndexed { index, hourly ->
+                if (index < 24) {
+                    val temp = hourly.temp.toInt().minus(273.15.toInt().toString().toFloat())
+                    list.add(Entry(index.toFloat(), temp))
+                    xValsOriginalMillis.add(hourly.dt)
+                }
+            }
 
             for (i in xValsOriginalMillis) {
                 val mm = i / 60 % 60
@@ -116,9 +93,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 
             val cl : ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
-/*
-            val barEntries = list.map{ it?.let { it1 -> Entry(it1.x, it.y, xValsDateLabel) } }
-*/
+
             val barEntries = list.map{ Entry(it.x,it.y,xValsDateLabel)}
             val dataSet = LineDataSet(barEntries, "BUGEL")
             dataSet.fillAlpha =50
@@ -143,33 +118,33 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
 
-       /*     val xLabel = ArrayList<String>()
-            val calendar = Calendar.getInstance()
-            val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            /*     val xLabel = ArrayList<String>()
+                 val calendar = Calendar.getInstance()
+                 val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
 
-            for (i in 0..50) {
-                calendar.add(Calendar.DAY_OF_YEAR, i)
-                val date = calendar.time
-                val txtDate = dateFormat.format(date)
+                 for (i in 0..50) {
+                     calendar.add(Calendar.DAY_OF_YEAR, i)
+                     val date = calendar.time
+                     val txtDate = dateFormat.format(date)
 
-                xLabel.add(txtDate)
-            }
-*/
+                     xLabel.add(txtDate)
+                 }
+     */
 
 
             // or use some other logic to save your data in list. For ex.
-        /*    var i = 1
-            while (i < 50) {
-                xLabel.add("" + 3 * i)
-                i += 2
-            }
+            /*    var i = 1
+                while (i < 50) {
+                    xLabel.add("" + 3 * i)
+                    i += 2
+                }
 
 
-            val xAxis = mChart.xAxis
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.setDrawGridLines(false)
-            xAxis.valueFormatter = IAxisValueFormatter { value, axis -> xLabel[value.toInt()] }
-*/
+                val xAxis = mChart.xAxis
+                xAxis.position = XAxis.XAxisPosition.BOTTOM
+                xAxis.setDrawGridLines(false)
+                xAxis.valueFormatter = IAxisValueFormatter { value, axis -> xLabel[value.toInt()] }
+    */
 
 
 
@@ -210,5 +185,4 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
     }
 
 }
-
 
