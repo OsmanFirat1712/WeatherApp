@@ -25,7 +25,7 @@ import com.example.projekt1rain.Room.Favorites
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
-        var recyclerViewAdapter: ForYouAdapter?=null
+    var recyclerViewAdapter: ForYouAdapter? = null
     private lateinit var foryouRecyclerView: RecyclerView
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var foryoucardview: CardView
@@ -51,9 +51,8 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         adapter3 = ForYouAdapter(
-            forYouConstruktorList = ArrayList(),
-            requireContext(),
-            this
+                forYouConstruktorList = ArrayList(),
+                requireContext()
         )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
@@ -72,7 +71,7 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
 
             checkForPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION, "location", FINE_LOCATION_REQUEST
             )
-                startMapViewFragment()
+            startMapViewFragment()
         }
     }
 
@@ -91,13 +90,13 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
                 .addToBackStack(null)
                 .commit()
     }
-
+/*
     private fun startForYouFragment() {
         requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, DetailFragment())
                 .addToBackStack(null)
                 .commit()
-    }
+    }*/
 
     override fun onComplete(favorites: List<Favorites>) {
         requireActivity().runOnUiThread(java.lang.Runnable {
@@ -108,20 +107,20 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
     }
 
     private fun checkForPermissions(permission: String, name: String, requestCode: Int): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            when{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            when {
                 ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
                     Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG).show()
                 }
                 shouldShowRequestPermissionRationale(permission) -> showDialog(
-                    permission,
-                    name,
-                    requestCode
+                        permission,
+                        name,
+                        requestCode
                 )
                 else -> ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(permission),
-                    requestCode
+                        requireActivity(),
+                        arrayOf(permission),
+                        requestCode
                 )
             }
         }
@@ -129,40 +128,39 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        fun innerCheck(name: String){
-            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED){
+        fun innerCheck(name: String) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_LONG).show()
-            }
-            else{
+            } else {
                 Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG).show()
             }
         }
-        when (requestCode){
+        when (requestCode) {
             FINE_LOCATION_REQUEST -> innerCheck("location")
         }
     }
 
-   private fun showDialog(permission: String, name: String, requestCode: Int){
-       val builder = AlertDialog.Builder(requireContext())
+    private fun showDialog(permission: String, name: String, requestCode: Int) {
+        val builder = AlertDialog.Builder(requireContext())
 
-       builder.apply {
-           setMessage("Permission to Access your $name is required to use this app")
-           setTitle("Permission required")
-           setPositiveButton("OK"){ dialog, which ->
-               ActivityCompat.requestPermissions(
-                   requireActivity(),
-                   arrayOf(permission),
-                   requestCode
-               )
+        builder.apply {
+            setMessage("Permission to Access your $name is required to use this app")
+            setTitle("Permission required")
+            setPositiveButton("OK") { dialog, which ->
+                ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(permission),
+                        requestCode
+                )
 
-           }
-       }
-       val dialog : AlertDialog = builder.create()
-       dialog.show()
-   }
+            }
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
 
     override fun onCall(favorites: Favorites) {
-
+/*
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val blankFragment_detailPage = DetailFragment()
         val bundle = Bundle()
@@ -170,8 +168,9 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
         blankFragment_detailPage.setArguments(bundle)
         transaction.replace(R.id.container, blankFragment_detailPage)
         transaction.commit()
-    }
+    }*/
 
+    }
 }
 
 

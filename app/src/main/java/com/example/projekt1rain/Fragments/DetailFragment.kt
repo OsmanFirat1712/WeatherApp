@@ -1,3 +1,4 @@
+/*
 package com.example.projekt1rain.Fragments
 
 import android.graphics.Color
@@ -44,7 +45,9 @@ class DetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /********************** detailpage connection ***************************/
+        */
+/********************** detailpage connection ***************************//*
+
 
         val bundle = arguments
         if (bundle != null) { val favorites: Favorites? = bundle.getSerializable("weatherkey") as Favorites?
@@ -64,4 +67,4 @@ class DetailFragment: Fragment() {
             tvDetailPressure.text = favorites?.currentWeatherResponse?.main?.pressure?.toString()
         }
     }
-}
+}*/
