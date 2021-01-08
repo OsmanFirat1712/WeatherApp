@@ -24,7 +24,7 @@ import com.example.projekt1rain.RetrofitApi.RetrofitSetup
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ForYouFragment : Fragment(),CallBack {
+class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
         var recyclerViewAdapter: ForYouAdapter?=null
     private lateinit var foryouRecyclerView: RecyclerView
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -32,6 +32,7 @@ class ForYouFragment : Fragment(),CallBack {
     private lateinit var adapter3: ForYouAdapter
     private lateinit var listView: ListView
     private lateinit var retrofitsetup: RetrofitSetup
+
 
     val FINE_LOCATION_REQUEST = 101
 
@@ -41,7 +42,6 @@ class ForYouFragment : Fragment(),CallBack {
         setToolbar()
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.recylerviewforyou1, container, false)
     }
@@ -50,7 +50,11 @@ class ForYouFragment : Fragment(),CallBack {
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
-        adapter3 = ForYouAdapter(forYouConstruktorList = ArrayList(),requireContext())
+        adapter3 = ForYouAdapter(
+            forYouConstruktorList = ArrayList(),
+            requireContext(),
+            this
+        )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
         recyclerView.apply {
@@ -65,7 +69,9 @@ class ForYouFragment : Fragment(),CallBack {
         val flba: FloatingActionButton = view.findViewById(R.id.flab)
         flba.setOnClickListener() {
 
-            checkForPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION,"location",FINE_LOCATION_REQUEST)
+
+            checkForPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION, "location", FINE_LOCATION_REQUEST
+            )
                 startMapViewFragment()
         }
     }
@@ -101,46 +107,70 @@ class ForYouFragment : Fragment(),CallBack {
         })
     }
 
-    private fun checkForPermissions(permission: String,name:String,requestCode:Int): Boolean {
+    private fun checkForPermissions(permission: String, name: String, requestCode: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             when{
-                ContextCompat.checkSelfPermission(requireContext(),permission) == PackageManager.PERMISSION_GRANTED -> {
-                    Toast.makeText(requireContext(),"$name permission granted",Toast.LENGTH_LONG).show()
+                ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED -> {
+                    Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG).show()
                 }
-                shouldShowRequestPermissionRationale(permission) -> showDialog(permission,name,requestCode)
-                else -> ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission),requestCode)
+                shouldShowRequestPermissionRationale(permission) -> showDialog(
+                    permission,
+                    name,
+                    requestCode
+                )
+                else -> ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(permission),
+                    requestCode
+                )
             }
         }
         return false
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        fun innerCheck(name:String){
+        fun innerCheck(name: String){
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(requireContext(),"$name permission refused",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_LONG).show()
             }
             else{
-                Toast.makeText(requireContext(),"$name permission granted",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG).show()
             }
         }
         when (requestCode){
             FINE_LOCATION_REQUEST -> innerCheck("location")
         }
     }
-   private fun showDialog(permission: String,name: String,requestCode: Int){
+
+   private fun showDialog(permission: String, name: String, requestCode: Int){
        val builder = AlertDialog.Builder(requireContext())
 
        builder.apply {
            setMessage("Permission to Access your $name is required to use this app")
            setTitle("Permission required")
-           setPositiveButton("OK"){dialog,which ->
-               ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission),requestCode)
+           setPositiveButton("OK"){ dialog, which ->
+               ActivityCompat.requestPermissions(
+                   requireActivity(),
+                   arrayOf(permission),
+                   requestCode
+               )
 
            }
        }
        val dialog : AlertDialog = builder.create()
        dialog.show()
    }
+
+    override fun onCall(favorites: Favorites) {
+
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        val blankFragment_detailPage = DetailFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("weatherkey", favorites)
+        blankFragment_detailPage.setArguments(bundle)
+        transaction.replace(R.id.container, blankFragment_detailPage)
+        transaction.commit()
+    }
 
 }
 

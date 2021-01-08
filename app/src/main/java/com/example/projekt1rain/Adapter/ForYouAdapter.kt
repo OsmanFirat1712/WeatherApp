@@ -11,10 +11,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projekt1rain.DataWeatherClass
+import com.example.projekt1rain.FragmentCallBack
 import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
 import com.github.mikephil.charting.charts.BarChart
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.foryoufragment.view.*
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -32,7 +34,9 @@ private lateinit var person: Person
 private lateinit var weatherClass: MutableList<DataWeatherClass>
 
 
-class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+
+
+class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context, val fragmentCallBack: FragmentCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val itemview =
@@ -41,7 +45,6 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
         return ViewHolder(itemview)
 
     }
-
 
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
 
@@ -54,16 +57,23 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
                     .into(itemView.ivCityPicture)
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
-            temperture.text = """${curentItem.currentWeatherResponse?.main?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
+            temperture.text = """${curentItem.currentWeatherResponse?.main?.temp?.toInt()?.minus(
+                273.15.toInt()
+            ).toString()}°C"""
+
+            cardview.setOnClickListener {
+                fragmentCallBack.onCall(curentItem)
+
+            }
 
         }
     }
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityName: TextView = itemView.tvCityName
         val temperture: TextView = itemView.tvtemperture
         val time: TextView = itemView.tvTime
+        val cardview:MaterialCardView = itemView.cvCardViewForYou
         val iconDayNight = itemView.ivDayNightIcon
         val cityPicture = itemView.ivCityPicture
         var iconUrl = "http://openweathermap.org/img/wn/10d@2x"
