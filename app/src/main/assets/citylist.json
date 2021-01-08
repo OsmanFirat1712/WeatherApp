@@ -10138,5 +10138,115 @@
             "lon": 33.200001,
             "lat": -3.88333
         }
+    },
+    {
+        "id": 2761229,
+        "name": "Wildermieming",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 11.01667,
+            "lat": 47.316669
+        }
+    },
+    {
+        "id": 2761261,
+        "name": "Wildalpen",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 14.98333,
+            "lat": 47.650002
+        }
+    },
+    {
+        "id": 2761272,
+        "name": "Wiesmath",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 16.283331,
+            "lat": 47.616669
+        }
+    },
+    {
+        "id": 2761278,
+        "name": "Wiesing",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 11.79708,
+            "lat": 47.404861
+        }
+    },
+    {
+        "id": 2761281,
+        "name": "Wiesfleck",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 16.133329,
+            "lat": 47.383331
+        }
+    },
+    {
+        "id": 2761298,
+        "name": "Wiesenegg-GrÃ¼ntal",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 12.43333,
+            "lat": 47.400002
+        }
+    },
+    {
+        "id": 2761306,
+        "name": "Wiesen",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 16.33333,
+            "lat": 47.73333
+        }
+    },
+    {
+        "id": 2761314,
+        "name": "Wieselburg",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 15.13333,
+            "lat": 48.133331
+        }
+    },
+    {
+        "id": 2761326,
+        "name": "Wies",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 15.27194,
+            "lat": 46.72028
+        }
+    },
+    {
+        "id": 2761332,
+        "name": "Politischer Bezirk Wien-Umgebung",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 16.01667,
+            "lat": 48.200001
+        }
+    },
+    {
+        "id": 2761333,
+        "name": "Wien Stadt",
+        "state": "",
+        "country": "AT",
+        "coord": {
+            "lon": 16.373409,
+            "lat": 48.2066
+        }
     }
-    ]
+]

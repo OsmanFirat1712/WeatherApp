@@ -10,7 +10,8 @@ class CurrentWeatherResponse {
     var coord:Coord? = null
     var weather:List<Weather>? = null
     val hourly: List<Hourly>? = null
-    val minutely: List<Minutely>? = null
+    val daily:List<Daily>? = null
+
 
 
 }

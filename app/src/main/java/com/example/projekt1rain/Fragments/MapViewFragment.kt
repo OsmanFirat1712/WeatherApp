@@ -9,8 +9,9 @@ import android.view.LayoutInflater
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.ActionBar
@@ -21,8 +22,10 @@ import com.bumptech.glide.Glide
 import com.example.projekt1rain.*
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.InterFaces.CallBack
+import com.example.projekt1rain.InterFaces.GetName
 import com.example.projekt1rain.RetrofitApi.retrofitResponse
 import com.example.projekt1rain.RetrofitApi.retrofitResponse2
+import com.example.projekt1rain.Room.City
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -36,19 +39,11 @@ import java.io.IOException
 
 private const val TAG = "MapViewFragment"
 
-class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
+class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     private var favorites: List<Favorites> = emptyList()
-
-    //lateinit var searchView: SearchView
-
-    //Fragment someFragment;
-    //
-    ////...onCreate etc instantiating your fragments
-    //
-    //public void myClickMethod(View v) {
-    //    someFragment.myClickMethod(v);
-    //}
-
+    private var takeLat:Double = 0.0
+    private var takeLon:Double = 0.0
+    private lateinit var currentWeather:CurrentWeather
 
     companion object {
         private lateinit var nMap: GoogleMap
@@ -62,22 +57,13 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
         map_view.getMapAsync(this)
         setToolbar()
 
-
     }
-
-
     override fun onMapReady(map: GoogleMap?) {
 
         if (map != null) {
             nMap = map
         }
         nMap.uiSettings.setZoomControlsEnabled(true)
-
-        //val test = nMap.addMarker(MarkerOptions());
-        //test.showInfoWindow();
-
-
-
         map?.let {
             nMap = it
 
@@ -122,11 +108,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
                 Log.d(TAG, "test5 $address")
                 Toast.makeText(requireContext(), "test" + address, LENGTH_LONG).show()
             }
-
-
         }
     }
-
     private fun getAddress(lat: Double, lng: Double): String {
 
         val geocoder = Geocoder(requireContext())
@@ -141,39 +124,38 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
         }
         return ""
     }
+    private fun startBtn(view: View){
 
-
-    fun startBtn(view: View){
         Toast.makeText(requireContext(), "Clicked on Button", Toast.LENGTH_LONG).show()
-        val searchView = view.findViewById<SearchView>(R.id.sv_location)
+
+
         lateinit var location: String
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+        val searchView = view.findViewById<SearchView>(R.id.sv_location)
         location = searchView.query.toString()
-        var addressList: List<Address>? = null
-
-        if (location == null || location == "") {
-            Toast.makeText(requireContext(),"provide location",Toast.LENGTH_SHORT).show()
-        }
-
-        else{
-            val geoCoder = Geocoder(requireContext())
-            try {
-                addressList = geoCoder.getFromLocationName(location, 1)
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            val addresss = addressList!![0]
-            val latLng = LatLng(addresss.latitude, addresss.longitude)
-            nMap!!.addMarker(MarkerOptions().position(latLng).title(location))
-            nMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-            Toast.makeText(requireContext(), addresss.latitude.toString() + " " + addresss.longitude, Toast.LENGTH_LONG).show()
-        }
-
+        dataService.getCitiesFindbyName(location,this)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchView.clearFocus()
+                var addressList: List<Address>? = null
 
+                if (location == null || location == "") {
+                    Toast.makeText(requireContext(),"provide location",Toast.LENGTH_SHORT).show()
+                }
+
+                else{
+                    val geoCoder = Geocoder(requireContext())
+                    try {
+                        addressList = geoCoder.getFromLocationName(location, 1)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    val addresss = addressList!![0]
+
+                    Toast.makeText(requireContext(), addresss.latitude.toString() + " " + addresss.longitude, Toast.LENGTH_LONG).show()
+                }
                 return false
             }
 
@@ -182,11 +164,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
 
                 return false
             }
-
         })
-
     }
-
     private fun showAlertDialog(latlng: LatLng) {
         val dialog =
                 AlertDialog.Builder(requireContext())
@@ -209,25 +188,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
             dialog.dismiss()
         }
-
     }
-
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-
-
-        return inflater.inflate(R.layout.mapviewfragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val dataService: DataService = (requireActivity().application as MyApp).dataService
-        dataService.getFavorites(this)
-    }
-
     private fun setToolbar() {
         val actionBar: ActionBar? = (requireActivity() as MainActivity).supportActionBar
         actionBar?.apply {
@@ -236,8 +197,37 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack {
             setHomeButtonEnabled(true)
         }
     }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+
+        return inflater.inflate(R.layout.mapviewfragment, container, false)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+        val button = view.findViewById<Button>(R.id.startBtn)
+        button.setOnClickListener {
+            startBtn(view)
+        }
+        dataService.getFavorites(this)
+    }
     override fun onComplete(favorites: List<Favorites>) {
         this.favorites = favorites
+    }
+    override fun onFinish(City: City) {
+
+
+
+        if (City.name!= null){
+            val latLng = LatLng(City.coord?.lat!!,City.coord?.lon!!)
+
+            nMap!!.addMarker(MarkerOptions().position(latLng).title(City.name))
+            nMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        }
+
+        else{
+            Toast.makeText(requireContext(),"There is no info about this city",Toast.LENGTH_LONG).show()
+        }
+
     }
 }

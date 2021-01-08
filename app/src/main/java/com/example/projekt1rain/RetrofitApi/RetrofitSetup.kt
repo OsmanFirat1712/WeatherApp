@@ -20,7 +20,7 @@ private lateinit var favorites:Favorites
 
 
 object RetrofitSetup {
-    //var test = MapViewFragment.address
+
     var urlAll = "api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}"
     var url = "https://api.openweathermap.org/data/2.5/"
     val apiKey = "d459f98ffa705ad3f6c5e02f86d9fab9"
@@ -64,7 +64,6 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
         }
     })
 }
-
 fun retrofitResponse2(lat:Double,long:Double){
     val retrofit = Retrofit.Builder()
         .baseUrl(RetrofitSetup.url)
@@ -72,7 +71,7 @@ fun retrofitResponse2(lat:Double,long:Double){
         .build()
     val weatherApi = retrofit.create(CallWeatherApi::class.java)
 
-    val weatherOneCallResponse =weatherApi.getDailyForecast(lat,long,RetrofitSetup.apiKey)
+    val weatherOneCallResponse =weatherApi.getHourlyForecast(lat,long,RetrofitSetup.apiKey)
     weatherOneCallResponse!!.enqueue(object :Callback<CurrentWeatherResponse?>{
         override fun onResponse(
             call: Call<CurrentWeatherResponse?>,
@@ -93,6 +92,12 @@ fun retrofitResponse2(lat:Double,long:Double){
             Log.d("TAG","hourlyClouds : " + hourlyClouds)
             Log.d("TAG","hourlyPressure : " + hourlyPressure)
             Log.d("TAG","temppppp : " + tempp)
+
+            val daily = myOneCallData!!.daily
+            val dailyTemperature = daily?.get(3)?.temp
+            val dailytemp = (dailyTemperature!! - 273.15).toInt()
+
+            Log.d("TAG","dailyTemp" + dailytemp)
 
         }
 
