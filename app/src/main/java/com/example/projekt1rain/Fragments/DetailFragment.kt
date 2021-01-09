@@ -20,6 +20,8 @@ import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.detailviewfragment.*
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import kotlin.time.ExperimentalTime
+import kotlin.time.days
 
 class DetailFragment: Fragment() {
 
@@ -59,6 +61,7 @@ class DetailFragment: Fragment() {
         Entry(6.0f, 20.0f),
     )
 
+    @ExperimentalTime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -91,7 +94,7 @@ class DetailFragment: Fragment() {
         if (bundle != null) {
             val favorites: Favorites? = bundle.getSerializable("weatherkey") as Favorites?
 
-            val temp = favorites?.currentWeatherResponse?.daily?.get(3)?.temp
+            val temp = favorites?.currentWeatherResponse?.daily?.get(6)?.morn
 
 
 
@@ -106,8 +109,8 @@ class DetailFragment: Fragment() {
 
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
                 if (index < 12) {
-                    val temp = daily.temp.toInt().minus(273.15.toInt().toString().toFloat())
-                    list.add(Entry(index.toFloat(), temp))
+                    val temp = daily.temp.days.
+                    list.add(Entry(index.toFloat(), temp.toFloat()))
                     xValsOriginalMillis.add(daily.dt)
                 }
             }
