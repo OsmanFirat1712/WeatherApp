@@ -10,15 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.widget.SearchView;
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.projekt1rain.*
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.InterFaces.CallBack
@@ -33,7 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.foryoufragment.view.*
 import kotlinx.android.synthetic.main.mapviewfragment.*
 import java.io.IOException
 
@@ -46,7 +42,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     private lateinit var currentWeather:CurrentWeather
 
     companion object {
-        private lateinit var nMap: GoogleMap
+         lateinit var nMap: GoogleMap
         private var markers: MutableList<Marker> = mutableListOf<Marker>()
     }
 
@@ -58,6 +54,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
         setToolbar()
 
     }
+
     override fun onMapReady(map: GoogleMap?) {
 
         if (map != null) {
@@ -80,7 +77,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
                 if (lat != null && lon != null)
                     nMap.addMarker(MarkerOptions().position(LatLng(lat, lon))
-
                         //Need icon
                         .title("Temperature :")
                         .snippet(favorite.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()+"°C"))
@@ -100,9 +96,12 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
 
 
+
                 val address = getAddress(latlng.latitude, latlng.longitude)
                 retrofitResponse(address)
                 retrofitResponse2(latlng.latitude,latlng.longitude,address)
+
+
 
 
                 Log.d(TAG, "test5 $address")
@@ -123,6 +122,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
         }
         return ""
+
     }
     private fun startBtn(view: View){
 
@@ -216,8 +216,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     }
     override fun onFinish(City: City) {
 
-
-
         if (City.name!= null){
             val latLng = LatLng(City.coord?.lat!!,City.coord?.lon!!)
 
@@ -230,4 +228,5 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
         }
 
     }
+
 }

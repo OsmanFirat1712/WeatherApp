@@ -76,6 +76,7 @@ interface WeatherDao{
 
 
     @Insert
+    (onConflict = OnConflictStrategy.REPLACE)
      fun insertfavorites (favorites: Favorites)
 
     @Delete

@@ -31,12 +31,10 @@ class MainActivity() : AppCompatActivity() {
         /* weatherDatabase.weatherDao.getLiveDataCityList(cities)*/
         val jsonFileString =
             LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
-        Log.i("data", jsonFileString.toString())
         val gson = Gson()
         //PARSE JSON TO STRING
         val listPersonType = object : TypeToken<List<City>>() {}.type
         val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
-        cities.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
         Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
 
         //val city: List<City> = gson.fromJson(jsonFileString, listPersonType)

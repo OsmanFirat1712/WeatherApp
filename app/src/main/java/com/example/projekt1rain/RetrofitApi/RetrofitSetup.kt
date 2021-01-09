@@ -109,6 +109,52 @@ fun retrofitResponse2(lat:Double,long:Double,address: String,dataBase: WeatherDa
     })
 }
 
+fun retrofitResponse3(lat:Double,long:Double,address: String,dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
+    val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }).build()
+    val retrofit = Retrofit.Builder()
+            .baseUrl(RetrofitSetup.url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+    val weatherApi = retrofit.create(CallWeatherApi::class.java)
+
+    val weatherOneCallResponse =weatherApi.getHourlyForecast(lat,long,RetrofitSetup.apiKey)
+    weatherOneCallResponse!!.enqueue(object :Callback<CurrentWeatherResponse?>{
+        override fun onResponse(
+                call: Call<CurrentWeatherResponse?>,
+                response: Response<CurrentWeatherResponse?>
+        ) {
+            if (response.code() == 200) {
+                Log.d(TAG,"Successfuly")
+            } else if (!response.isSuccessful) {
+                Log.d(TAG,"Error")
+            }
+            val myOneCallData = response.body()
+            val hourly = myOneCallData!!.hourly
+            val hourlyTemperature = hourly?.get(2)?.temp
+            val tempp =(hourlyTemperature!! - 273.15).toInt()
+            val hourlyClouds = hourly?.get(4)?.clouds
+            val hourlyPressure = hourly?.get(3)?.pressure
+
+            Log.d("TAG","hourlyClouds : " + hourlyClouds)
+            Log.d("TAG","hourlyPressure : " + hourlyPressure)
+            Log.d("TAG","temppppp : " + tempp)
+
+
+
+
+        }
+
+        override fun onFailure(call: Call<CurrentWeatherResponse?>, t: Throwable) {
+            Log.d(TAG,"Error im log.de${t.toString()}")
+        }
+
+    })
+}
+
+
 
 
 
