@@ -71,6 +71,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
                 Log.i(TAG, "onWindowsClickListener - Delete Thismarker")
                 markers.remove(markerToDelete)
                 markerToDelete.remove()
+
             }
 
 

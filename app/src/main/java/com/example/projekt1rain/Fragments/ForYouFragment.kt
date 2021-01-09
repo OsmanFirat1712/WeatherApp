@@ -52,7 +52,7 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
 
         adapter3 = ForYouAdapter(
                 forYouConstruktorList = ArrayList(),
-                requireContext()
+                requireContext(),this
         )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
@@ -160,7 +160,7 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
     }
 
     override fun onCall(favorites: Favorites) {
-/*
+
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val blankFragment_detailPage = DetailFragment()
         val bundle = Bundle()
@@ -168,10 +168,10 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
         blankFragment_detailPage.setArguments(bundle)
         transaction.replace(R.id.container, blankFragment_detailPage)
         transaction.commit()
-    }*/
+    }
 
     }
-}
+
 
 
 

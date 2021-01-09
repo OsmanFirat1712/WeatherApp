@@ -11,6 +11,8 @@ class CurrentWeatherResponse {
     var lon:Double?= null
     var current:CurrentWeather? = null
     var hourly: List<Hourly>? = null
+    var daily: List<Daily>? = null
+
 
 
 }
