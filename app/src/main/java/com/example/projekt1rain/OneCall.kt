@@ -68,7 +68,7 @@ data class Daily(
         val dt: Long,
         val sunrise: Int,
         val sunset: Int,
-        val temp: Double,
+        val temp: Temp,
         val pressure: Int,
         val humidity: Int,
         @SerializedName("dew_point")
@@ -78,7 +78,12 @@ data class Daily(
         )
 
 data class Temp(
-        val day:Double
+        val day:Double,
+        val min:Double,
+        val max:Double,
+        val night:Double,
+        val eve:Double,
+        val morn:Double
 )
 
 

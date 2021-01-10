@@ -3,6 +3,7 @@ package com.example.projekt1rain.Fragments
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,10 @@ import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.RetrofitApi.RetrofitSetup
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.detailviewfragment.*
+import kotlinx.android.synthetic.main.recylerviewforyou1.*
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
     var recyclerViewAdapter: ForYouAdapter? = null
@@ -48,6 +53,23 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*
+        val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
+        val currentTimeAsFloat = CurrentTime.toDouble()
+        if (18.00 < currentTimeAsFloat && currentTimeAsFloat < 24.00) {
+            forYouLayout.setBackgroundColor(Color.parseColor("#34495e"))
+        }
+        else if (0.00 < currentTimeAsFloat && currentTimeAsFloat < 6.00){
+            constraint.setBackgroundColor(Color.parseColor("#34495e"))
+
+        }
+        else {
+            constraint.setBackgroundColor(Color.parseColor("#349Bdb"))
+
+        }*/
+
+
+
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         adapter3 = ForYouAdapter(

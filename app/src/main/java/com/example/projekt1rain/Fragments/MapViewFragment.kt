@@ -3,6 +3,7 @@ package  com.example.projekt1rain.Fragments
 import android.content.DialogInterface
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,6 +42,11 @@ private const val TAG = "MapViewFragment"
 
 class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     private var favorites: List<Favorites> = emptyList()
+
+    private lateinit var currentLocation: Location
+
+
+
     private var takeLat:Double = 0.0
     private var takeLon:Double = 0.0
     private lateinit var currentWeather:CurrentWeather
@@ -107,7 +113,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
 
                 Log.d(TAG, "test5 $address")
-                Toast.makeText(requireContext(), "test" + address, LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "prereferences" + address, LENGTH_LONG).show()
             }
         }
     }
@@ -129,12 +135,12 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
         Toast.makeText(requireContext(), "Clicked on Button", Toast.LENGTH_LONG).show()
 
-
         lateinit var location: String
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         val searchView = view.findViewById<SearchView>(R.id.sv_location)
-        location = searchView.query.toString()
-        dataService.getCitiesFindbyName(location,this)
+
+            location = searchView.query.toString()
+            dataService.getCitiesFindbyName(location,this)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -161,7 +167,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                TODO("Not yet implemented")
+                searchView.query.isNullOrEmpty()
 
                 return false
             }

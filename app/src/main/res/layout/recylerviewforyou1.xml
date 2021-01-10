@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/forYouLayout"
 >
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewforyou"
-        android:layout_width="410dp"
-        android:layout_height="732dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbars="vertical"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="63dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,20 +23,16 @@
         tools:listitem="@layout/foryoufragment"
         />
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/flab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="80dp"
-        android:src="@drawable/ic_baseline_add_location_alt_24"
-        app:elevation="10dp"
-        app:fabSize="normal"
-        android:layout_gravity="end|bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ContentDescription" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/flab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            app:pressedTranslationZ="12dp"
+            android:focusable="true"
+            android:src="@drawable/ic_baseline_add_location_alt_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

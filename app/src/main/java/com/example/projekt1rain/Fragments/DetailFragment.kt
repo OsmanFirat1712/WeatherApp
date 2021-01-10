@@ -3,11 +3,13 @@ package com.example.projekt1rain.Fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projekt1rain.MyXAxisFormatter
@@ -18,10 +20,13 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.detailviewfragment.*
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.time.ExperimentalTime
-import kotlin.time.days
 
 class DetailFragment: Fragment() {
 
@@ -51,15 +56,7 @@ class DetailFragment: Fragment() {
 
     }
 
-    private val list = mutableListOf(
-        Entry(0.0f, 10.0f),
-        Entry(1.0f, 15.0f),
-        Entry(2.0f, 4.0f),
-        Entry(3.0f, 7.0f),
-        Entry(4.0f, 20.0f),
-        Entry(5.0f, 20.0f),
-        Entry(6.0f, 20.0f),
-    )
+
 
     @ExperimentalTime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +64,7 @@ class DetailFragment: Fragment() {
 
         /************************************* for time day and night icons ***************************************/
         val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
+
         tvDetailIcon = view.findViewById(R.id.tvDetailIcon)
         testTime = view.findViewById(R.id.testTime)
         testTime.text = CurrentTime
@@ -94,11 +92,17 @@ class DetailFragment: Fragment() {
         if (bundle != null) {
             val favorites: Favorites? = bundle.getSerializable("weatherkey") as Favorites?
 
-            val temp = favorites?.currentWeatherResponse?.daily?.get(6)?.morn
+            val calendar: Calendar = Calendar.getInstance()
+            val dayOfWeeks: Int = calendar.get(Calendar.DAY_OF_WEEK)
+            Log.i("lol", "${dayOfWeeks} hier")
+
+            val CurrentDay = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+            val fullCurentDay = CurrentDay.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
+            Log.i("CurrentDay :", "${fullCurentDay} hier")
 
 
 
-            //val list = mutableListOf<Entry>()
+            val list = mutableListOf<Entry>()
             val xValsDateLabel = ArrayList<String>()
             val xValsOriginalMillis = ArrayList<Long>()
 
@@ -109,10 +113,15 @@ class DetailFragment: Fragment() {
 
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
                 if (index < 12) {
-                    val temp = daily.temp.days.
+                    val temp = daily.temp.day
                     list.add(Entry(index.toFloat(), temp.toFloat()))
                     xValsOriginalMillis.add(daily.dt)
                 }
+            }
+
+            for (i in xValsOriginalMillis) {
+                val mDateTime = "${dayOfWeeks}"
+                xValsDateLabel.add(mDateTime)
             }
 
 
