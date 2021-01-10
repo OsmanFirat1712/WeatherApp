@@ -14,4 +14,6 @@
     <string name="temperatur">Temperatur</string>
     <string name="tagNacht">Tag/Nacht</string>
     <string name="map_key" >AIzaSyDAkpBNsNGOfwHqAaq2RNxDxYfccNAD9wY</string>
+    <string name="delete">delete</string>
+    <string name="cancelButton">cancel</string>
 </resources>

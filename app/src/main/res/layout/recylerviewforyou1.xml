@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/forYouLayout"
+
 >
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -38,4 +44,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ContentDescription" />
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
