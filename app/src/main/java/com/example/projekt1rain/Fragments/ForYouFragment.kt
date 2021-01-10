@@ -3,6 +3,7 @@ package com.example.projekt1rain.Fragments
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,6 +50,23 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*
+        val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
+        val currentTimeAsFloat = CurrentTime.toDouble()
+        if (18.00 < currentTimeAsFloat && currentTimeAsFloat < 24.00) {
+            forYouLayout.setBackgroundColor(Color.parseColor("#34495e"))
+        }
+        else if (0.00 < currentTimeAsFloat && currentTimeAsFloat < 6.00){
+            constraint.setBackgroundColor(Color.parseColor("#34495e"))
+
+        }
+        else {
+            constraint.setBackgroundColor(Color.parseColor("#349Bdb"))
+
+        }*/
+
+
+
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)

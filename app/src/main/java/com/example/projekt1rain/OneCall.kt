@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 import com.beust.klaxon.Json
 import com.beust.klaxon.Klaxon
 import com.google.gson.annotations.SerializedName
+import java.util.function.DoubleBinaryOperator
 
 private val klaxon = Klaxon()
 
@@ -23,12 +24,13 @@ data class OneCall @JvmOverloads constructor(
 
         @SerializedName("timezone_offset")
         val timezoneOffset: Long,
-
         val weather: List<CurrentWeather>,
         val current: CurrentWeather,
         val daily: List<Daily>,
         val minutely: List<Minutely>,
-        val hourly: List<Hourly>
+        val hourly: List<Hourly>,
+        val temp:Temp,
+
 
 ) {
     public fun toJson() = klaxon.toJsonString(this)
@@ -61,20 +63,27 @@ data class Hourly(
         val windDeg: Int,
 )
 
-
 data class Daily(
 
         val dt: Long,
         val sunrise: Int,
         val sunset: Int,
-        val temp: Double,
+        val temp: Temp,
         val pressure: Int,
         val humidity: Int,
         @SerializedName("dew_point")
         val dewPoint: Double,
         @SerializedName("wind_deg")
         val windDeg: Int,
-
-
-
         )
+
+data class Temp(
+        val day:Double,
+        val min:Double,
+        val max:Double,
+        val night:Double,
+        val eve:Double,
+        val morn:Double
+)
+
+

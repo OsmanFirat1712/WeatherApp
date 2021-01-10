@@ -14,7 +14,9 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.projekt1rain.InterFaces.RemoveCallBack
+import com.example.projekt1rain.DataWeatherClass
+import com.example.projekt1rain.FragmentCallBack
+import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
@@ -24,6 +26,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.foryoufragment.view.*
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -86,9 +89,9 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
 
             val cl: ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
-
             val barEntries = list.map { Entry(it.x, it.y, xValsDateLabel) }
             val dataSet = LineDataSet(barEntries, "Temperatur den nächsten Stunden")
+
             dataSet.fillAlpha = 5000
             dataSet.color = Color.RED
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -111,6 +114,11 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
 
             chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
+            cardview.setOnClickListener {
+
+
+            }
+
         }
     }
 
@@ -119,6 +127,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
         val cityName: TextView = itemView.tvCityName
         val temperture: TextView = itemView.tvtemperture
         val time: TextView = itemView.tvTime
+        val cardview:MaterialCardView = itemView.cvCardViewForYou
         val iconDayNight = itemView.ivDayNightIcon
         val cityPicture = itemView.ivCityPicture
         var iconUrl = "http://openweathermap.org/img/wn/10d@2x"

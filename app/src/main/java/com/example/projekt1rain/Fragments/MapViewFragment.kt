@@ -3,6 +3,7 @@ package  com.example.projekt1rain.Fragments
 import android.content.DialogInterface
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,6 +41,14 @@ private const val TAG = "MapViewFragment"
 class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     private var favorites: List<Favorites> = emptyList()
 
+    private lateinit var currentLocation: Location
+
+
+
+    private var takeLat:Double = 0.0
+    private var takeLon:Double = 0.0
+    private lateinit var currentWeather:CurrentWeather
+
     companion object {
          lateinit var nMap: GoogleMap
         private var markers: MutableList<Marker> = mutableListOf<Marker>()
@@ -66,6 +75,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
                 Log.i(TAG, "onWindowsClickListener - Delete Thismarker")
                 markers.remove(markerToDelete)
                 markerToDelete.remove()
+
             }
 
 

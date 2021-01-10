@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,7 +24,7 @@
         android:id="@+id/tvDetailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:text="WEATHER DETAILS"
         android:textAlignment="center"
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
@@ -31,65 +32,85 @@
         android:textSize="25dp"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/tvDetailIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailTemp"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <TextView
-        android:id="@+id/tvDetailPressure"
+        android:id="@+id/tvDetailWindDeg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
+        android:hint="DetailWindDeg"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
-        android:text="Pressure :"
-        android:textSize="20dp" />
+        android:textSize="25dp" />
 
     <TextView
-        android:id="@+id/tvDetailFeelsLike"
+        android:id="@+id/tvDetailUvi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
+        android:hint="DetailUvi"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:text="FeelsLike :"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailPressure" />
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailWindDeg" />
 
     <TextView
-        android:id="@+id/tvDetailHumidity"
+        android:id="@+id/tvDetailWindSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
+        android:hint="DetailWindSpeed"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:text="Humidity :"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailFeelsLike" />
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailUvi" />
 
     <TextView
         android:id="@+id/tvDetailTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:text="Temperature :"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailHumidity" />
+        android:text="temp"
+        android:textSize="80dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
 
     <TextView
-        android:id="@+id/tvDetailTempMax"
+        android:id="@+id/tvDetailClouds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
+        android:hint="DetailClouds"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:text="Temp Max :"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailTemp" />
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailWindSpeed" />
 
     <TextView
-        android:id="@+id/tvDetailTempMin"
+        android:id="@+id/tvDetailVisibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
+        android:hint="DetailVisibility"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:text="Temp Min :"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailTempMax" />
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailClouds" />
+
+    <TextView
+        android:id="@+id/testTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailVisibility"
+        tools:ignore="UnknownId" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bcDetailBarchart"
+        android:layout_marginTop="300dp"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 

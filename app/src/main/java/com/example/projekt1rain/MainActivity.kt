@@ -1,9 +1,21 @@
 package com.example.projekt1rain
 
+import android.Manifest
+import android.Manifest.permission
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.Fragments.MapViewFragment
@@ -22,6 +34,7 @@ class MainActivity() : AppCompatActivity() {
     private lateinit var dataService: DataService
     private lateinit var database: WeatherDatabase
     private lateinit var cities: List<City>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +71,6 @@ class MainActivity() : AppCompatActivity() {
             true
         }
 
-        //dataService.getCurrentCallFromApi()
     }
 
     private fun setToolbar() {
@@ -70,18 +82,18 @@ class MainActivity() : AppCompatActivity() {
 
     }
 
-    private fun makeCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
+    private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
             commit()
 
         }
 
-
-
     override fun onResume() {
         super.onResume()
     }
+
+
+
 }
 
 

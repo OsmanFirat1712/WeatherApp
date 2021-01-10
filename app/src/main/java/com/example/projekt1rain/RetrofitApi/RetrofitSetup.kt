@@ -22,7 +22,7 @@ private lateinit var favorites:Favorites
 
 
 object RetrofitSetup {
-    //var test = MapViewFragment.address
+    //var prereferences = MapViewFragment.address
     var urlAll = "api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}"
     var url = "https://api.openweathermap.org/data/2.5/"
     val apiKey = "d459f98ffa705ad3f6c5e02f86d9fab9"
