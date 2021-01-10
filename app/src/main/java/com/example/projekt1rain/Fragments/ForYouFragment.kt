@@ -74,7 +74,7 @@ class ForYouFragment : Fragment(),CallBack,FragmentCallBack {
 
         adapter3 = ForYouAdapter(
                 forYouConstruktorList = ArrayList(),
-                requireContext(),this
+                requireContext()
         )
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)

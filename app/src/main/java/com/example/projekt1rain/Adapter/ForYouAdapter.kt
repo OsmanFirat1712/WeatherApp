@@ -47,7 +47,7 @@ private lateinit var person: Person
 private lateinit var weatherClass: MutableList<DataWeatherClass>
 
 
-class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context, val fragmentCallBack: FragmentCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val itemview =
@@ -120,7 +120,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
             cardview.setOnClickListener {
-                fragmentCallBack.onCall(curentItem)
+
 
             }
 
