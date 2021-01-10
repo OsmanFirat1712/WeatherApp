@@ -18,9 +18,10 @@
     <string name="verbindunghergestellt">Connected</string>
     <string name="favoritsetzen">Do you want to add the selected City to the Favorites</string>
     <string name="abbrechen">Cancel</string>
-    <string name="windtemp">Winddeg:</string>
-    <string name="windgesch">Windspeed:</string>
+    <string name="windtemp">Winddeg :</string>
+    <string name="windgesch">Windspeed :</string>
     <string name="uvi">Uvi:</string>
-    <string name="sicht">Visibility:</string>
-    <string name="wolken">Clouds:</string>
+    <string name="sicht">Visibility  :</string>
+    <string name="wolken">Clouds :</string>
+    <string name="stadt">State :</string>
 </resources>

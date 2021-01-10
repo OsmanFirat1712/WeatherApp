@@ -66,7 +66,6 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         }*/
 
 
-
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
@@ -80,7 +79,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         forYouAdapter = ForYouAdapter(
 
             forYouConstruktorList = ArrayList(), requireContext(),
-            this,this
+            this, this
         )
 
 
@@ -121,9 +120,9 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     private fun startForYouFragment() {
         requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, DetailFragment())
-                .addToBackStack(null)
-                .commit()
+            .replace(R.id.container, DetailFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
 
@@ -155,10 +154,13 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
             }
         })
-        Toast.makeText(requireContext(), getString(R.string.verbindunghergestellt), Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.verbindunghergestellt),
+            Toast.LENGTH_LONG
+        ).show()
 
     }
-
 
 
     override fun onCall(favorites: Favorites) {
@@ -185,14 +187,15 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
     override fun onRemove(favorites: Favorites) {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         AlertDialog.Builder(context)
-            .setNeutralButton(R.string.cancelButton) { dialogInterface, i->}
-            .setNegativeButton(R.string.delete) { dialogInterface, i->
-                Executors.newSingleThreadExecutor().execute { dataService.deleteFavorites(favorites,this) }                }
+            .setNeutralButton(R.string.cancelButton) { dialogInterface, i -> }
+            .setNegativeButton(R.string.delete) { dialogInterface, i ->
+                Executors.newSingleThreadExecutor()
+                    .execute { dataService.deleteFavorites(favorites, this) }
+            }
             .create().show()
         dataService.getFavorites(this)
         forYouAdapter.notifyDataSetChanged()
     }
-
 
 
 }

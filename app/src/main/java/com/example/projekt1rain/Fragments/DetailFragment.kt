@@ -1,4 +1,3 @@
-
 package com.example.projekt1rain.Fragments
 
 import android.graphics.Color
@@ -28,13 +27,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.time.ExperimentalTime
 
-class DetailFragment: Fragment() {
+class DetailFragment : Fragment() {
 
     private lateinit var tvDetailWindDeg: TextView
     private lateinit var tvDetailUvi: TextView
     private lateinit var tvDetailWindSpeed: TextView
     private lateinit var tvDetailTemp: TextView
     private lateinit var tvDetailClouds: TextView
+    private lateinit var tvAddress:TextView
     private lateinit var tvDetailVisibility: TextView
     private lateinit var tvDetailIcon: ImageView
     private lateinit var testTime: TextView
@@ -57,7 +57,6 @@ class DetailFragment: Fragment() {
     }
 
 
-
     @ExperimentalTime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,14 +75,11 @@ class DetailFragment: Fragment() {
 
         if (18.00 < currentTimeAsFloat && currentTimeAsFloat < 24.00) {
             constraint.setBackgroundColor(Color.parseColor("#34495e"))
-            tvDetailIcon.setImageResource(R.drawable.ic_baseline_nights_stay_24) }
-
-        else if (0.00 < currentTimeAsFloat && currentTimeAsFloat < 6.00){
+            tvDetailIcon.setImageResource(R.drawable.ic_baseline_nights_stay_24)
+        } else if (0.00 < currentTimeAsFloat && currentTimeAsFloat < 6.00) {
             constraint.setBackgroundColor(Color.parseColor("#34495e"))
             tvDetailIcon.setImageResource(R.drawable.ic_baseline_nights_stay_24)
-        }
-
-        else {
+        } else {
             constraint.setBackgroundColor(Color.parseColor("#349Bdb"))
             tvDetailIcon.setImageResource(R.drawable.ic_baseline_wb_sunny_72)
 
@@ -99,18 +95,18 @@ class DetailFragment: Fragment() {
             Log.i("lol", "${dayOfWeeks} hier")
 
             val CurrentDay = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
-            val fullCurentDay = CurrentDay.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
+            val fullCurentDay =
+                CurrentDay.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
             Log.i("CurrentDay :", "${fullCurentDay} hier")
 
 
-
             val list2 = mutableListOf<BarEntry>(
-                BarEntry(1.0f,2.0f),
-                BarEntry(2.0f,2.0f),
-                BarEntry(3.0f,2.0f),
-                BarEntry(3.0f,10.0f),
-                BarEntry(4.0f,9.0f),
-                BarEntry(0.0f,12.0f),
+                BarEntry(1.0f, 2.0f),
+                BarEntry(2.0f, 2.0f),
+                BarEntry(3.0f, 2.0f),
+                BarEntry(3.0f, 10.0f),
+                BarEntry(4.0f, 9.0f),
+                BarEntry(0.0f, 12.0f),
 
 
                 )
@@ -168,9 +164,13 @@ class DetailFragment: Fragment() {
             tvDetailWindSpeed = view.findViewById(R.id.tvDetailWindSpeed)
             tvDetailClouds = view.findViewById(R.id.tvDetailClouds)
             tvDetailVisibility = view.findViewById(R.id.tvDetailVisibility)
+            tvAddress = view.findViewById(R.id.tvAddress)
 
 
 
+
+            tvAddress.text=
+               favorites?.address.toString()
 
             tvDetailTemp.text =
                 favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt())
@@ -179,11 +179,13 @@ class DetailFragment: Fragment() {
                 getString(R.string.wolken) + favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
             tvDetailVisibility.text =
                 getString(R.string.sicht) + favorites?.currentWeatherResponse?.current?.visibility?.toString() + "km"
-            tvDetailUvi.text = getString(R.string.uvi) + favorites?.currentWeatherResponse?.current?.uvi?.toString()
+            tvDetailUvi.text =
+                getString(R.string.uvi) + favorites?.currentWeatherResponse?.current?.uvi?.toString()
             tvDetailWindSpeed.text =
                 getString(R.string.windgesch) + favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
             tvDetailWindDeg.text =
                 getString(R.string.windtemp) + favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
+
 
 
         }

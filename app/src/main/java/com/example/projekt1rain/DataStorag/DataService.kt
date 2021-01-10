@@ -21,7 +21,7 @@ interface DataService {
 
     fun getCurrentCallFromApi(callback: Callback): CurrentWeather
 
-    fun savefavorites(favorites: Favorites )
+    fun savefavorites(favorites: Favorites)
 
     fun getFavorites(callback: CallBack)
 

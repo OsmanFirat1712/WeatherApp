@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="@string/detilansicht_vom_wetter"
         android:textAlignment="center"
         android:textSize="25dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
@@ -75,6 +74,16 @@
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
         android:text="@string/temp"
         android:textSize="60sp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
+
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="103dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="164dp"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
 
     <TextView

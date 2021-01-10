@@ -24,10 +24,11 @@
     <string name="abbrechen">Abbrechen</string>
     <string name="ok">Ok</string>
     <string name="temp">temp</string>
-    <string name="windtemp">Wind Temperatur: </string>
-    <string name="windgesch">Windgeschwindigkeit :</string>
+    <string name="windtemp">"Wind Temperatur :  "</string>
+    <string name="windgesch">Windgeschwindigkeit  :</string>
     <string name="uvi">Uvi: </string>
-    <string name="sicht">Sicht: </string>
-    <string name="wolken">Wolken: </string>
+    <string name="sicht">"Sicht :  "</string>
+    <string name="wolken">"Wolken : "</string>
     <string name="detilansicht_vom_wetter">Detilansicht vom Wetter</string>
+    <string name="stadt">Ausgewählte Stadt</string>
 </resources>
