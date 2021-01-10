@@ -79,7 +79,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
             for (i in xValsOriginalMillis) {
                 val mm = i / 60 % 60
                 val hh = i / (60 * 60) % 24
-                val mDateTime = "$hh:$mm"
+                val mDateTime = "$hh:$mm "
                 xValsDateLabel.add(mDateTime)
             }
 

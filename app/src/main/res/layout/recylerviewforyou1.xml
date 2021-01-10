@@ -34,6 +34,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/foryoufragment"
             />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

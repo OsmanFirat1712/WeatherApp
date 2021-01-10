@@ -64,10 +64,12 @@ class DetailFragment: Fragment() {
 
         /************************************* for time day and night icons ***************************************/
         val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
+        val CurrentTime2 = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+
 
         tvDetailIcon = view.findViewById(R.id.tvDetailIcon)
         testTime = view.findViewById(R.id.testTime)
-        testTime.text = CurrentTime
+        testTime.text = CurrentTime2
 
 
         val currentTimeAsFloat = CurrentTime.toDouble()
@@ -102,34 +104,41 @@ class DetailFragment: Fragment() {
 
 
 
-            val list = mutableListOf<Entry>()
-            val xValsDateLabel = ArrayList<String>()
-            val xValsOriginalMillis = ArrayList<Long>()
+            val list2 = mutableListOf<BarEntry>(
+                BarEntry(1.0f,2.0f),
+                BarEntry(2.0f,2.0f),
+                BarEntry(3.0f,2.0f),
+                BarEntry(3.0f,10.0f),
+                BarEntry(4.0f,9.0f),
+                BarEntry(0.0f,12.0f),
+
+
+                )
+            val xValsDateLabel2 = ArrayList<String>()
+            val xValsOriginalMillis2 = ArrayList<Long>()
 
             cl = view.findViewById(R.id.constraint)
             chart = view.findViewById(R.id.bcDetailBarchart)
-            val barEntry = list.map { BarEntry(it.x, it.y, xValsDateLabel) }
+            val barEntry = list2.map { BarEntry(it.x, it.y, xValsDateLabel2) }
             dataset = BarDataSet(barEntry, "Temperatur Next Days")
 
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
-                if (index < 12) {
-                    val temp = daily.temp.day
-                    list.add(Entry(index.toFloat(), temp.toFloat()))
-                    xValsOriginalMillis.add(daily.dt)
+                if (index < 48) {
+                    val temp = daily.temp.morn.toInt().minus(273.15.toInt().toString().toFloat())
+                    list2.add(BarEntry(index.toFloat(), temp.toFloat()))
+                    xValsOriginalMillis2.add(daily.dt)
                 }
             }
 
-            for (i in xValsOriginalMillis) {
+            for (i in xValsOriginalMillis2) {
                 val mDateTime = "${dayOfWeeks}"
-                xValsDateLabel.add(mDateTime)
+                xValsDateLabel2.add(mDateTime)
             }
 
 
 
             dataset.color = Color.RED
 
-            //dataset.fillAlpha = 5000
-            //dataset.mode = LineDataSet.Mode.CUBIC_BEZIER
 
 
             chart.description.text = ""
@@ -147,7 +156,7 @@ class DetailFragment: Fragment() {
             xAxis.isGranularityEnabled = true
 
             chart.data = BarData(dataset)
-            chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
+            chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel2))
 
 
             /********************** detailpage connection ***************************/
@@ -167,14 +176,14 @@ class DetailFragment: Fragment() {
                 favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt())
                     .toString() + "°C"
             tvDetailClouds.text =
-                "Clouds :" + favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
+                getString(R.string.wolken) + favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
             tvDetailVisibility.text =
-                "Visibility :" + favorites?.currentWeatherResponse?.current?.visibility?.toString()
-            tvDetailUvi.text = "Uvi :" + favorites?.currentWeatherResponse?.current?.uvi?.toString()
+                getString(R.string.sicht) + favorites?.currentWeatherResponse?.current?.visibility?.toString() + "km"
+            tvDetailUvi.text = getString(R.string.uvi) + favorites?.currentWeatherResponse?.current?.uvi?.toString()
             tvDetailWindSpeed.text =
-                "WindSpeed :" + favorites?.currentWeatherResponse?.current?.windSpeed?.toString()
+                getString(R.string.windgesch) + favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
             tvDetailWindDeg.text =
-                "Wind Deg : " + favorites?.currentWeatherResponse?.current?.windDeg?.toString()
+                getString(R.string.windtemp) + favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
 
 
         }
