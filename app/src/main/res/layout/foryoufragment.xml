@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="100dp">
+    android:layout_height="wrap_content"
+    >
 
-    <androidx.cardview.widget.CardView
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvCardViewForYou"
         android:layout_width="395dp"
-        android:layout_height="61dp"
+        android:layout_height="270dp"
         android:layout_margin="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
@@ -17,26 +22,82 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_baseline_wb_sunny_24"
-            tools:ignore="MissingConstraints" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:text="@string/line1"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginStart="60dp" />
+            <ImageView
+                android:id="@+id/ivCityPicture"
+                android:layout_width="77dp"
+                android:layout_height="69dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <TextView
+                android:id="@+id/tvCityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="200dp"
+                android:text="@string/line1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/ivDayNightIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivCityPicture"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/uhrzeit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvtemperture"
+                app:layout_constraintTop_toBottomOf="@id/tvCityName" />
+
+            <TextView
+                android:id="@+id/tvtemperture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="200dp"
+                android:text="@string/temperatur"
+                app:layout_constraintEnd_toStartOf="@id/tvTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCityName"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <ImageView
+                android:id="@+id/ivDayNightIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/tagNacht"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvCityName"
+                app:layout_constraintTop_toBottomOf="@id/ivCityPicture"
+                tools:srcCompat="@drawable/ic_sonnig" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chChart"
+                android:layout_width="338dp"
+                android:layout_height="105dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvtemperture" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
