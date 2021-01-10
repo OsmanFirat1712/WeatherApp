@@ -2,15 +2,15 @@ package com.example.projekt1rain.Adapter
 
 
 import android.annotation.SuppressLint
-import android.app.Person
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,7 +20,6 @@ import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -33,21 +32,10 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
-
-private lateinit var graph: BarChart
-private lateinit var cityPicture: ImageView
-private lateinit var cityName: TextView
-private lateinit var temperture: TextView
-private lateinit var iconDayNight: ImageView
-private lateinit var time: TextView
-val mapViewFragment = MapViewFragment()
-private lateinit var person: Person
-private lateinit var weatherClass: MutableList<DataWeatherClass>
-
-
-class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context, private val removecall: RemoveCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val itemview =
@@ -60,9 +48,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
-
         val curentItem = forYouConstruktorList[position]
-/*        val iconUrl = "http://openweathermap.org/img/w/${curentItem.currentWeatherResponse?.weather?.icon}@2x.png"*/
 
         holder.apply {
             Glide.with(itemView)
@@ -72,6 +58,15 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>, context: Context
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
             temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
 
+
+
+
+            itemView.setOnLongClickListener {
+                removecall.onRemove(curentItem)
+                notifyDataSetChanged()
+                notifyItemRemoved(position)
+                true
+            }
 
             val list = mutableListOf<Entry>()
             val xValsDateLabel = ArrayList<String>()

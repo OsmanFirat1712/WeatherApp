@@ -8,6 +8,8 @@
     android:layout_height="wrap_content"
     >
 
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvCardViewForYou"
         android:layout_width="395dp"
@@ -90,7 +92,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </com.google.android.material.card.MaterialCardView>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
