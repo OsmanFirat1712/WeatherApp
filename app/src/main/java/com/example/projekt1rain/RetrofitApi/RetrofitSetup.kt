@@ -1,12 +1,10 @@
 package com.example.projekt1rain.RetrofitApi
 
 import android.util.Log
-import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Room.DatabaseProvider
 import com.example.projekt1rain.Room.Favorites
 import com.example.projekt1rain.Room.WeatherDatabase
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -28,7 +26,7 @@ object RetrofitSetup {
     val apiKey = "d459f98ffa705ad3f6c5e02f86d9fab9"
 }
 
-fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
+fun retrofitResponse(address: String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
 
     val retrofit = Retrofit.Builder()
         .baseUrl(RetrofitSetup.url)
