@@ -47,7 +47,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
 
     private var takeLat:Double = 0.0
     private var takeLon:Double = 0.0
-    private lateinit var currentWeather:CurrentWeather
 
     companion object {
          lateinit var nMap: GoogleMap

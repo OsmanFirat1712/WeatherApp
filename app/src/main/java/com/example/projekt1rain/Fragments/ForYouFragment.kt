@@ -80,7 +80,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         forYouAdapter = ForYouAdapter(
 
             forYouConstruktorList = ArrayList(), requireContext(),
-            this,
+            this,this
         )
 
 

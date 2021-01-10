@@ -14,9 +14,10 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.projekt1rain.DataWeatherClass
+
 import com.example.projekt1rain.FragmentCallBack
 import com.example.projekt1rain.Fragments.MapViewFragment
+import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
@@ -35,7 +36,7 @@ import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
-class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context, private val removecall: RemoveCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context, private val removecall: RemoveCallBack,val fragmentCallBack: FragmentCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val itemview =
@@ -61,12 +62,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
 
 
 
-            itemView.setOnLongClickListener {
-                removecall.onRemove(curentItem)
-                notifyDataSetChanged()
-                notifyItemRemoved(position)
-                true
-            }
+            
 
             val list = mutableListOf<Entry>()
             val xValsDateLabel = ArrayList<String>()
@@ -115,10 +111,15 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
             chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
             cardview.setOnClickListener {
-
+                fragmentCallBack.onCall(curentItem)
 
             }
-
+            cardview.setOnLongClickListener {
+                removecall.onRemove(curentItem)
+                notifyDataSetChanged()
+                notifyItemRemoved(position)
+                true
+            }
         }
     }
 
