@@ -3,5 +3,5 @@ package com.example.projekt1rain.InterFaces
 import com.example.projekt1rain.Room.Favorites
 
 interface RemoveCallBack {
-    fun onFinish(favorites: Favorites)
+    fun onRemove(favorites:Favorites)
 }

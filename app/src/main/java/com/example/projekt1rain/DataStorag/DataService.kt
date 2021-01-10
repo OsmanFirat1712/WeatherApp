@@ -11,23 +11,9 @@ import javax.security.auth.callback.Callback
 
 interface DataService {
 
-
-    /* fun getOneCallFromRoom(): OneCall
-
-     fun saveOneCallFromRoom(oneCall: List<OneCall>)*/
-
-/*
-    suspend fun saveCurrentCallFromRoom(id: Long, base: String, clouds: Clouds, cod: Int, coord: Coord, dt: Int, main: Main, name: String, sys: Sys, timeZone: Int?, visibility: Int?, weather: List<Weather>, windDeg: Int?, uvi: Double, windSpeed: Double, wind: Wind)
-
-    fun getCurrentCallFromRoom(currentWeather:CurrentWeather)
-*/
-
     fun saveCities(cities: List<City>)
 
     fun getCitiesFindbyName(name: String, getName: GetName)
-
-
-/*    fun getOneCallFromApi(callback: Callback): OneCall*/
 
     fun saveCurrentCallFromApi(currentWeather: List<CurrentWeather>, callback: Callback)
 /*
@@ -35,8 +21,11 @@ interface DataService {
 
     fun getCurrentCallFromApi(callback: Callback): CurrentWeather
 
+    fun savefavorites(favorites: Favorites )
+
     fun getFavorites(callback: CallBack)
 
     fun deleteFavorites(favorites: Favorites, removeCallBack: RemoveCallBack)
+
 
 }

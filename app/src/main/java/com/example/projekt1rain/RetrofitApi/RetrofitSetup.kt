@@ -45,15 +45,6 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
             } else if (!response.isSuccessful) {
                 Log.d(TAG,"Error")
             }
-
-            val mydata = response.body()
-            val main = mydata!!.main
-            val temp = main!!.temp
-            val pres =main!!.pressure
-            val temperature = (temp!! - 273.15).toInt()
-            Log.d("TAG","City pressure :" +   pres)
-            Log.d("TAG","City Temp : " + temperature)
-
         }
         override fun onFailure(call: Call<CurrentWeatherResponse?>, t: Throwable) {
             Log.d(TAG,"Error im log.de${t.toString()}")
@@ -62,7 +53,7 @@ fun retrofitResponse(address:String, dataBase: WeatherDatabase = DatabaseProvide
     })
 }
 
-fun retrofitResponse2(lat:Double,long:Double,address: String,dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
+fun retrofitOneCallResponse(lat:Double, long:Double, address: String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
     val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }).build()
@@ -95,10 +86,8 @@ fun retrofitResponse2(lat:Double,long:Double,address: String,dataBase: WeatherDa
             Log.d("TAG","hourlyPressure : " + hourlyPressure)
             Log.d("TAG","temppppp : " + tempp)
 
-
             Executors.newSingleThreadExecutor().execute {val favorites = Favorites(0L, address,response.body())
                 dataBase.currentWeatherDao().insertfavorites(favorites)}
-
 
         }
 
@@ -109,7 +98,7 @@ fun retrofitResponse2(lat:Double,long:Double,address: String,dataBase: WeatherDa
     })
 }
 
-fun retrofitResponse3(lat:Double,long:Double,address: String,dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
+fun retrofitOneCallrefreshResponse(lat:Double, long:Double, address: String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
     val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }).build()
