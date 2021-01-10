@@ -98,9 +98,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         val flba: FloatingActionButton = view.findViewById(R.id.flab)
         flba.setOnClickListener() {
 
-            checkForPermissions(
-                android.Manifest.permission.ACCESS_FINE_LOCATION, "location", FINE_LOCATION_REQUEST
-            )
+
             startMapViewFragment()
         }
     }
@@ -161,68 +159,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     }
 
-    private fun checkForPermissions(permission: String, name: String, requestCode: Int): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when {
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    permission
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG)
-                        .show()
-                }
-                shouldShowRequestPermissionRationale(permission) -> showDialog(
-                    permission,
-                    name,
-                    requestCode
-                )
-                else -> ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(permission),
-                    requestCode
-                )
-            }
-        }
-        return false
-    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        fun innerCheck(name: String) {
-            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "$name permission refused", Toast.LENGTH_LONG)
-                    .show()
-            } else {
-                Toast.makeText(requireContext(), "$name permission granted", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
-        when (requestCode) {
-            FINE_LOCATION_REQUEST -> innerCheck("location")
-        }
-    }
-
-    private fun showDialog(permission: String, name: String, requestCode: Int) {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.apply {
-            setMessage("Permission to Access your $name is required to use this app")
-            setTitle("Permission required")
-            setPositiveButton("OK") { dialog, which ->
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(permission),
-                    requestCode
-                )
-
-            }
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
 
     override fun onCall(favorites: Favorites) {
 
