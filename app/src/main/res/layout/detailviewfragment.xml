@@ -25,20 +25,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="WEATHER DETAILS"
+        android:text="@string/detilansicht_vom_wetter"
         android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         android:textSize="25dp"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/tvDetailIcon"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetailTemp"
-        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        android:layout_width="84dp"
+        android:layout_height="78dp"
         android:src="@mipmap/ic_launcher_round"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetailTemp" />
 
     <TextView
         android:id="@+id/tvDetailWindDeg"
@@ -72,8 +73,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/guidelineLeft"
-        android:text="temp"
-        android:textSize="80dp"
+        android:text="@string/temp"
+        android:textSize="60sp"
         app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
 
     <TextView
@@ -82,7 +83,7 @@
         android:layout_height="wrap_content"
         android:hint="DetailClouds"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        android:textSize="25dp"
+        android:textSize="25sp"
         app:layout_constraintTop_toBottomOf="@+id/tvDetailWindSpeed" />
 
     <TextView

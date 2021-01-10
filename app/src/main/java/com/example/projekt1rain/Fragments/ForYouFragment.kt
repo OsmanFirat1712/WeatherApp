@@ -252,7 +252,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             .setNegativeButton(R.string.delete) { dialogInterface, i->
                 Executors.newSingleThreadExecutor().execute { dataService.deleteFavorites(favorites,this) }                }
             .create().show()
-
+        dataService.getFavorites(this)
         forYouAdapter.notifyDataSetChanged()
     }
 

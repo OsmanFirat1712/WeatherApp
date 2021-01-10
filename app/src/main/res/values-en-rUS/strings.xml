@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Projekt1Rain</string>
+    <string name="title_favoriten">Favorites</string>
+    <string name="title_kartenansicht">Mapview</string>
+    <string name="title_einstellungen">Settings</string>
+    <string name="foryou">For You</string>
+    <string name="Kartenansicht">Mapview</string>
+    <string name="Einstellungen">Settings</string>
+    <string name="uhrzeit">Time</string>
+    <string name="temperatur">Temperature</string>
+    <string name="tagNacht">Day/Night</string>
+    <string name="delete">Delete</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="hinzufügen">Adding was Succesfuel</string>
+    <string name="temperature">Temperature</string>
+    <string name="refresh">Refreshing was Succesfuel</string>
+    <string name="verbindunghergestellt">Connected</string>
+    <string name="favoritsetzen">Do you want to add the selected City to the Favorites</string>
+    <string name="abbrechen">Cancel</string>
+    <string name="windtemp">Winddeg:</string>
+    <string name="windgesch">Windspeed:</string>
+    <string name="uvi">Uvi:</string>
+    <string name="sicht">Visibility:</string>
+    <string name="wolken">Clouds:</string>
+</resources>

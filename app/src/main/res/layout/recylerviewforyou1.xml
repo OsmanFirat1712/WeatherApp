@@ -12,6 +12,7 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="63dp">
 
 
@@ -30,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/foryoufragment"
             />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/flab"
@@ -43,7 +45,6 @@
             android:focusable="true"
             android:src="@drawable/ic_baseline_add_location_alt_24" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
