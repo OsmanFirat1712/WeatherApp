@@ -23,6 +23,7 @@
             android:elevation="5dp"
             app:iconifiedByDefault="false"
             app:layout_constraintTop_toTopOf="parent"
+            android:imeOptions="actionSearch"
             app:queryHint="Search a City..."
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="10dp">

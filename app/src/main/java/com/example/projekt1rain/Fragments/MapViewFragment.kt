@@ -47,8 +47,15 @@ private const val TAG = "MapViewFragment"
 
 class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
     private var favorites: List<Favorites> = emptyList()
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+
     private lateinit var currentLocation: Location
+
+
+    private var takeLat:Double = 0.0
+    private var takeLon:Double = 0.0
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -60,8 +67,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map_view.onCreate(savedInstanceState)
@@ -69,7 +74,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
         map_view.getMapAsync(this)
         setToolbar()
     }
-
     private fun setUpMap() {
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -100,33 +104,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
             }
         }
     }
-
     private fun placeMarkerOnMap(location:LatLng){
-        val dialog =
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.favoritsetzen)).setMessage("")
-                .setNegativeButton(getString(R.string.abbrechen), null)
-                .setPositiveButton(getString(R.string.ok), null)
-                .show()
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-
-
-            val markerOptions = nMap.addMarker(
-                MarkerOptions().position(location).title("my new marker").snippet(
-                    "a cool snippet"
-                )
-            )
-
-            markers.add(markerOptions)
-            dialog.dismiss()
-        }
-        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-            dialog.dismiss()
-        }
+        val markerOptions = MarkerOptions().position(location)
+        nMap.addMarker(markerOptions)
 
     }
-
     override fun onMapReady(map: GoogleMap?) {
 
         if (map != null) {
@@ -220,18 +202,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
                         e.printStackTrace()
                     }
                     val addresss = addressList?.get(0)
-                       val latlng = LatLng(addresss!!.latitude,addresss.longitude)
 
-                    nMap.addMarker(MarkerOptions().position(latlng).title(location))
-                        retrofitOneCallResponse(latlng.latitude, latlng.longitude, location)
-
-
-                        Toast.makeText(
-                        requireContext(),
-                        addresss?.latitude.toString() + " " + addresss?.longitude,
-                        Toast.LENGTH_LONG
-                    ).show()
-
+                        Toast.makeText(requireContext(), addresss?.latitude.toString() + " " + addresss?.longitude, Toast.LENGTH_LONG).show()
                 }
                 return false
             }
@@ -297,14 +269,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack,GetName {
             val lat= (City.coord?.lat!!)
             val long = (City.coord?.lon!!)
 
-
             nMap!!.addMarker(MarkerOptions().position(latLng).title(City.name))
             retrofitOneCallResponse(lat,long,City.name)
             nMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,9f))
 
-
         }
-
 
         else{
             Toast.makeText(requireContext(), "There is no info about this city", Toast.LENGTH_LONG).show()
