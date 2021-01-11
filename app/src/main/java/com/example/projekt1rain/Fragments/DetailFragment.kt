@@ -100,30 +100,32 @@ class DetailFragment : Fragment() {
             Log.i("CurrentDay :", "${fullCurentDay} hier")
 
 
-            val list2 = mutableListOf<BarEntry>(
-                BarEntry(1.0f, 2.0f),
-                BarEntry(2.0f, 2.0f),
-                BarEntry(3.0f, 2.0f),
-                BarEntry(3.0f, 10.0f),
-                BarEntry(4.0f, 9.0f),
-                BarEntry(0.0f, 12.0f),
-
-
-                )
+            val list2 = mutableListOf<BarEntry>()
             val xValsDateLabel2 = ArrayList<String>()
             val xValsOriginalMillis2 = ArrayList<Long>()
 
             cl = view.findViewById(R.id.constraint)
             chart = view.findViewById(R.id.bcDetailBarchart)
-            val barEntry = list2.map { BarEntry(it.x, it.y, xValsDateLabel2) }
-            dataset = BarDataSet(barEntry, "Temperatur Next Days")
 
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
                 if (index < 48) {
-                    val temp = daily.temp.morn.toInt().minus(273.15.toInt().toString().toFloat())
+                    val temp = daily.temp.max.toInt().minus(273.15.toInt().toString().toFloat())
                     list2.add(BarEntry(index.toFloat(), temp.toFloat()))
                     xValsOriginalMillis2.add(daily.dt)
                 }
+            }
+
+
+            val barEntry = list2.map { BarEntry(it.x, it.y) }
+
+            dataset = BarDataSet(barEntry, "Temperatur Next Days")
+
+
+            for (i in xValsOriginalMillis2) {
+                val mm = i / 60 % 60
+                val hh = i / (60 * 60) % 24
+                val mDateTime = "$hh:$mm "
+                xValsDateLabel2.add(mDateTime)
             }
 
             for (i in xValsOriginalMillis2) {

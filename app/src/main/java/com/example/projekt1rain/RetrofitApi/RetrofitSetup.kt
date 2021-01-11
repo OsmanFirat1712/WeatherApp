@@ -84,8 +84,12 @@ fun retrofitOneCallResponse(lat:Double, long:Double, address: String, dataBase: 
             Log.d("TAG","hourlyPressure : " + hourlyPressure)
             Log.d("TAG","temppppp : " + tempp)
 
-            Executors.newSingleThreadExecutor().execute {val favorites = Favorites(0L, address,response.body())
-                dataBase.currentWeatherDao().insertfavorites(favorites)}
+
+            Executors.newSingleThreadExecutor().execute {
+                val body = response.body()
+                val favorites = Favorites("${body?.lat}${body?.lon}" ,address,body)
+                dataBase.currentWeatherDao().insertfavorites(favorites)
+            }
 
         }
 

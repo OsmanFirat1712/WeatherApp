@@ -21,8 +21,11 @@ interface WeatherDao{
     suspend fun getWeatherbyId(currentWeatherid:Long):CurrentWeather
 
 
-    @Insert
+    @Insert ( onConflict = OnConflictStrategy.IGNORE)
      fun insert (city: City)
+
+    @Insert ( onConflict = OnConflictStrategy.IGNORE)
+    fun insertList (cities:List<City>)
 
     @Delete
      fun delete (city: City)
@@ -30,8 +33,8 @@ interface WeatherDao{
     @Update
      fun update (city: City)
 
-    @Query ("SELECT * FROM City WHERE name = :name")
-    fun getCitybyId(name:String):City
+    @Query ("SELECT * FROM City WHERE name = :name LIMIT 1")
+    fun getCityByName(name:String):City?
 
     @Query("SELECT * FROM City")
     fun  getLiveDataCityList():LiveData<List<City>>

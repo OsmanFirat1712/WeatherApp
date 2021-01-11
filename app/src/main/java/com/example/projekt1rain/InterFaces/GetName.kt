@@ -5,6 +5,6 @@ import com.example.projekt1rain.Room.City
 
 interface GetName {
 
-    fun onFinish( City: City)
+    fun onFinish( city: City?)
 
 }
