@@ -10,7 +10,7 @@ import java.io.Serializable
 
 @Entity(tableName = "Favorites")
 data class Favorites  (
-    @PrimaryKey(autoGenerate = true) var id:Long,
+    @PrimaryKey(autoGenerate = false) var id:String,
     val address:String,
     val currentWeatherResponse:CurrentWeatherResponse?
 

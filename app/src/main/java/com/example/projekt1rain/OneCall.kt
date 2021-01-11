@@ -77,13 +77,17 @@ data class Daily(
         val windDeg: Int,
         )
 
-data class Temp(
+data class Temp (
         val day:Double,
         val min:Double,
         val max:Double,
         val night:Double,
         val eve:Double,
-        val morn:Double
+        val morn:Double,
+
+   /*     fun getMetricMax(
+                max = .toInt().minus(273.15.toInt().toString().toFloat())
+)*/
 )
 
 

@@ -26,7 +26,6 @@ import com.example.projekt1rain.MyApp
 import com.example.projekt1rain.R
 import com.example.projekt1rain.RetrofitApi.retrofitResponse
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallResponse
-import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.City
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,10 +37,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.mapviewfragment.*
-import okhttp3.internal.notify
 import java.io.IOException
 import java.text.DecimalFormat
-import java.util.concurrent.Executors
 
 private const val TAG = "MapViewFragment"
 
@@ -94,24 +91,23 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 val currentAddress = getAddress(location.latitude, location.longitude)
                 Log.d("TAG", "klagenfurt : ${currentAddress}")
+                retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
 
 
                 placeMarkerOnMap(currentLatLng)
                 nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 9f))
 
 
-/*
-                retrofitOneCallResponse(location.latitude,location.longitude,currentAddress)
-*/
-
-
             }
         }
     }
 
-    private fun placeMarkerOnMap(location:LatLng){
+    private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
+        val currentAddress = getAddress(location.latitude, location.longitude)
+        retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
         nMap.addMarker(markerOptions)
+
 
     }
 
@@ -184,55 +180,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
     }
 
-    fun startBtn(view: View) {
-
-        lateinit var location: String
-        val dataService: DataService = (requireActivity().application as MyApp).dataService
-        val searchView = view.findViewById<SearchView>(R.id.sv_location)
-        location = searchView.query.toString()
-        dataService.getCitiesFindbyName(location, this)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                searchView.clearFocus()
-                var addressList: List<Address>? = null
-/*
-                if (location == null || location == "") {
-*/
-                if (location == "") {
-                    Toast.makeText(requireContext(), "provide location", Toast.LENGTH_SHORT).show()
-                } else {
-                    val geoCoder = Geocoder(requireContext())
-                    try {
-                        addressList = geoCoder.getFromLocationName(location, 1)
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    val addresss = addressList?.get(0)
-                    val latlng = LatLng(addresss!!.latitude, addresss.longitude)
-
-                    nMap.addMarker(MarkerOptions().position(latlng).title(location))
-                    retrofitOneCallResponse(latlng.latitude, latlng.longitude, location)
-
-
-                    Toast.makeText(
-                        requireContext(),
-                        addresss?.latitude.toString() + " " + addresss?.longitude,
-                        Toast.LENGTH_LONG
-                    ).show()
-
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-                searchView.query.isNullOrEmpty()
-                return false
-            }
-        })
-
-    }
 
     private fun showAlertDialog(latlng: LatLng) {
         val dialog =
@@ -279,28 +226,85 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         val button = view.findViewById<Button>(R.id.startBtn)
+
         button.setOnClickListener {
+            dataService.getFavorites(this)
+
             startBtn(view)
         }
         dataService.getFavorites(this)
+
+
     }
+
+    fun startBtn(view: View) {
+
+        lateinit var location: String
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+        val searchView = view.findViewById<SearchView>(R.id.sv_location)
+        location = searchView?.query.toString()
+        dataService.getCitiesFindbyName(location, this)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                searchView.clearFocus()
+
+                var addressList: List<Address>? = null
+/*
+                if (location == null || location == "") {
+*/
+                if (location == "") {
+                    Toast.makeText(requireContext(), "provide location", Toast.LENGTH_SHORT).show()
+                } else {
+                    val geoCoder = Geocoder(requireContext())
+                    try {
+                        addressList = geoCoder.getFromLocationName(location, 1)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    val addresss = addressList?.get(0)
+
+
+
+                    Toast.makeText(
+                        requireContext(),
+                        addresss?.latitude.toString() + " " + addresss?.longitude,
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+
+                return false
+            }
+
+
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                searchView.query.isNullOrEmpty()
+                return false
+            }
+        })
+
+    }
+
 
     override fun onComplete(favorites: List<Favorites>) {
         this.favorites = favorites
     }
 
-    override fun onFinish(City: City) {
+    override fun onFinish(city: City?) {
 
 
-        if (City.name != null) {
-            val latLng = LatLng(City.coord?.lat!!, City.coord?.lon!!)
-            val lat = (City.coord?.lat!!)
-            val long = (City.coord?.lon!!)
+        if (city?.name != null) {
+            val latLng = LatLng(city.coord.lat!!, city.coord.lon!!)
+            val lat = (city.coord.lat)
+            val long = (city.coord.lon)
 
 
-            nMap!!.addMarker(MarkerOptions().position(latLng).title(City.name))
-            retrofitOneCallResponse(lat, long, City.name)
-            nMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9f))
+            nMap.addMarker(MarkerOptions().position(latLng).title(city.name))
+            retrofitOneCallResponse(lat, long, city.name)
+            nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9f))
 
 
         } else {

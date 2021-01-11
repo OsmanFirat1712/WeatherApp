@@ -1,5 +1,7 @@
 package com.example.projekt1rain.DataStorag
 
+import android.util.Log
+import androidx.appcompat.widget.SearchView
 import com.example.projekt1rain.*
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.InterFaces.GetName
@@ -13,16 +15,20 @@ class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInst
     private val taskRunner: TaskRunner = TaskRunner()
 
     override fun saveCities(cities: List<City>) {
-        cities.forEach { city ->
-            dataBase.currentWeatherDao().insert(city)
+        try {
+            dataBase.currentWeatherDao().insertList(cities)
+
+        }catch (e:Exception){
+            Log.e("DataClass","",e)
         }
+
     }
 
     override fun getCitiesFindbyName(name: String, getName: GetName) {
         val runner = TaskRunner()
         runner.executeAsync({
-            val getCitiesbyName = dataBase.currentWeatherDao().getCitybyId(name)
-            getCitiesbyName
+            val city = dataBase.currentWeatherDao().getCityByName(name)
+            city
         }, { result -> getName.onFinish(result) })
 
     }

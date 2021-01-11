@@ -61,9 +61,6 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
 
 
 
-
-
-
             val list = mutableListOf<Entry>()
             val xValsDateLabel = ArrayList<String>()
             val xValsOriginalMillis = ArrayList<Long>()
