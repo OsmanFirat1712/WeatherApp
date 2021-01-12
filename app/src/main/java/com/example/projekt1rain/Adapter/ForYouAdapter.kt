@@ -73,6 +73,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
                 }
             }
 
+
             for (i in xValsOriginalMillis) {
                 val mm = i / 60 % 60
                 val hh = i / (60 * 60) % 24
@@ -86,7 +87,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
             val dataSet = LineDataSet(barEntries, "Temperatur den nächsten Stunden")
 
             dataSet.fillAlpha = 5000
-            dataSet.color = Color.RED
+            dataSet.color = Color.BLUE
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
             chart.description.text = ""
             chart.legend.isEnabled = true

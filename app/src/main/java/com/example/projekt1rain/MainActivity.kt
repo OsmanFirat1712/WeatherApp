@@ -12,16 +12,12 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.projekt1rain.DataStorag.DataService
-import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
+import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
 import com.example.projekt1rain.InternetCheck.CheckNet
 import com.example.projekt1rain.Room.City
@@ -45,19 +41,19 @@ class MainActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val dataService: DataService = (application as MyApp).dataService
         setToolbar()
-        /* weatherDatabase.weatherDao.getLiveDataCityList(cities)*/
-        val jsonFileString =
-            LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
-        val gson = Gson()
-        //PARSE JSON TO STRING
-        val listPersonType = object : TypeToken<List<City>>() {}.type
-        val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
-        Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
+        /// SAVE ASSETS ONLY ONE TIME
+        if (!Utility.getBooleanPreferenceValue(this, "isFirstTimeExecution")) {
+            Log.d("tag", "First time Execution")
+           Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
+            val jsonFileString =
+                LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
+            val gson = Gson()
+            //PARSE JSON TO STRING
+            val listPersonType = object : TypeToken<List<City>>() {}.type
+            val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
+            Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
 
-        //val city: List<City> = gson.fromJson(jsonFileString, listPersonType)
-        //city.forEachIndexed { idx, city -> Log.i("data", "> Item $idx:\n$city") }
-        setToolbar()
-
+            }
         val nav = findViewById<BottomNavigationView>(R.id.nav_view)
         val foryoufragment = ForYouFragment()
         val mapViewFragment = MapViewFragment()
@@ -94,6 +90,7 @@ class MainActivity() : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.let {
+
 
         }
 

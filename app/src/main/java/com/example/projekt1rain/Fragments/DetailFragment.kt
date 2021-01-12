@@ -4,28 +4,32 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.example.projekt1rain.MyXAxisFormatter
+import com.example.projekt1rain.MainActivity
+import com.example.projekt1rain.MyBarChartConverter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.main.detailviewfragment.*
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.time.ExperimentalTime
+
 
 class DetailFragment : Fragment() {
 
@@ -44,7 +48,13 @@ class DetailFragment : Fragment() {
     private lateinit var dataset: BarDataSet
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle("Detailansicht")
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(true)
+
+
+
+            super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -101,61 +111,47 @@ class DetailFragment : Fragment() {
 
 
             val list2 = mutableListOf<BarEntry>()
-            val xValsDateLabel2 = ArrayList<String>()
-            val xValsOriginalMillis2 = ArrayList<Long>()
 
             cl = view.findViewById(R.id.constraint)
             chart = view.findViewById(R.id.bcDetailBarchart)
 
+
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
-                if (index < 48) {
-                    val temp = daily.temp.max.toInt().minus(273.15.toInt().toString().toFloat())
+                if (index < 7) {
+                    val temp = daily.temp.day.toInt().minus(273.15.toInt().toString().toFloat())
                     list2.add(BarEntry(index.toFloat(), temp.toFloat()))
-                    xValsOriginalMillis2.add(daily.dt)
+
                 }
             }
 
-
             val barEntry = list2.map { BarEntry(it.x, it.y) }
-
             dataset = BarDataSet(barEntry, "Temperatur Next Days")
-
-
-            for (i in xValsOriginalMillis2) {
-                val mm = i / 60 % 60
-                val hh = i / (60 * 60) % 24
-                val mDateTime = "$hh:$mm "
-                xValsDateLabel2.add(mDateTime)
-            }
-
-            for (i in xValsOriginalMillis2) {
-                val mDateTime = "${dayOfWeeks}"
-                xValsDateLabel2.add(mDateTime)
-            }
-
-
-
-            dataset.color = Color.RED
-
-
-
+            dataset.color = Color.BLUE
             chart.description.text = ""
             chart.legend.isEnabled = true
             chart.invalidate()
             chart.axisRight.isEnabled = false
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
-
             val xAxis = chart.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
-            xAxis.labelCount = 7
+            xAxis.labelCount = 6
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
 
-            chart.data = BarData(dataset)
-            chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel2))
+/*
+            xAxis.valueFormatter = object : ValueFormatter() {
+                private val mFormat: SimpleDateFormat = SimpleDateFormat("dd MMM", Locale.GERMAN)
+                override fun getFormattedValue(value: Float): String {
+                    val millis = value.toLong() * 1000L
+                    return mFormat.format(Date(millis))
+                }
+            }*/
 
+
+            chart.xAxis.valueFormatter = MyBarChartConverter()
+            chart.data = BarData(dataset)
 
             /********************** detailpage connection ***************************/
 
@@ -192,4 +188,12 @@ class DetailFragment : Fragment() {
 
         }
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            (activity as MainActivity?)!!.supportFragmentManager.popBackStack()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
