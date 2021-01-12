@@ -159,12 +159,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
             }
         })
-        Toast.makeText(
-            requireContext(),
-            getString(R.string.verbindunghergestellt),
-            Toast.LENGTH_LONG
-        ).show()
-
+        
     }
 
 

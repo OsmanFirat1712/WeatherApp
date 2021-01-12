@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.ActionBar
@@ -46,6 +47,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     private var favorites: List<Favorites> = emptyList()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var currentLocation: Location
+
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -225,9 +227,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = (requireActivity().application as MyApp).dataService
-        val button = view.findViewById<Button>(R.id.startBtn)
+        val imageView = view.findViewById<ImageView>(R.id.startBtn)
 
-        button.setOnClickListener {
+        imageView.setOnClickListener {
+            dataService.getFavorites(this)
+
             startBtn(view)
         }
         dataService.getFavorites(this)
@@ -248,9 +252,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 searchView.clearFocus()
 
                 var addressList: List<Address>? = null
-/*
-                if (location == null || location == "") {
-*/
                 if (location == "") {
                     Toast.makeText(requireContext(), "provide location", Toast.LENGTH_SHORT).show()
                 } else {
