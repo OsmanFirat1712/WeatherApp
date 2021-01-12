@@ -229,12 +229,27 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         val imageView = view.findViewById<ImageView>(R.id.startBtn)
 
-        imageView.setOnClickListener {
-            dataService.getFavorites(this)
-
-            startBtn(view)
-        }
         dataService.getFavorites(this)
+
+        val searchView = view.findViewById<SearchView>(R.id.sv_location)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(location: String?): Boolean {
+                startBtn(view)
+                searchView.clearFocus()
+                Toast.makeText(
+                        requireContext(),
+                "Stadt wurde zur Favoriten hinzugefügt",
+                Toast.LENGTH_LONG
+                ).show()
+
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                searchView.query.isNullOrEmpty()
+                return false
+            }
+        })
 
 
     }
@@ -247,44 +262,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         location = searchView?.query.toString()
         dataService.getCitiesFindbyName(location, this)
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                searchView.clearFocus()
-
-                var addressList: List<Address>? = null
-                if (location == "") {
-                    Toast.makeText(requireContext(), "provide location", Toast.LENGTH_SHORT).show()
-                } else {
-                    val geoCoder = Geocoder(requireContext())
-                    try {
-                        addressList = geoCoder.getFromLocationName(location, 1)
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    val addresss = addressList?.get(0)
-
-
-
-                    Toast.makeText(
-                        requireContext(),
-                        addresss?.latitude.toString() + " " + addresss?.longitude,
-                        Toast.LENGTH_LONG
-                    ).show()
-
-                }
-
-                return false
-            }
-
-
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-                searchView.query.isNullOrEmpty()
-                return false
-            }
-        })
-
     }
 
 
@@ -293,7 +270,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     }
 
     override fun onFinish(city: City?) {
-
 
         if (city?.name != null) {
             val latLng = LatLng(city.coord.lat!!, city.coord.lon!!)
