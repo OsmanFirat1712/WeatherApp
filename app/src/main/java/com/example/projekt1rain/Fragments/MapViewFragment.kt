@@ -48,7 +48,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var currentLocation: Location
 
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         lateinit var nMap: GoogleMap
@@ -60,11 +59,10 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map_view.onCreate(savedInstanceState)
-       // map_view.onResume()
+        map_view.onResume()
         map_view.getMapAsync(this)
         setToolbar()
     }
@@ -94,12 +92,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 val currentAddress = getAddress(location.latitude, location.longitude)
                 Log.d("TAG", "klagenfurt : ${currentAddress}")
                 retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
-
-
                 placeMarkerOnMap(currentLatLng)
                 nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 9f))
-
-
             }
         }
     }
@@ -109,26 +103,20 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         val currentAddress = getAddress(location.latitude, location.longitude)
         retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
         nMap.addMarker(markerOptions)
-
-
     }
 
     override fun onMapReady(map: GoogleMap?) {
 
         if (map != null) {
             nMap = map
-
-
         }
         nMap.uiSettings.setZoomControlsEnabled(true)
         map?.let {
             nMap = it
-
             nMap.setOnInfoWindowClickListener { markerToDelete ->
                 Log.i(TAG, "onWindowsClickListener - Delete Thismarker")
                 markers.remove(markerToDelete)
                 markerToDelete.remove()
-
             }
             favorites.forEach { favorite ->
                 val lat = favorite.currentWeatherResponse?.lat
@@ -148,16 +136,14 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
             }
 
 
-
             nMap.setOnMapLongClickListener { latlng ->
-
                 Log.i(TAG, "onMapLongClickListener" + latlng)
                 showAlertDialog(latlng)
                 val address = getAddress(latlng.latitude, latlng.longitude)
+                //get the call from RetrofitSetup.class and insert it directly in the Database
                 retrofitResponse(address)
                 retrofitOneCallResponse(latlng.latitude, latlng.longitude, address)
                 Log.d(TAG, "test5 $address")
-                Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
             }
         }
         setUpMap()
@@ -199,6 +185,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
             )
             markers.add(marker)
             dialog.dismiss()
+            Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
         }
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
             dialog.dismiss()
@@ -227,7 +214,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dataService: DataService = (requireActivity().application as MyApp).dataService
-        val imageView = view.findViewById<ImageView>(R.id.startBtn)
 
         dataService.getFavorites(this)
 
@@ -236,12 +222,12 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
             override fun onQueryTextSubmit(location: String?): Boolean {
                 startBtn(view)
                 searchView.clearFocus()
-                Toast.makeText(
+              /*  Toast.makeText(
                         requireContext(),
                 "Stadt wurde zur Favoriten hinzugefügt",
                 Toast.LENGTH_LONG
                 ).show()
-
+*/
                 return false
             }
 
@@ -264,7 +250,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
     }
 
-
     override fun onComplete(favorites: List<Favorites>) {
         this.favorites = favorites
     }
@@ -276,11 +261,9 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
             val lat = (city.coord.lat)
             val long = (city.coord.lon)
 
-
             nMap.addMarker(MarkerOptions().position(latLng).title(city.name))
             retrofitOneCallResponse(lat, long, city.name)
             nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9f))
-
 
         } else {
             Toast.makeText(requireContext(), "There is no info about this city", Toast.LENGTH_LONG)

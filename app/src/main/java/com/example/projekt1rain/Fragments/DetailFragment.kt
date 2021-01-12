@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.MyBarChartConverter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
@@ -109,7 +108,7 @@ class DetailFragment : Fragment() {
             Log.i("CurrentDay :", "${fullCurentDay} hier")
 
 
-            val list2 = mutableListOf<BarEntry>()
+            val dailyList = mutableListOf<BarEntry>()
 
             cl = view.findViewById(R.id.constraint)
             chart = view.findViewById(R.id.bcDetailBarchart)
@@ -117,13 +116,13 @@ class DetailFragment : Fragment() {
 
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
                 if (index < 7) {
-                    val temp = daily.temp.day.toInt().minus(273.15.toInt().toString().toFloat())
-                    list2.add(BarEntry(index.toFloat(), temp.toFloat()))
+                    val temp = daily.pop
+                    dailyList.add(BarEntry(index.toFloat(), temp.toFloat()))
 
                 }
             }
 
-            val barEntry = list2.map { BarEntry(it.x, it.y) }
+            val barEntry = dailyList.map { BarEntry(it.x, it.y) }
             dataset = BarDataSet(barEntry, "Temperatur Next Days")
             dataset.color = Color.WHITE
             dataset.barBorderColor = Color.WHITE
@@ -142,16 +141,6 @@ class DetailFragment : Fragment() {
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
 
-/*
-            xAxis.valueFormatter = object : ValueFormatter() {
-                private val mFormat: SimpleDateFormat = SimpleDateFormat("dd MMM", Locale.GERMAN)
-                override fun getFormattedValue(value: Float): String {
-                    val millis = value.toLong() * 1000L
-                    return mFormat.format(Date(millis))
-                }
-            }*/
-
-
             chart.xAxis.valueFormatter = MyBarChartConverter()
             chart.data = BarData(dataset)
 
@@ -165,10 +154,6 @@ class DetailFragment : Fragment() {
             tvDetailClouds = view.findViewById(R.id.tvDetailClouds)
             tvDetailVisibility = view.findViewById(R.id.tvDetailVisibility)
             tvAddress = view.findViewById(R.id.tvAddress)
-
-
-
-
             tvAddress.text= favorites?.address.toString()
 
             tvDetailTemp.text = favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString() + "°C"
@@ -177,7 +162,6 @@ class DetailFragment : Fragment() {
             tvDetailUvi.text = favorites?.currentWeatherResponse?.current?.uvi?.toString()
             tvDetailWindSpeed.text = favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
             tvDetailWindDeg.text = favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
-
 
 
         }

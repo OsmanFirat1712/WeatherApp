@@ -30,4 +30,5 @@
     <string name="wolken">"Wolken : "</string>
     <string name="detilansicht_vom_wetter">Detilansicht vom Wetter</string>
     <string name="stadt">Ausgewählte Stadt</string>
+    <string name="suche">Stadt eingeben...</string>
 </resources>

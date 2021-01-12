@@ -45,11 +45,10 @@ class ForYouAdapter(
 
     }
 
-
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
         val curentItem = forYouConstruktorList[position]
-
+            //get the icon and other data from the api
         holder.apply {
             Glide.with(itemView)
                     .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.current?.weather?.first()?.icon}@2x.png")
@@ -67,6 +66,7 @@ class ForYouAdapter(
             val xValsDateLabel = ArrayList<String>()
             val xValsOriginalMillis = ArrayList<Long>()
 
+            //foreach for the hourly list to get the data for the hourly temps
             curentItem.currentWeatherResponse?.hourly?.forEachIndexed { index, hourly ->
                 if (index < 12) {
                     val temp = hourly.temp.toInt().minus(273.15.toInt().toString().toFloat())
@@ -75,7 +75,7 @@ class ForYouAdapter(
                 }
             }
 
-
+            //converts the Unix time in Hours
             for (i in xValsOriginalMillis) {
                 val mm = i / 60 % 60
                 val hh = i / (60 * 60) % 24
@@ -100,22 +100,21 @@ class ForYouAdapter(
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
 
-
             val xAxis = chart.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
-            xAxis.labelCount = 4
+            xAxis.labelCount = 6
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
-
             chart.data = LineData(dataSet)
-
             chart.xAxis.valueFormatter = (MyXAxisFormatter.MyValueFormatter(xValsDateLabel))
 
+
+            //clicklistener to get in the detailpage
             cardview.setOnClickListener {
                 fragmentCallBack.onCall(curentItem)
-
             }
+
             cardview.setOnLongClickListener {
                 removecall.onRemove(curentItem)
                 notifyDataSetChanged()
@@ -136,26 +135,16 @@ class ForYouAdapter(
         val time: TextView = itemView.tvTime
         val regnet:TextView = itemView.tvRegnet
         val cardview:MaterialCardView = itemView.cvCardViewForYou
-        val iconDayNight = itemView.ivDayNightIcon
-        val cityPicture = itemView.ivCityPicture
-        var iconUrl = "http://openweathermap.org/img/wn/10d@2x"
-
 
     }
 
     override fun getItemCount(): Int {
         return forYouConstruktorList.size
-
     }
 
-    fun updateforyou(forYouConstruktorList: List<Favorites>) {
+    fun updateFavList(forYouConstruktorList: List<Favorites>) {
         this.forYouConstruktorList = forYouConstruktorList
         notifyDataSetChanged()
-    }
-
-    private fun getDate(date: Long): String {
-        val timeFormatter = SimpleDateFormat("dd.MM.yyyy")
-        return timeFormatter.format(Date(date * 1000L))
     }
 
 }

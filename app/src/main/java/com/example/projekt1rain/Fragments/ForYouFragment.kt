@@ -23,7 +23,6 @@ import com.example.projekt1rain.R
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallResponse
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.Favorites
-import com.github.mikephil.charting.charts.LineChart
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.concurrent.Executors
 
@@ -35,7 +34,6 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
     }
 
@@ -50,17 +48,12 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle(R.string.Foryou)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(false)
         setToolbar()
-
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
-            getOnecall()
+            getOneCall()
             Toast.makeText(requireContext(), getString(R.string.refresh), Toast.LENGTH_LONG)
                 .show()
             swipeRefresh.isRefreshing = false
@@ -70,7 +63,6 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             forYouConstruktorList = ArrayList(), requireContext(),
             this, this
         )
-
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerviewforyou)
         recyclerView.apply {
@@ -83,10 +75,8 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
         forYouAdapter.notifyDataSetChanged()
 
-        val flba: FloatingActionButton = view.findViewById(R.id.flab)
-        flba.setOnClickListener() {
-
-
+        val floatingButton: FloatingActionButton = view.findViewById(R.id.flab)
+        floatingButton.setOnClickListener() {
             startMapViewFragment()
         }
     }
@@ -109,15 +99,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             .commit()
     }
 
-    private fun startForYouFragment() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container, DetailFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-
-    private fun getOnecall() {
+    private fun getOneCall() {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         dataService.getFavorites(this)
         favorites.forEach { favorite ->
@@ -130,9 +112,10 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         }
     }
 
+    //get the list for swipeToRefresh
     override fun onComplete(favorites: List<Favorites>) {
         requireActivity().runOnUiThread(java.lang.Runnable {
-            forYouAdapter.updateforyou(favorites)
+            forYouAdapter.updateFavList(favorites)
             forYouAdapter.notifyDataSetChanged()
 
             favorites.forEach { favorite ->
@@ -140,17 +123,16 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
                 val lon = favorite.currentWeatherResponse?.lon
                 val adress = favorite.address
                 retrofitOneCallrefreshResponse(lat!!, lon!!, adress)
-                forYouAdapter.updateforyou(favorites)
+                forYouAdapter.updateFavList(favorites)
                 forYouAdapter.notifyDataSetChanged()
 
             }
         })
-        
+
     }
 
 
     override fun onCall(favorites: Favorites) {
-
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val blankFragmentDetailPage = DetailFragment()
         val bundle = Bundle()
@@ -161,13 +143,15 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         transaction.commit()
     }
 
-       fun delete(favorites:Favorites) {
-         val dataService: DataService = (requireActivity().application as MyApp).dataService
-         AlertDialog.Builder(context)
-                .setNeutralButton(R.string.cancelButton) { dialogInterface, i->}
-                .setNegativeButton(R.string.delete) { dialogInterface, i->
-                    Executors.newSingleThreadExecutor().execute { dataService.deleteFavorites(favorites,this) }                }
-                .create().show()
+    fun delete(favorites: Favorites) {
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+        AlertDialog.Builder(context)
+            .setNeutralButton(R.string.cancelButton) { dialogInterface, i -> }
+            .setNegativeButton(R.string.delete) { dialogInterface, i ->
+                Executors.newSingleThreadExecutor()
+                    .execute { dataService.deleteFavorites(favorites, this) }
+            }
+            .create().show()
 
     }
 

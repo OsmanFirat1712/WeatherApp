@@ -33,9 +33,6 @@ import java.util.concurrent.Executors
 
 
 class MainActivity() : AppCompatActivity() {
-    private lateinit var dataService: DataService
-    private lateinit var database: WeatherDatabase
-    private lateinit var cities: List<City>
     internal lateinit var sharedPrefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,9 +66,7 @@ class MainActivity() : AppCompatActivity() {
         val mapViewFragment = MapViewFragment()
         val settingsFragment = SettingsFragment()
         makeCurrentFragment(foryoufragment)
-        /*  val navController: NavController = findNavController(R.id.nav_graph)
-          findViewById<BottomNavigationView>(R.id.nav_view)
-                  .setupWithNavController(navController)*/
+
         nav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.forYouFragment -> makeCurrentFragment(foryoufragment)
@@ -93,9 +88,6 @@ class MainActivity() : AppCompatActivity() {
         })
 
     }
-
-
-
         private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -106,8 +98,6 @@ class MainActivity() : AppCompatActivity() {
 
     }
 
-
-
     private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
             commit()
@@ -117,7 +107,6 @@ class MainActivity() : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
     }
-
 
 
 }
