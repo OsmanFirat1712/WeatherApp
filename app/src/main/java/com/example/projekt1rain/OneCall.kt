@@ -75,6 +75,8 @@ data class Daily(
         val dewPoint: Double,
         @SerializedName("wind_deg")
         val windDeg: Int,
+        val pop: Float,
+        val rain:Float,
         )
 
 data class Temp (

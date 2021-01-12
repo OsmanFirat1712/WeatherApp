@@ -48,11 +48,11 @@ class DetailFragment : Fragment() {
     private lateinit var dataset: BarDataSet
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle("Detailansicht")
-        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(true)
 
-
+        (activity as AppCompatActivity?)?.supportActionBar?.setTitle("Detailansicht")
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            (activity as AppCompatActivity?)?.supportActionBar?.setHomeButtonEnabled(true)
+        setHasOptionsMenu(true)
 
             super.onCreate(savedInstanceState)
     }
@@ -190,7 +190,7 @@ class DetailFragment : Fragment() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            (activity as MainActivity?)!!.supportFragmentManager.popBackStack()
+            activity?.onBackPressed()
             return true
         }
         return super.onOptionsItemSelected(item)

@@ -35,11 +35,8 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle(R.string.Foryou)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(false)
 
-        setToolbar()
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -53,28 +50,17 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*
-        val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
-        val currentTimeAsFloat = CurrentTime.toDouble()
-        if (18.00 < currentTimeAsFloat && currentTimeAsFloat < 24.00) {
-            forYouLayout.setBackgroundColor(Color.parseColor("#34495e"))
-        }
-        else if (0.00 < currentTimeAsFloat && currentTimeAsFloat < 6.00){
-            constraint.setBackgroundColor(Color.parseColor("#34495e"))
 
-        }
-        else {
-            constraint.setBackgroundColor(Color.parseColor("#349Bdb"))
-
-        }*/
-
+        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle(R.string.Foryou)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(false)
+        setToolbar()
 
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
             getOnecall()
-
             Toast.makeText(requireContext(), getString(R.string.refresh), Toast.LENGTH_LONG)
                 .show()
             swipeRefresh.isRefreshing = false
