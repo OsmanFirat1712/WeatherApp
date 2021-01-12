@@ -3,10 +3,12 @@ package com.example.projekt1rain
 import android.Manifest
 import android.Manifest.permission
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,12 +23,14 @@ import com.example.projekt1rain.DataStorag.DataService
 import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.ForYouFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
+import com.example.projekt1rain.InternetCheck.CheckNet
 import com.example.projekt1rain.Room.City
 import com.example.projekt1rain.Room.LocalJSONParser
 import com.example.projekt1rain.Room.WeatherDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.*
 import java.util.concurrent.Executors
 
 
@@ -71,9 +75,22 @@ class MainActivity() : AppCompatActivity() {
             true
         }
 
+        val networkConnection = CheckNet(applicationContext)
+        networkConnection.observe(this, androidx.lifecycle.Observer{ isConnected ->
+
+            if (isConnected){
+                Toast.makeText(this,"Internet Connected Successfuly...",Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this,"Connected Fail...",Toast.LENGTH_LONG).show()
+            }
+
+        })
+
     }
 
-    private fun setToolbar() {
+
+
+        private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -81,6 +98,8 @@ class MainActivity() : AppCompatActivity() {
         }
 
     }
+
+
 
     private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
             replace(R.id.container, fragment)
