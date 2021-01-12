@@ -12,10 +12,12 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.projekt1rain.DataStorag.DataService
+import com.example.projekt1rain.DataStorag.SharedPrefs
 import com.example.projekt1rain.Fragments.ForYouFragment
 import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.Fragments.SettingsFragment
@@ -34,10 +36,18 @@ class MainActivity() : AppCompatActivity() {
     private lateinit var dataService: DataService
     private lateinit var database: WeatherDatabase
     private lateinit var cities: List<City>
-
+    internal lateinit var sharedPrefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPrefs = SharedPrefs(context = this)
+        if (sharedPrefs.loadDarkModeState() == true) {
+            Log.i("theme" , "@darktheme")
+            setTheme(R.style.DarkTheme)
+        } else {
+            Log.i("theme" , "@brighttheme")
+            setTheme(R.style.BrightTheme)
+        }
         setContentView(R.layout.activity_main)
         val dataService: DataService = (application as MyApp).dataService
         setToolbar()
@@ -75,7 +85,7 @@ class MainActivity() : AppCompatActivity() {
         networkConnection.observe(this, androidx.lifecycle.Observer{ isConnected ->
 
             if (isConnected){
-                Toast.makeText(this,"Internet Connected Successfuly...",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Internet Connected Successfuly...", Toast.LENGTH_LONG).show()
             }else{
                 Toast.makeText(this,"Connected Fail...",Toast.LENGTH_LONG).show()
             }

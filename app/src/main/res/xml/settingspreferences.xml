@@ -27,4 +27,14 @@
             android:entries="@array/unitSystemEntries"
             android:entryValues="@array/unitSystemValues"/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="Dark Mode">
+        <SwitchPreference
+            android:id="@+id/enableDark"
+            android:defaultValue="false"
+            android:key="DARK_MODE"
+            android:title="Choose Theme"
+            android:summary="Disable or Enable Dark Mode"
+            />
+    </PreferenceCategory>
 </PreferenceScreen>
