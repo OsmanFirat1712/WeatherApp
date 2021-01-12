@@ -2,21 +2,16 @@ package com.example.projekt1rain.Adapter
 
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-
 import com.example.projekt1rain.FragmentCallBack
-import com.example.projekt1rain.Fragments.MapViewFragment
 import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
@@ -33,10 +28,14 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
-class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context, private val removecall: RemoveCallBack,val fragmentCallBack: FragmentCallBack) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
+class ForYouAdapter(
+    var forYouConstruktorList: List<Favorites>,
+    context: Context,
+    private val removecall: RemoveCallBack,
+    val fragmentCallBack: FragmentCallBack
+) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
         val itemview =
@@ -47,7 +46,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
         val curentItem = forYouConstruktorList[position]
 
@@ -56,8 +55,11 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
                     .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.current?.weather?.first()?.icon}@2x.png")
                     .into(itemView.ivCityPicture)
             cityName.text = curentItem.address
-            time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr"
-            temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString()}°C"""
+            time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+            temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(
+                273.15.toInt()
+            ).toString()}°"""
+            regnet.text = " ${curentItem.currentWeatherResponse?.current?.clouds}" + "%"
 
 
 
@@ -87,7 +89,9 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
             val dataSet = LineDataSet(barEntries, "Temperatur den nächsten Stunden")
 
             dataSet.fillAlpha = 5000
-            dataSet.color = Color.BLUE
+            dataSet.color = Color.WHITE
+            dataSet.valueTextColor = Color.WHITE
+            dataSet.valueTextSize =7f
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
             chart.description.text = ""
             chart.legend.isEnabled = true
@@ -118,6 +122,10 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
                 notifyItemRemoved(position)
                 true
             }
+
+            val rnd = Random()
+            val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+            cardview.setBackgroundColor(color)
         }
     }
 
@@ -126,6 +134,7 @@ class ForYouAdapter(var forYouConstruktorList: List<Favorites>,context: Context,
         val cityName: TextView = itemView.tvCityName
         val temperture: TextView = itemView.tvtemperture
         val time: TextView = itemView.tvTime
+        val regnet:TextView = itemView.tvRegnet
         val cardview:MaterialCardView = itemView.cvCardViewForYou
         val iconDayNight = itemView.ivDayNightIcon
         val cityPicture = itemView.ivCityPicture
