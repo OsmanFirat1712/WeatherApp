@@ -64,7 +64,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map_view.onCreate(savedInstanceState)
-        map_view.onResume()
+       // map_view.onResume()
         map_view.getMapAsync(this)
         setToolbar()
     }

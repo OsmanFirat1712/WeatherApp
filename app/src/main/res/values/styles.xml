@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BrightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundColor">@color/backgroundcolor</item>
+        <item name="cardBackgroundColor">@color/cardbackgroundcolor</item>
+        <item name="android:textColor">@color/textcolor</item>
+
+    </style>
+
+
+    <style name="DarkTheme" parent="BrightTheme">
+        <item name="colorPrimary">#E80C53</item>
+        <item name="colorPrimaryDark">#D81055</item>
+        <item name="colorAccent">#ED0B3F</item>
+        <item name="backgroundColor">#303030</item>
+        <item name="cardBackgroundColor">#424242</item>
+        <item name="android:textColor">@color/textcolor</item>
+
+    </style>
+</resources>
