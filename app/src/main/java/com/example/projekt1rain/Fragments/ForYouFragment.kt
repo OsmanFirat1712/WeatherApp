@@ -2,28 +2,28 @@ package com.example.projekt1rain.Fragments
 
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import android.app.AlertDialog
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.projekt1rain.*
 import com.example.projekt1rain.Adapter.ForYouAdapter
 import com.example.projekt1rain.DataStorag.DataService
+import com.example.projekt1rain.FragmentCallBack
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.InterFaces.RemoveCallBack
+import com.example.projekt1rain.MainActivity
+import com.example.projekt1rain.MyApp
+import com.example.projekt1rain.R
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallResponse
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.Favorites
+import com.github.mikephil.charting.charts.LineChart
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.concurrent.Executors
 
@@ -35,6 +35,9 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setTitle(R.string.Foryou)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setHomeButtonEnabled(false)
 
         setToolbar()
     }
@@ -108,6 +111,8 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         actionBar?.apply {
             title = (getString(R.string.foryou))
             setDisplayShowTitleEnabled(true)
+            setHomeButtonEnabled(false)
+            setDisplayHomeAsUpEnabled(false)
         }
     }
 
@@ -171,10 +176,11 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         bundle.putSerializable("weatherkey", favorites)
         blankFragmentDetailPage.setArguments(bundle)
         transaction.replace(R.id.container, blankFragmentDetailPage)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
-/*     fun delete(favorites:Favorites) {
+       fun delete(favorites:Favorites) {
          val dataService: DataService = (requireActivity().application as MyApp).dataService
          AlertDialog.Builder(context)
                 .setNeutralButton(R.string.cancelButton) { dialogInterface, i->}
@@ -182,7 +188,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
                     Executors.newSingleThreadExecutor().execute { dataService.deleteFavorites(favorites,this) }                }
                 .create().show()
 
-    }*/
+    }
 
     override fun onRemove(favorites: Favorites) {
         val dataService: DataService = (requireActivity().application as MyApp).dataService

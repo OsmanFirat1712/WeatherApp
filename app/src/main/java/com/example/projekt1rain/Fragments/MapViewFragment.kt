@@ -228,8 +228,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         val button = view.findViewById<Button>(R.id.startBtn)
 
         button.setOnClickListener {
-            dataService.getFavorites(this)
-
             startBtn(view)
         }
         dataService.getFavorites(this)
