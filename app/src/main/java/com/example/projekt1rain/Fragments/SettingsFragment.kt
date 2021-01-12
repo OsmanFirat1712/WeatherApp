@@ -1,16 +1,21 @@
 package com.example.projekt1rain.Fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
+import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.R
 
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment() : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        addPreferencesFromResource(R.xml.settingspreferences)
+        setPreferencesFromResource(R.xml.settingspreferences, rootKey)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -21,6 +26,24 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findPreference("DARK_MODE")?.setOnPreferenceChangeListener { preference, newvalue ->
+            if (preference.key == "DARK_MODE") {
+                //restartApp()
+            }
+            Log.i("settings","$preference")
+            true
+
+        }
+    }
+
+
+    fun restartApp() {
+        val restart = Intent(requireActivity().applicationContext, MainActivity::class.java)
+        startActivity(restart)
+        requireActivity().finish()
+    }
 }
 
 

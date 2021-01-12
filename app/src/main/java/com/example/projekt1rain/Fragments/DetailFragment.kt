@@ -73,12 +73,11 @@ class DetailFragment : Fragment() {
 
         /************************************* for time day and night icons ***************************************/
         val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
-        val CurrentTime2 = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+
 
 
         tvDetailIcon = view.findViewById(R.id.tvDetailIcon)
-        testTime = view.findViewById(R.id.testTime)
-        testTime.text = CurrentTime2
+
 
 
         val currentTimeAsFloat = CurrentTime.toDouble()
@@ -126,7 +125,10 @@ class DetailFragment : Fragment() {
 
             val barEntry = list2.map { BarEntry(it.x, it.y) }
             dataset = BarDataSet(barEntry, "Temperatur Next Days")
-            dataset.color = Color.BLUE
+            dataset.color = Color.WHITE
+            dataset.barBorderColor = Color.WHITE
+            dataset.valueTextColor = Color.WHITE
+            dataset.valueTextSize = 10f
             chart.description.text = ""
             chart.legend.isEnabled = true
             chart.invalidate()
@@ -167,22 +169,14 @@ class DetailFragment : Fragment() {
 
 
 
-            tvAddress.text=
-               favorites?.address.toString()
+            tvAddress.text= favorites?.address.toString()
 
-            tvDetailTemp.text =
-                favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt())
-                    .toString() + "°C"
-            tvDetailClouds.text =
-                getString(R.string.wolken) + favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
-            tvDetailVisibility.text =
-                getString(R.string.sicht) + favorites?.currentWeatherResponse?.current?.visibility?.toString() + "km"
-            tvDetailUvi.text =
-                getString(R.string.uvi) + favorites?.currentWeatherResponse?.current?.uvi?.toString()
-            tvDetailWindSpeed.text =
-                getString(R.string.windgesch) + favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
-            tvDetailWindDeg.text =
-                getString(R.string.windtemp) + favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
+            tvDetailTemp.text = favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString() + "°C"
+            tvDetailClouds.text =favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
+            tvDetailVisibility.text =favorites?.currentWeatherResponse?.current?.visibility?.toString() + "km"
+            tvDetailUvi.text = favorites?.currentWeatherResponse?.current?.uvi?.toString()
+            tvDetailWindSpeed.text = favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
+            tvDetailWindDeg.text = favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
 
 
 
