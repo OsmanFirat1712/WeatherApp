@@ -2,11 +2,13 @@ package com.example.projekt1rain.Fragments
 
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +48,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
     }
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbar()
@@ -59,6 +62,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             forYouAdapter.notifyDataSetChanged()
             swipeRefresh.isRefreshing = false
         }
+
         forYouAdapter = ForYouAdapter(
 
             forYouConstruktorList = ArrayList(), requireContext(),
