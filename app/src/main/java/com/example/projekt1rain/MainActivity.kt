@@ -51,6 +51,7 @@ class MainActivity() : AppCompatActivity() {
         setToolbar()
         /// SAVE ASSETS ONLY ONE TIME
         if (!Utility.getBooleanPreferenceValue(this, "isFirstTimeExecution")) {
+            informationAlert()
             Log.d("tag", "First time Execution")
             informationAlert()
             Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
@@ -110,8 +111,20 @@ class MainActivity() : AppCompatActivity() {
 
     }
 
+<<<<<<< HEAD
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
+=======
+    private fun informationAlert(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.info_layout,null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+        mBuilder.show()
+    }
+
+    private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
+>>>>>>> 2693c1804c7c11f73eff4a37f955f9086c61febd
             replace(R.id.container, fragment)
             commit()
 

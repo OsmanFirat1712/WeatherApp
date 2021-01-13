@@ -124,7 +124,8 @@ class ForYouAdapter(
 
             val rnd = Random()
             val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-            cardview.setBackgroundColor(color)
+            cardview.setCardBackgroundColor(color)
+
         }
     }
 
