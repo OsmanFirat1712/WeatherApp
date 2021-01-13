@@ -1,12 +1,10 @@
 package com.example.projekt1rain.DataStorag
 
 import android.util.Log
-import com.example.projekt1rain.*
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.InterFaces.GetName
 import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.Room.*
-import javax.security.auth.callback.Callback
 
 
 class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInstance()) :
@@ -32,7 +30,7 @@ class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInst
 
     }
 
-    override fun savefavorites(favorites: Favorites) {
+    override fun saveFavorites(favorites: Favorites) {
         val fav = dataBase.currentWeatherDao().insertfavorites(favorites)
     }
 
@@ -46,7 +44,7 @@ class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInst
         runner.executeAsync({
             val getFavoriteslist: List<Favorites> = dataBase.currentWeatherDao().getFavoritesList()
             getFavoriteslist
-        }, { result -> callback.onComplete(result) })
+        }, { result -> callback.getFavoritesList(result) })
     }
 }
 

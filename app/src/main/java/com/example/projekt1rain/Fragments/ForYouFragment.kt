@@ -22,6 +22,7 @@ import com.example.projekt1rain.MyApp
 import com.example.projekt1rain.R
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.Favorites
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.concurrent.Executors
 
@@ -116,7 +117,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
     }
 
     //get the list from the database
-    override fun onComplete(favorites: List<Favorites>) {
+    override fun getFavoritesList(favorites: List<Favorites>) {
         requireActivity().runOnUiThread(java.lang.Runnable {
             forYouAdapter.updateFavList(favorites)
             forYouAdapter.notifyDataSetChanged()
@@ -140,7 +141,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onRemove(favorites: Favorites) {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.entfernen))
             .setNeutralButton(R.string.cancelButton) { dialogInterface, i ->
             }

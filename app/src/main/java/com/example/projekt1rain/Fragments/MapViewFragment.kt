@@ -34,6 +34,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.mapviewfragment.*
 import java.text.DecimalFormat
 
@@ -62,7 +63,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         map_view.getMapAsync(this)
         setToolbar()
     }
-
+//permisson for the location
     private fun setUpMap() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -133,13 +134,32 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
 
             nMap.setOnMapLongClickListener { latlng ->
+                val dialog =
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.favoritsetzen)).setMessage("")
+                        .setNegativeButton(getString(R.string.abbrechen), null)
+                        .setPositiveButton(getString(R.string.ok)) { dialogInterface, i ->
+                            val address = getAddress(latlng.latitude, latlng.longitude)
+                            //get the call from RetrofitSetup.class and insert it directly in the Database
+                            retrofitResponse(address)
+                            retrofitOneCallResponse(latlng.latitude, latlng.longitude, address)
+                        }
+                        .show()
+
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                    val marker = nMap.addMarker(
+                        MarkerOptions().position(latlng).title("my new marker").snippet(
+                            "a cool snippet"
+                        )
+                    )
+                    markers.add(marker)
+                    dialog.dismiss()
+                    Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
+                }
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                    dialog.dismiss()
+                }
                 Log.i(TAG, "onMapLongClickListener" + latlng)
-                showAlertDialog(latlng)
-                val address = getAddress(latlng.latitude, latlng.longitude)
-                //get the call from RetrofitSetup.class and insert it directly in the Database
-                retrofitResponse(address)
-                retrofitOneCallResponse(latlng.latitude, latlng.longitude, address)
-                Log.d(TAG, "test5 $address")
             }
         }
         setUpMap()
@@ -161,31 +181,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
         }
         return ""
-
-    }
-
-
-    private fun showAlertDialog(latlng: LatLng) {
-        val dialog =
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.favoritsetzen)).setMessage("")
-                .setNegativeButton(getString(R.string.abbrechen), null)
-                .setPositiveButton(getString(R.string.ok), null)
-                .show()
-
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val marker = nMap.addMarker(
-                MarkerOptions().position(latlng).title("my new marker").snippet(
-                    "a cool snippet"
-                )
-            )
-            markers.add(marker)
-            dialog.dismiss()
-            Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
-        }
-        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
-            dialog.dismiss()
-        }
 
     }
 
@@ -239,7 +234,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         dataService.getCitiesFindbyName(location, this)
     }
 
-    override fun onComplete(favorites: List<Favorites>) {
+    override fun getFavoritesList(favorites: List<Favorites>) {
         this.favorites = favorites
     }
 

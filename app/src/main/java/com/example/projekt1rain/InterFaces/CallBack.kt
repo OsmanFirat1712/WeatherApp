@@ -4,6 +4,6 @@ import com.example.projekt1rain.Room.Favorites
 
 interface CallBack {
 
-        fun onComplete( favorites: List<Favorites>)
+        fun getFavoritesList(favorites: List<Favorites>)
 
 }

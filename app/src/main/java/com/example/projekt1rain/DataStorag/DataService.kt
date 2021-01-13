@@ -16,7 +16,7 @@ interface DataService {
 
     fun getCitiesFindbyName(name: String, getName: GetName)
 
-    fun savefavorites(favorites: Favorites)
+    fun saveFavorites(favorites: Favorites)
 
     fun getFavorites(callback: CallBack)
 
