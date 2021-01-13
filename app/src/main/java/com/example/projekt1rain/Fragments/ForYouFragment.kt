@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -79,6 +80,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         floatingButton.setOnClickListener() {
             startMapViewFragment()
         }
+
     }
 
     private fun setToolbar() {

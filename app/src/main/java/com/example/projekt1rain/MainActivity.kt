@@ -12,6 +12,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -50,6 +51,7 @@ class MainActivity() : AppCompatActivity() {
         setToolbar()
         /// SAVE ASSETS ONLY ONE TIME
         if (!Utility.getBooleanPreferenceValue(this, "isFirstTimeExecution")) {
+            informationAlert()
             Log.d("tag", "First time Execution")
            Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
             val jsonFileString =
@@ -96,6 +98,14 @@ class MainActivity() : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun informationAlert(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.info_layout,null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+        mBuilder.show()
     }
 
     private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
