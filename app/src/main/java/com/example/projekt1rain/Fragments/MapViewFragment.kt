@@ -128,6 +128,9 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                                     273.15.toInt()
                                 ).toString() + "°C"
                             )
+                            .snippet(
+                                favorite.address
+                            )
                     )
             }
 
