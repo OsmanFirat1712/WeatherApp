@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.projekt1rain.FragmentCallBack
+import com.example.projekt1rain.InterFaces.FragmentCallBack
 import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
@@ -24,7 +24,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.foryoufragment.view.*
-import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -38,28 +37,29 @@ class ForYouAdapter(
 ) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
-        val itemview =
-                LayoutInflater.from(parent.context).inflate(R.layout.foryoufragment, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.foryoufragment, parent, false)
 
-        return ViewHolder(itemview)
+        return ViewHolder(itemView)
 
     }
 
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
         val curentItem = forYouConstruktorList[position]
-            //get the icon and other data from the api
+        //get the icon and other data from the api
         holder.apply {
             Glide.with(itemView)
-                    .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.current?.weather?.first()?.icon}@2x.png")
-                    .into(itemView.ivCityPicture)
+                .load("http://openweathermap.org/img/wn/${curentItem.currentWeatherResponse?.current?.weather?.first()?.icon}@2x.png")
+                .into(itemView.ivCityPicture)
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-            temperture.text = """${curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(
-                273.15.toInt()
-            ).toString()}°"""
+            temperture.text = """${
+                curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(
+                    273.15.toInt()
+                ).toString()
+            }°"""
             regnet.text = " ${curentItem.currentWeatherResponse?.current?.clouds}" + "%"
-
 
 
             val list = mutableListOf<Entry>()
@@ -86,14 +86,14 @@ class ForYouAdapter(
             val cl: ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
             val barEntries = list.map { Entry(it.x, it.y, xValsDateLabel) }
-            val dataSet = LineDataSet(barEntries, "Temperatur den nächsten Stunden")
+            val dataSet = LineDataSet(barEntries, null)
 
             dataSet.fillAlpha = 5000
             dataSet.color = Color.WHITE
             dataSet.valueTextColor = Color.WHITE
-            dataSet.valueTextSize =7f
+            dataSet.valueTextSize = 7f
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-            chart.description.text = ""
+            chart.description.text = "Temperatur für die nächsten Stunden in Celsius"
             chart.legend.isEnabled = true
             chart.invalidate()
             chart.axisRight.isEnabled = false
@@ -112,7 +112,7 @@ class ForYouAdapter(
 
             //clicklistener to get in the detailpage
             cardview.setOnClickListener {
-                fragmentCallBack.onCall(curentItem)
+                fragmentCallBack.onDetailPage(curentItem)
             }
 
             cardview.setOnLongClickListener {
@@ -133,8 +133,8 @@ class ForYouAdapter(
         val cityName: TextView = itemView.tvCityName
         val temperture: TextView = itemView.tvtemperture
         val time: TextView = itemView.tvTime
-        val regnet:TextView = itemView.tvRegnet
-        val cardview:MaterialCardView = itemView.cvCardViewForYou
+        val regnet: TextView = itemView.tvRegnet
+        val cardview: MaterialCardView = itemView.cvCardViewForYou
 
     }
 

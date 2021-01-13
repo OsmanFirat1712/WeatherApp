@@ -8,19 +8,6 @@ import com.example.projekt1rain.CurrentWeather
 @Dao
 interface WeatherDao{
 
-    @Insert
-    suspend fun insert (currentWeather:CurrentWeather)
-
-    @Delete
-    suspend fun delete (currentWeather: CurrentWeather)
-
-    @Update
-    suspend fun update ( currentWeather: CurrentWeather)
-
-    @Query ("SELECT * FROM CurrentWeather WHERE id = :currentWeatherid")
-    suspend fun getWeatherbyId(currentWeatherid:Long):CurrentWeather
-
-
     @Insert ( onConflict = OnConflictStrategy.IGNORE)
      fun insert (city: City)
 
@@ -29,9 +16,6 @@ interface WeatherDao{
 
     @Delete
      fun delete (city: City)
-
-    @Update
-     fun update (city: City)
 
     @Query ("SELECT * FROM City WHERE name = :name LIMIT 1")
     fun getCityByName(name:String):City?
@@ -42,6 +26,8 @@ interface WeatherDao{
     @Query("SELECT * FROM City")
     fun  getDataCityList():List<City>
 
+    //favorites
+
     @Insert
     (onConflict = OnConflictStrategy.REPLACE)
      fun insertfavorites (favorites: Favorites)
@@ -49,13 +35,7 @@ interface WeatherDao{
     @Delete
      fun delete (favorites: Favorites)
 
-    @Update
-     fun update (favorites: Favorites)
-
     @Query ("SELECT * FROM Favorites")
     fun getFavoritesList():List<Favorites>
 
-
-    @Query ("SELECT * FROM Favorites WHERE address = :address")
-    fun favoritbyadress(address:String):Favorites
 }

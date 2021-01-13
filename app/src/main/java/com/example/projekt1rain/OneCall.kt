@@ -31,7 +31,6 @@ data class OneCall @JvmOverloads constructor(
         val hourly: List<Hourly>,
         val temp:Temp,
 
-
 ) {
     public fun toJson() = klaxon.toJsonString(this)
 

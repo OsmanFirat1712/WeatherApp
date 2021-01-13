@@ -7,20 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.projekt1rain.Adapter.ForYouAdapter
 import com.example.projekt1rain.DataStorag.DataService
-import com.example.projekt1rain.FragmentCallBack
 import com.example.projekt1rain.InterFaces.CallBack
+import com.example.projekt1rain.InterFaces.FragmentCallBack
 import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.MyApp
 import com.example.projekt1rain.R
-import com.example.projekt1rain.RetrofitApi.retrofitOneCallResponse
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.Favorites
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -53,7 +51,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
-            getOneCall()
+            refreshForYou()
             Toast.makeText(requireContext(), getString(R.string.refresh), Toast.LENGTH_LONG)
                 .show()
             swipeRefresh.isRefreshing = false
@@ -99,40 +97,33 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             .commit()
     }
 
-    private fun getOneCall() {
+    //get the list for swipeToRefresh
+
+    private fun refreshForYou() {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         dataService.getFavorites(this)
         favorites.forEach { favorite ->
             val lat = favorite.currentWeatherResponse?.lat
             val lon = favorite.currentWeatherResponse?.lon
             val adress = favorite.address
-            retrofitOneCallResponse(lat!!, lon!!, adress)
+            retrofitOneCallrefreshResponse(lat!!, lon!!, adress)
             forYouAdapter.notifyDataSetChanged()
 
         }
     }
 
-    //get the list for swipeToRefresh
+    //get the list from the database
     override fun onComplete(favorites: List<Favorites>) {
         requireActivity().runOnUiThread(java.lang.Runnable {
             forYouAdapter.updateFavList(favorites)
             forYouAdapter.notifyDataSetChanged()
 
-            favorites.forEach { favorite ->
-                val lat = favorite.currentWeatherResponse?.lat
-                val lon = favorite.currentWeatherResponse?.lon
-                val adress = favorite.address
-                retrofitOneCallrefreshResponse(lat!!, lon!!, adress)
-                forYouAdapter.updateFavList(favorites)
-                forYouAdapter.notifyDataSetChanged()
-
-            }
         })
 
     }
 
 
-    override fun onCall(favorites: Favorites) {
+    override fun onDetailPage(favorites: Favorites) {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val blankFragmentDetailPage = DetailFragment()
         val bundle = Bundle()
@@ -143,30 +134,22 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         transaction.commit()
     }
 
-    fun delete(favorites: Favorites) {
-        val dataService: DataService = (requireActivity().application as MyApp).dataService
-        AlertDialog.Builder(context)
-            .setNeutralButton(R.string.cancelButton) { dialogInterface, i -> }
-            .setNegativeButton(R.string.delete) { dialogInterface, i ->
-                Executors.newSingleThreadExecutor()
-                    .execute { dataService.deleteFavorites(favorites, this) }
-            }
-            .create().show()
-
-    }
 
     override fun onRemove(favorites: Favorites) {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         AlertDialog.Builder(context)
-            .setNeutralButton(R.string.cancelButton) { dialogInterface, i -> }
+            .setTitle(getString(R.string.entfernen))
+            .setNeutralButton(R.string.cancelButton) { dialogInterface, i ->
+            }
             .setNegativeButton(R.string.delete) { dialogInterface, i ->
                 Executors.newSingleThreadExecutor()
-                    .execute { dataService.deleteFavorites(favorites, this) }
+                    .execute {
+                        dataService.deleteFavorites(favorites, this)
+                        dataService.getFavorites(this)
+                    }
             }
             .create().show()
-        dataService.getFavorites(this)
         forYouAdapter.notifyDataSetChanged()
     }
-
 
 }

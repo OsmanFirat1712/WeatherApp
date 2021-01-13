@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
@@ -30,8 +31,10 @@ class SettingsFragment() : PreferenceFragmentCompat() {
         findPreference("DARK_MODE")?.setOnPreferenceChangeListener { preference, newvalue ->
             if (preference.key == "DARK_MODE") {
                 //restartApp()
+                Toast.makeText(requireContext(), (getString(R.string.neustart)), Toast.LENGTH_LONG)
+                    .show()
             }
-            Log.i("settings","$preference")
+            Log.i("settings", "$preference")
             true
 
         }

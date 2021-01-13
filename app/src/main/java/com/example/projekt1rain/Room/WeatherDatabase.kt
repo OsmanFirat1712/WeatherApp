@@ -6,7 +6,7 @@ import com.example.projekt1rain.CurrentWeather
 import com.example.projekt1rain.OneCall
 
 @Database(
-        entities = [City::class, CurrentWeather::class, Favorites::class],
+        entities = [City::class,Favorites::class],
         exportSchema = false, version = 1
 )
 @TypeConverters(ObjectConverter::class)

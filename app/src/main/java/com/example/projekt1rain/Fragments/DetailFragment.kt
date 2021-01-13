@@ -13,14 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.projekt1rain.MyBarChartConverter
+import com.example.projekt1rain.MyXAxisFormatter
 import com.example.projekt1rain.R
 import com.example.projekt1rain.Room.Favorites
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.detailviewfragment.*
 import java.time.LocalDate
 import java.time.LocalTime
@@ -37,7 +37,7 @@ class DetailFragment : Fragment() {
     private lateinit var tvDetailWindSpeed: TextView
     private lateinit var tvDetailTemp: TextView
     private lateinit var tvDetailClouds: TextView
-    private lateinit var tvAddress:TextView
+    private lateinit var tvAddress: TextView
     private lateinit var tvDetailVisibility: TextView
     private lateinit var tvDetailIcon: ImageView
     private lateinit var testTime: TextView
@@ -50,10 +50,10 @@ class DetailFragment : Fragment() {
 
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle("Detailansicht")
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            (activity as AppCompatActivity?)?.supportActionBar?.setHomeButtonEnabled(true)
+        (activity as AppCompatActivity?)?.supportActionBar?.setHomeButtonEnabled(true)
         setHasOptionsMenu(true)
 
-            super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -65,21 +65,15 @@ class DetailFragment : Fragment() {
 
     }
 
-
     @ExperimentalTime
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         /************************************* for time day and night icons ***************************************/
         val CurrentTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH.mm"))
-
-
-
         tvDetailIcon = view.findViewById(R.id.tvDetailIcon)
-
-
-
         val currentTimeAsFloat = CurrentTime.toDouble()
+
 
         if (18.00 < currentTimeAsFloat && currentTimeAsFloat < 24.00) {
             constraint.setBackgroundColor(Color.parseColor("#34495e"))
@@ -93,7 +87,7 @@ class DetailFragment : Fragment() {
 
         }
 
-        /********************** detailpage graph ***************************/
+        /********************** Barchart graph ***************************/
         val bundle = arguments
         if (bundle != null) {
             val favorites: Favorites? = bundle.getSerializable("weatherkey") as Favorites?
@@ -114,6 +108,7 @@ class DetailFragment : Fragment() {
             chart = view.findViewById(R.id.bcDetailBarchart)
 
 
+
             favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
                 if (index < 7) {
                     val temp = daily.pop
@@ -123,12 +118,12 @@ class DetailFragment : Fragment() {
             }
 
             val barEntry = dailyList.map { BarEntry(it.x, it.y) }
-            dataset = BarDataSet(barEntry, "Temperatur Next Days")
+            dataset = BarDataSet(barEntry, null)
             dataset.color = Color.WHITE
             dataset.barBorderColor = Color.WHITE
             dataset.valueTextColor = Color.WHITE
             dataset.valueTextSize = 10f
-            chart.description.text = ""
+            chart.description.text = getString(R.string.popnextdays)
             chart.legend.isEnabled = true
             chart.invalidate()
             chart.axisRight.isEnabled = false
@@ -136,13 +131,51 @@ class DetailFragment : Fragment() {
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             val xAxis = chart.xAxis
             xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.setDrawGridLines(false)
+            xAxis.setDrawGridLines(true)
             xAxis.labelCount = 6
             xAxis.granularity = 1f
             xAxis.isGranularityEnabled = true
-
             chart.xAxis.valueFormatter = MyBarChartConverter()
             chart.data = BarData(dataset)
+
+            /********************** LineChart ***************************/
+
+            val lineChart = mutableListOf<Entry>()
+
+            //foreach for the hourly list to get the data for the hourly temps
+            favorites?.currentWeatherResponse?.daily?.forEachIndexed { index, daily ->
+                if (index < 7) {
+                    val temp = daily.temp.day.toInt().minus(273.15.toInt().toString().toFloat())
+                    lineChart.add(Entry(index.toFloat(), temp))
+                }
+            }
+
+            val cl: ConstraintLayout = view.findViewById(R.id.constraint)
+            val chart: LineChart = view.findViewById(R.id.bcDetailBarchartPop)
+            val barEntries = lineChart.map { Entry(it.x, it.y) }
+            val dataSet = LineDataSet(barEntries, null)
+
+            dataSet.fillAlpha = 5000
+            dataSet.color = Color.WHITE
+            dataSet.valueTextColor = Color.WHITE
+            dataSet.valueTextSize = 7f
+            dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+            chart.description.text = getString(R.string.tempnextdays)
+            chart.legend.isEnabled = true
+            chart.invalidate()
+            chart.axisRight.isEnabled = false
+            chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+            chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+
+            val xAxisLineChart = chart.xAxis
+            xAxisLineChart.position = XAxis.XAxisPosition.BOTTOM
+            xAxisLineChart.setDrawGridLines(false)
+            xAxisLineChart.labelCount = 6
+            xAxisLineChart.granularity = 1f
+            xAxisLineChart.isGranularityEnabled = true
+            chart.xAxis.valueFormatter = MyBarChartConverter()
+            chart.data = LineData(dataSet)
+
 
             /********************** detailpage connection ***************************/
 
@@ -154,18 +187,25 @@ class DetailFragment : Fragment() {
             tvDetailClouds = view.findViewById(R.id.tvDetailClouds)
             tvDetailVisibility = view.findViewById(R.id.tvDetailVisibility)
             tvAddress = view.findViewById(R.id.tvAddress)
-            tvAddress.text= favorites?.address.toString()
+            tvAddress.text = favorites?.address.toString()
 
-            tvDetailTemp.text = favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt()).toString() + "°C"
-            tvDetailClouds.text =favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
-            tvDetailVisibility.text =favorites?.currentWeatherResponse?.current?.visibility?.toString() + "km"
+            tvDetailTemp.text =
+                favorites?.currentWeatherResponse?.current?.temp?.toInt()?.minus(273.15.toInt())
+                    .toString() + "°C"
+            tvDetailClouds.text =
+                favorites?.currentWeatherResponse?.current?.clouds?.toString() + "%"
+            tvDetailVisibility.text =
+                favorites?.currentWeatherResponse?.current?.visibility?.toString() + " m"
             tvDetailUvi.text = favorites?.currentWeatherResponse?.current?.uvi?.toString()
-            tvDetailWindSpeed.text = favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
-            tvDetailWindDeg.text = favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "m/s"
+            tvDetailWindSpeed.text =
+                favorites?.currentWeatherResponse?.current?.windSpeed?.toString() + "m/s"
+            tvDetailWindDeg.text =
+                favorites?.currentWeatherResponse?.current?.windDeg?.toString() + "°"
 
 
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             activity?.onBackPressed()

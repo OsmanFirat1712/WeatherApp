@@ -2,7 +2,6 @@ package  com.example.projekt1rain.Fragments
 
 import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
@@ -10,8 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.ActionBar
@@ -38,7 +35,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.mapviewfragment.*
-import java.io.IOException
 import java.text.DecimalFormat
 
 private const val TAG = "MapViewFragment"
@@ -94,10 +90,12 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
                 placeMarkerOnMap(currentLatLng)
                 nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 9f))
+
             }
         }
     }
 
+    //current location and make a call to insert it in the favorites
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
         val currentAddress = getAddress(location.latitude, location.longitude)
@@ -110,13 +108,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         if (map != null) {
             nMap = map
         }
-        nMap.uiSettings.setZoomControlsEnabled(true)
+        nMap.uiSettings.isZoomControlsEnabled = true
         map?.let {
             nMap = it
             nMap.setOnInfoWindowClickListener { markerToDelete ->
                 Log.i(TAG, "onWindowsClickListener - Delete Thismarker")
-                markers.remove(markerToDelete)
-                markerToDelete.remove()
             }
             favorites.forEach { favorite ->
                 val lat = favorite.currentWeatherResponse?.lat
@@ -220,14 +216,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         val searchView = view.findViewById<SearchView>(R.id.sv_location)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(location: String?): Boolean {
-                startBtn(view)
+                searchKey(view)
                 searchView.clearFocus()
-              /*  Toast.makeText(
-                        requireContext(),
-                "Stadt wurde zur Favoriten hinzugefügt",
-                Toast.LENGTH_LONG
-                ).show()
-*/
                 return false
             }
 
@@ -240,21 +230,21 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
     }
 
-    fun startBtn(view: View) {
+    fun searchKey(view: View) {
 
         lateinit var location: String
         val dataService: DataService = (requireActivity().application as MyApp).dataService
         val searchView = view.findViewById<SearchView>(R.id.sv_location)
         location = searchView?.query.toString()
         dataService.getCitiesFindbyName(location, this)
-
     }
 
     override fun onComplete(favorites: List<Favorites>) {
         this.favorites = favorites
     }
 
-    override fun onFinish(city: City?) {
+    //get the cities from the citylist.json asset
+    override fun getCities(city: City?) {
 
         if (city?.name != null) {
             val latLng = LatLng(city.coord.lat!!, city.coord.lon!!)
@@ -263,10 +253,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
             nMap.addMarker(MarkerOptions().position(latLng).title(city.name))
             retrofitOneCallResponse(lat, long, city.name)
+            Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
             nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9f))
 
         } else {
-            Toast.makeText(requireContext(), "There is no info about this city", Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(), getString(R.string.error), LENGTH_LONG)
                 .show()
         }
 
