@@ -1,11 +1,10 @@
 package com.example.projekt1rain.DataStorag
 
-import com.example.projekt1rain.*
+import android.util.Log
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.InterFaces.GetName
 import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.Room.*
-import javax.security.auth.callback.Callback
 
 
 class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInstance()) :
@@ -13,30 +12,25 @@ class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInst
     private val taskRunner: TaskRunner = TaskRunner()
 
     override fun saveCities(cities: List<City>) {
-        cities.forEach { city ->
-            dataBase.currentWeatherDao().insert(city)
+        try {
+            dataBase.currentWeatherDao().insertList(cities)
+
+        }catch (e:Exception){
+            Log.e("DataClass","",e)
         }
+
     }
 
     override fun getCitiesFindbyName(name: String, getName: GetName) {
         val runner = TaskRunner()
         runner.executeAsync({
-            val getCitiesbyName = dataBase.currentWeatherDao().getCitybyId(name)
-            getCitiesbyName
-        }, { result -> getName.onFinish(result) })
+            val city = dataBase.currentWeatherDao().getCityByName(name)
+            city
+        }, { result -> getName.getCities(result) })
 
     }
 
-    override fun saveCurrentCallFromApi(currentWeather: List<CurrentWeather>, callback: Callback) {
-
-        TODO("Not yet implemented")
-    }
-
-    override fun getCurrentCallFromApi(callback: Callback): CurrentWeather {
-        TODO("Not yet implemented")
-    }
-
-    override fun savefavorites(favorites: Favorites) {
+    override fun saveFavorites(favorites: Favorites) {
         val fav = dataBase.currentWeatherDao().insertfavorites(favorites)
     }
 
@@ -44,21 +38,13 @@ class DataClass(private val dataBase: WeatherDatabase = DatabaseProvider.getInst
         val data = dataBase.currentWeatherDao().delete(favorites)
     }
 
-    /*
-        override fun deleteFavorites(favorites: Favorites, removeCallBack: RemoveCallBack){
-            val runner = TaskRunner()
-            runner.executeAsync({
-                              val data =  dataBase.currentWeatherDao().delete(favorites)
-                data
-            }, {result-> removeCallBack.onFinish(result) })
-        }
-    */
+
     override fun getFavorites(callback: CallBack) {
         val runner = TaskRunner()
         runner.executeAsync({
             val getFavoriteslist: List<Favorites> = dataBase.currentWeatherDao().getFavoritesList()
             getFavoriteslist
-        }, { result -> callback.onComplete(result) })
+        }, { result -> callback.getFavoritesList(result) })
     }
 }
 

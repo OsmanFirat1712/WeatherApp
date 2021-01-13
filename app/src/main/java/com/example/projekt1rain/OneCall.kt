@@ -31,7 +31,6 @@ data class OneCall @JvmOverloads constructor(
         val hourly: List<Hourly>,
         val temp:Temp,
 
-
 ) {
     public fun toJson() = klaxon.toJsonString(this)
 
@@ -75,15 +74,21 @@ data class Daily(
         val dewPoint: Double,
         @SerializedName("wind_deg")
         val windDeg: Int,
+        val pop: Float,
+        val rain:Float,
         )
 
-data class Temp(
+data class Temp (
         val day:Double,
         val min:Double,
         val max:Double,
         val night:Double,
         val eve:Double,
-        val morn:Double
+        val morn:Double,
+
+   /*     fun getMetricMax(
+                max = .toInt().minus(273.15.toInt().toString().toFloat())
+)*/
 )
 
 

@@ -11,9 +11,7 @@ private val klaxon = Klaxon()
 
 
 @Entity
-    (tableName = "CurrentWeather")
 data class CurrentWeather @JvmOverloads constructor(
-    //PrimaryKey for Room
     @PrimaryKey(autoGenerate = false) var id: Long,
     val base: String? ,
     val clouds: Int?,

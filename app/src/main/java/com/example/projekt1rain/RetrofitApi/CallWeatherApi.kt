@@ -8,15 +8,15 @@ import retrofit2.http.Query
 interface CallWeatherApi {
 
     @GET("weather")
-    fun getWeather(@retrofit2.http.Query("q") cityname: String?,
-                   @retrofit2.http.Query("appid") apiKey: String?
+    fun getWeather(@Query("q") cityname: String?,
+                   @Query("appid") apiKey: String?
     ):Call<CurrentWeatherResponse?>?
 
     @GET("onecall")
-    fun getHourlyForecast(@retrofit2.http.Query("lat") lat: Double?,
-                         @retrofit2.http.Query("lon") long: Double?,
+    fun getHourlyForecast(@Query("lat") lat: Double?,
+                         @Query("lon") long: Double?,
                /*          @retrofit2.http.Query("units") unit:Int,*/
-                         @retrofit2.http.Query("appid") apiKey: String?,
+                         @Query("appid") apiKey: String?,
     ):Call<CurrentWeatherResponse?>?
 
 

@@ -1,6 +1,7 @@
 package com.example.projekt1rain.DataStorag
 
 import android.app.Application
+import androidx.appcompat.widget.SearchView
 import com.example.projekt1rain.*
 import com.example.projekt1rain.InterFaces.CallBack
 import com.example.projekt1rain.InterFaces.GetName
@@ -15,13 +16,7 @@ interface DataService {
 
     fun getCitiesFindbyName(name: String, getName: GetName)
 
-    fun saveCurrentCallFromApi(currentWeather: List<CurrentWeather>, callback: Callback)
-/*
-    fun saveOneCallFromApi(oneCall: List<OneCall>,callback: Callback)*/
-
-    fun getCurrentCallFromApi(callback: Callback): CurrentWeather
-
-    fun savefavorites(favorites: Favorites)
+    fun saveFavorites(favorites: Favorites)
 
     fun getFavorites(callback: CallBack)
 
