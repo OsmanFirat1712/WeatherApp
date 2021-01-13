@@ -52,9 +52,6 @@ class MainActivity() : AppCompatActivity() {
         /// SAVE ASSETS ONLY ONE TIME
         if (!Utility.getBooleanPreferenceValue(this, "isFirstTimeExecution")) {
             informationAlert()
-            Log.d("tag", "First time Execution")
-            informationAlert()
-            Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
             val jsonFileString =
                 LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
             val gson = Gson()
@@ -62,7 +59,8 @@ class MainActivity() : AppCompatActivity() {
             val listPersonType = object : TypeToken<List<City>>() {}.type
             val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
             Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
-
+            Log.d("tag", "First time Execution")
+            Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
         }
         //Bottom nav bar
         val nav = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -106,35 +104,18 @@ class MainActivity() : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.let {
 
-
         }
 
     }
 
-<<<<<<< HEAD
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-=======
-    private fun informationAlert(){
-
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.info_layout,null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-        mBuilder.show()
-    }
-
-    private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
->>>>>>> 2693c1804c7c11f73eff4a37f955f9086c61febd
             replace(R.id.container, fragment)
             commit()
-
         }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-
 }
+
+
+
 
 

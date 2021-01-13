@@ -55,6 +55,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             refreshForYou()
             Toast.makeText(requireContext(), getString(R.string.refresh), Toast.LENGTH_LONG)
                 .show()
+            forYouAdapter.notifyDataSetChanged()
             swipeRefresh.isRefreshing = false
         }
         forYouAdapter = ForYouAdapter(
