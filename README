@@ -1,4 +1,3 @@
-
 The app language is 100% Kotlin
 
 How to use it?
@@ -10,3 +9,4 @@ You can search for a city and it will automaticly addded to your Favorites when 
 You can delete on the Favorite Screen on a longclick or go to the detailpage on a onclick.
 In the Settings seciton you can unfourtanely only enable Darkmode, switiching metrics is not implemented yet.
 
+For  this app we use Google Pixel 2
