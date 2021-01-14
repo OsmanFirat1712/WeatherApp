@@ -12,6 +12,7 @@ In the Settings seciton you can unfourtanely only enable Darkmode, switiching me
 There is a bug where the AlertDialog adds a Favorite even you press the cancel button, you can simply fix this by deleting this code
 -go to the MapviewFragment.kt 
 - copy the code block 141-144 and delete it and make a space at code block 184 and paste it there, then it should work fine.
+actually you dont need that code block 143, you can delete that too.
 
 When the expection "grpc failed" thrown, please wipe the data from the Emulator
 
