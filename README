@@ -16,7 +16,7 @@ There is a bug where the AlertDialog adds a Favorite even you press the cancel b
 - copy the code block 141-144 and delete it and make a space at the code block 184 and paste it there, then it should work fine.
 actually you dont need that code block 143, you can delete that too.
 
-When you give the permission for you location you must switch beetween ForYou screen and back to Mapview to get the current.
+When you give the permission for you location you must switch beetween ForYou screen and back to Mapview to get the current location.
 When you press the Floating button the icon on the buttom nav. bar will not change to the Mapview icon, i dont know why it suppossed to be a bug in the Emulator.
 When the expection "grpc failed" is thrown, please wipe the data from the Emulator.
 When on the FIRST APP start the ForYou Page doesnt show you added pins, please restart the app then it should work fine.
