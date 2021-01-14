@@ -15,5 +15,5 @@ There is a bug where the AlertDialog adds a Favorite even you press the cancel b
 actually you dont need that code block 143, you can delete that too.
 
 When the expection "grpc failed" thrown, please wipe the data from the Emulator
-When on the first app start doesnt show you added pins, please restart the app then it should work fine.
+When on the first app start the ForYou Page doesnt show you added pins, please restart the app then it should work fine.
 For  this app we use Google Pixel 2
