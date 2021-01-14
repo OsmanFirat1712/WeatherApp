@@ -4,16 +4,21 @@ How to use it?
 
 When the first app starts, you will see a blank screen and when you switch to the Mapview it will ask you for you location permission if the permission is guarenteed then you will get the current weather infos in your For You screen.
 You can add a pin on the map on a long click.
-When you click on a pin that you added before you will see the current Weather
-You can search for a city and it will automaticly addded to your Favorites when the City exits.
+When you click on a pin that you added before you will see the current Weather and the city name.
+You can search for a city and it will automaticly addded to your Favorites when the city exits in the citylist.json file.
 You can delete on the Favorite Screen on a longclick or go to the detailpage on a onclick.
+You can swipe to refresh to get the new data when is avabilable, and it supports offline mode which means you can use it without internet when you had added before favorites.
+Edit a Favorite is not supported because its not user friendly before you edit a Favorite you will delete it and add a new one.
 In the Settings seciton you can unfourtanely only enable Darkmode, switiching metrics is not implemented yet.
 
 There is a bug where the AlertDialog adds a Favorite even you press the cancel button, you can simply fix this by deleting this code
 -go to the MapviewFragment.kt 
-- copy the code block 141-144 and delete it and make a space at code block 184 and paste it there, then it should work fine.
+- copy the code block 141-144 and delete it and make a space at the code block 184 and paste it there, then it should work fine.
 actually you dont need that code block 143, you can delete that too.
 
-When the expection "grpc failed" thrown, please wipe the data from the Emulator
-When on the first app start the ForYou Page doesnt show you added pins, please restart the app then it should work fine.
-For  this app we use Google Pixel 2
+When you give the permission for you location you must switch beetween ForYou screen and back to Mapview to get the current.
+When you press the Floating button the icon on the buttom nav. bar will not change to the Mapview icon, i dont know why it suppossed to be a bug in the Emulator.
+When the expection "grpc failed" is thrown, please wipe the data from the Emulator.
+When on the FIRST APP start the ForYou Page doesnt show you added pins, please restart the app then it should work fine.
+It supports German & English.
+For this app we use Google Pixel 2.
