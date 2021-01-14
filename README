@@ -2,7 +2,7 @@ The app language is 100% Kotlin
 
 How to use it?
 
-When the first app starts, you will see a blank screen and when you switch to the Mapview it will ask you for you location permission if the permission is guarenteed you will get the current weather infos in your For You screen.
+When the first app starts, you will see a blank screen and when you switch to the Mapview it will ask you for you location permission if the permission is guarenteed then you will get the current weather infos in your For You screen.
 You can add a pin on the map on a long click.
 When you click on a pin that you added before you will see the current Weather
 You can search for a city and it will automaticly addded to your Favorites when the City exits.
