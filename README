@@ -9,4 +9,10 @@ You can search for a city and it will automaticly addded to your Favorites when 
 You can delete on the Favorite Screen on a longclick or go to the detailpage on a onclick.
 In the Settings seciton you can unfourtanely only enable Darkmode, switiching metrics is not implemented yet.
 
+There is a bug where the AlertDialog adds a Favorite even you press the cancel button, you can simply fix this by deleting this code
+-go to the MapviewFragment.kt 
+- copy the code block 141-144 and delete it and make a space at code block 184 and paste it there, then it should work fine.
+
+When the expection "grpc failed" thrown, please wipe the data from the Emulator
+
 For  this app we use Google Pixel 2
