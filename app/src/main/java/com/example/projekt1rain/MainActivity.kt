@@ -11,8 +11,10 @@ import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -51,7 +53,6 @@ class MainActivity() : AppCompatActivity() {
         setToolbar()
         /// SAVE ASSETS ONLY ONE TIME
         if (!Utility.getBooleanPreferenceValue(this, "isFirstTimeExecution")) {
-            informationAlert()
             val jsonFileString =
                 LocalJSONParser.getJsonDataFromAsset(applicationContext, "citylist.json")
             val gson = Gson()
@@ -59,6 +60,8 @@ class MainActivity() : AppCompatActivity() {
             val listPersonType = object : TypeToken<List<City>>() {}.type
             val cities: List<City> = gson.fromJson(jsonFileString, listPersonType)
             Executors.newSingleThreadExecutor().execute { dataService.saveCities(cities) }
+            informationAlert()
+            showProgressBar()
             Log.d("tag", "First time Execution")
             Utility.setBooleanPreferenceValue(this, "isFirstTimeExecution", true)
         }
@@ -113,6 +116,21 @@ class MainActivity() : AppCompatActivity() {
             replace(R.id.container, fragment)
             commit()
         }
+
+    private fun showProgressBar(){
+
+        val builder  = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progressbar,null)
+        val message  = dialogView.findViewById<TextView>(R.id.text)
+        message.text = getString(R.string.save)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog  = builder.create()
+        dialog.show()
+
+        Handler().postDelayed({dialog.dismiss()},50000)
+
+    }
 }
 
 

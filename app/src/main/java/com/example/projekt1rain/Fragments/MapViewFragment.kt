@@ -45,7 +45,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     private lateinit var currentLocation: Location
 
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1
         lateinit var nMap: GoogleMap
         private var markers: MutableList<Marker> = mutableListOf<Marker>()
     }
@@ -87,8 +87,6 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 val currentAddress = getAddress(location.latitude, location.longitude)
                 Log.d("TAG", "klagenfurt : ${currentAddress}")
-                retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
-                placeMarkerOnMap(currentLatLng)
                 nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 9f))
 
             }
@@ -130,6 +128,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                             )
 
                     )
+                setUpMap()
             }
 
 
@@ -143,7 +142,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 Log.d(TAG, "test5 $address")
             }
         }
-        setUpMap()
+
 
     }
 
