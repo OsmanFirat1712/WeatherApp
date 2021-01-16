@@ -122,15 +122,13 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                     nMap.addMarker(
                         MarkerOptions().position(LatLng(lat, lon))
                             //Need icon
-                            .title(getString(R.string.temperature))
+                            .title(favorite.address)
                             .snippet(
-                                favorite.currentWeatherResponse?.current?.temp?.toInt()?.minus(
+                                getString(R.string.temperature) +":"+favorite.currentWeatherResponse?.current?.temp?.toInt()?.minus(
                                     273.15.toInt()
                                 ).toString() + "°C"
                             )
-                            .snippet(
-                                favorite.address
-                            )
+
                     )
             }
 
@@ -178,9 +176,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val marker = nMap.addMarker(
-                MarkerOptions().position(latlng).title("my new marker").snippet(
-                    "a cool snippet"
-                )
+                MarkerOptions().position(latlng)
             )
             markers.add(marker)
             dialog.dismiss()
