@@ -36,4 +36,5 @@
     <string name="tempnextdays">Temperature for the next Days in Celsius</string>
     <string name="popnextdays">" Precipitation for the next Days in mm"</string>
     <string name="neustart">Please restart the app to apply the settings</string>
+    <string name="save">Save the cities,please wait a couple of seconds</string>
 </resources>

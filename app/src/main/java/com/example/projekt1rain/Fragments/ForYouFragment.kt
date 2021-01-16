@@ -3,7 +3,10 @@ package com.example.projekt1rain.Fragments
 //import com.example.projekt1rain.Adapter.ForYouAdapter
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,15 +25,22 @@ import com.example.projekt1rain.InterFaces.RemoveCallBack
 import com.example.projekt1rain.MainActivity
 import com.example.projekt1rain.MyApp
 import com.example.projekt1rain.R
+import com.example.projekt1rain.RetrofitApi.retrofitOneCallResponse
 import com.example.projekt1rain.RetrofitApi.retrofitOneCallrefreshResponse
 import com.example.projekt1rain.Room.Favorites
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.DecimalFormat
 import java.util.concurrent.Executors
 
 class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack {
     var recyclerViewAdapter: ForYouAdapter? = null
     private lateinit var forYouAdapter: ForYouAdapter
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var currentLocation: Location
     private var favorites: List<Favorites> = ArrayList()
     val FINE_LOCATION_REQUEST = 101
 
@@ -51,7 +61,9 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         setToolbar()
+        getLocation()
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
@@ -159,5 +171,76 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
             .create().show()
         forYouAdapter.notifyDataSetChanged()
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray): Unit {
+        if(requestCode==MapViewFragment.LOCATION_PERMISSION_REQUEST_CODE){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                val dataService: DataService = (requireActivity().application as MyApp).dataService
+
+                getLocation();
+                forYouAdapter.updateFavList(favorites)
+                dataService.getFavorites(this)
+                forYouAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun getLocation(){
+        val dataService: DataService = (requireActivity().application as MyApp).dataService
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                MapViewFragment.LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }else{
+
+        }
+
+        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
+            val dataService: DataService = (requireActivity().application as MyApp).dataService
+
+            if (location != null) {
+                currentLocation = location
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                val currentAddress = getAddress(location.latitude, location.longitude)
+                Log.d("TAG", "klagenfurt : ${currentAddress}")
+                retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
+                dataService.getFavorites(this)
+                forYouAdapter.updateFavList(favorites)
+                forYouAdapter.notifyDataSetChanged()
+            }
+            forYouAdapter.updateFavList(favorites)
+            dataService.getFavorites(this)
+            forYouAdapter.notifyDataSetChanged()
+        }
+
+        dataService.getFavorites(this)
+
+
+
+    }
+
+
+    private fun getAddress(lat: Double, lng: Double): String {
+        val df = DecimalFormat()
+
+        df.maximumFractionDigits = 3
+        val geocoder = Geocoder(requireContext())
+        val list = geocoder.getFromLocation(lat, lng, 1)
+        if (list != null && list.size > 0) {
+            list.forEach {
+                if (it.locality != null && it.locality.isNotEmpty()) {
+                    return it.locality;
+                }
+            }
+
+        }
+        return ""
+
+    }
+
 
 }

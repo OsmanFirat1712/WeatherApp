@@ -40,4 +40,5 @@
     <string name="tempnextdays">Temperatur der nächsten Tage in Celsius</string>
     <string name="popnextdays">Niederschlagsmenge der nächsten Tage in mm</string>
     <string name="neustart">Bitte Starte die App neu um die Einstellung zu übernehmen</string>
+    <string name="save"> Speichere die Städteliste ab, bitte warte einen Augenblick</string>
 </resources>

@@ -35,7 +35,7 @@ interface WeatherDao{
     @Delete
      fun delete (favorites: Favorites)
 
-    @Query ("SELECT * FROM Favorites")
+    @Query ("SELECT * FROM Favorites ORDER BY address ASC ")
     fun getFavoritesList():List<Favorites>
 
 }
