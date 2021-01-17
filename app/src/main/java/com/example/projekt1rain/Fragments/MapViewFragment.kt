@@ -34,6 +34,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.mapviewfragment.*
 import java.text.DecimalFormat
 
@@ -45,7 +46,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
     private lateinit var currentLocation: Location
 
     companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1
         lateinit var nMap: GoogleMap
         private var markers: MutableList<Marker> = mutableListOf<Marker>()
     }
@@ -63,6 +64,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         setToolbar()
     }
 
+    //when the permisson is granted the map zooms on the Currentlocation
     private fun setUpMap() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -87,20 +89,10 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 val currentAddress = getAddress(location.latitude, location.longitude)
                 Log.d("TAG", "klagenfurt : ${currentAddress}")
-                retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
-                placeMarkerOnMap(currentLatLng)
                 nMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 9f))
 
             }
         }
-    }
-
-    //current location and make a call to insert it in the favorites
-    private fun placeMarkerOnMap(location: LatLng) {
-        val markerOptions = MarkerOptions().position(location)
-        val currentAddress = getAddress(location.latitude, location.longitude)
-        retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
-        nMap.addMarker(markerOptions)
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -112,6 +104,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
         map?.let {
             nMap = it
             nMap.setOnInfoWindowClickListener { markerToDelete ->
+                markers.remove(markerToDelete)
+                markerToDelete.remove()
                 Log.i(TAG, "onWindowsClickListener - Delete Thismarker")
             }
             favorites.forEach { favorite ->
@@ -121,31 +115,25 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
                 if (lat != null && lon != null)
                     nMap.addMarker(
                         MarkerOptions().position(LatLng(lat, lon))
-                            //Need icon
-                            .title(getString(R.string.temperature))
+                            .title(favorite.address)
                             .snippet(
-                                favorite.currentWeatherResponse?.current?.temp?.toInt()?.minus(
-                                    273.15.toInt()
-                                ).toString() + "°C"
+                                getString(R.string.temperature) + ": " + favorite.currentWeatherResponse?.current?.temp?.toInt()
+                                    ?.minus(
+                                        273.15.toInt()
+                                    ).toString() + "°C"
                             )
-                            .snippet(
-                                favorite.address
-                            )
+
                     )
+                setUpMap()
             }
 
 
             nMap.setOnMapLongClickListener { latlng ->
                 Log.i(TAG, "onMapLongClickListener" + latlng)
                 showAlertDialog(latlng)
-                val address = getAddress(latlng.latitude, latlng.longitude)
-                //get the call from RetrofitSetup.class and insert it directly in the Database
-                retrofitResponse(address)
-                retrofitOneCallResponse(latlng.latitude, latlng.longitude, address)
-                Log.d(TAG, "test5 $address")
             }
         }
-        setUpMap()
+
 
     }
 
@@ -169,28 +157,37 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, CallBack, GetName {
 
 
     private fun showAlertDialog(latlng: LatLng) {
+        val address = getAddress(latlng.latitude, latlng.longitude)
+
         val dialog =
-            AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.favoritsetzen)).setMessage("")
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.wouldyou) + address + getString(R.string.tothefavorites) ).setMessage("")
                 .setNegativeButton(getString(R.string.abbrechen), null)
                 .setPositiveButton(getString(R.string.ok), null)
                 .show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val marker = nMap.addMarker(
-                MarkerOptions().position(latlng).title("my new marker").snippet(
-                    "a cool snippet"
-                )
+                MarkerOptions().position(latlng)
             )
+            retrofitResponse(address)
+            //get the call from RetrofitSetup.class and insert it directly in the Database
+            retrofitOneCallResponse(latlng.latitude, latlng.longitude, address)
             markers.add(marker)
             dialog.dismiss()
-            Toast.makeText(requireContext(), getString(R.string.hinzufügen), LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.City) + address + getString(R.string.add),
+                LENGTH_LONG
+            ).show()
+
         }
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
             dialog.dismiss()
         }
 
     }
+
 
     private fun setToolbar() {
         val actionBar: ActionBar? = (requireActivity() as MainActivity).supportActionBar

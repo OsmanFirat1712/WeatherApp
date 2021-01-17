@@ -50,7 +50,7 @@ fun retrofitResponse(address: String, dataBase: WeatherDatabase = DatabaseProvid
         }
     })
 }
-
+//get the OneCall and
 fun retrofitOneCallResponse(lat:Double, long:Double, address: String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
     val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -84,7 +84,7 @@ fun retrofitOneCallResponse(lat:Double, long:Double, address: String, dataBase: 
             Log.d("TAG","hourlyPressure : " + hourlyPressure)
             Log.d("TAG","temppppp : " + tempp)
 
-
+            //save the response directly in Room
             Executors.newSingleThreadExecutor().execute {
                 val body = response.body()
                 val favorites = Favorites("${body?.lat}${body?.lon}" ,address,body)
@@ -99,7 +99,7 @@ fun retrofitOneCallResponse(lat:Double, long:Double, address: String, dataBase: 
 
     })
 }
-
+//METHOD FOR SWIPETOREFRESH WITHOUT INSERT IT IN THE DATABASE
 fun retrofitOneCallrefreshResponse(lat:Double, long:Double, address: String, dataBase: WeatherDatabase = DatabaseProvider.getInstance()){
     val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

@@ -30,10 +30,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ForYouAdapter(
-    var forYouConstruktorList: List<Favorites>,
-    context: Context,
-    private val removecall: RemoveCallBack,
-    val fragmentCallBack: FragmentCallBack
+    var forYouConstructorList: List<Favorites>,
+    private val context: Context,
+    private val removeCallBack: RemoveCallBack,
+    private val fragmentCallBack: FragmentCallBack
 ) : RecyclerView.Adapter<ForYouAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouAdapter.ViewHolder {
@@ -46,7 +46,7 @@ class ForYouAdapter(
 
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ForYouAdapter.ViewHolder, position: Int) {
-        val curentItem = forYouConstruktorList[position]
+        val curentItem = forYouConstructorList[position]
         //get the icon and other data from the api
         holder.apply {
             Glide.with(itemView)
@@ -54,12 +54,12 @@ class ForYouAdapter(
                 .into(itemView.ivCityPicture)
             cityName.text = curentItem.address
             time.text = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-            temperture.text = """${
+            temperature.text = """${
                 curentItem.currentWeatherResponse?.current?.temp?.toInt()?.minus(
                     273.15.toInt()
                 ).toString()
             }°"""
-            regnet.text = " ${curentItem.currentWeatherResponse?.current?.clouds}" + "%"
+            rain.text = " ${curentItem.currentWeatherResponse?.current?.clouds}" + "%"
 
 
             val list = mutableListOf<Entry>()
@@ -85,17 +85,17 @@ class ForYouAdapter(
 
             val cl: ConstraintLayout = itemView.findViewById(R.id.constraint)
             val chart: LineChart = itemView.findViewById(R.id.chChart)
-            val barEntries = list.map { Entry(it.x, it.y, xValsDateLabel) }
-            val dataSet = LineDataSet(barEntries, null)
+            val lineEntries = list.map { Entry(it.x, it.y, xValsDateLabel) }
+            val dataSet = LineDataSet(lineEntries, context.getString(R.string.tempNextHours))
 
             dataSet.fillAlpha = 5000
             dataSet.color = Color.WHITE
             dataSet.valueTextColor = Color.WHITE
             dataSet.valueTextSize = 7f
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-            chart.description.text = "Temperatur für die nächsten Stunden in Celsius"
             chart.legend.isEnabled = true
             chart.invalidate()
+            chart.description.isEnabled = false
             chart.axisRight.isEnabled = false
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
@@ -111,12 +111,12 @@ class ForYouAdapter(
 
 
             //clicklistener to get in the detailpage
-            cardview.setOnClickListener {
+            cardView.setOnClickListener {
                 fragmentCallBack.onDetailPage(curentItem)
             }
 
-            cardview.setOnLongClickListener {
-                removecall.onRemove(curentItem)
+            cardView.setOnLongClickListener {
+                removeCallBack.onRemove(curentItem)
                 notifyDataSetChanged()
                 notifyItemRemoved(position)
                 true
@@ -124,7 +124,7 @@ class ForYouAdapter(
 
             val rnd = Random()
             val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-            cardview.setCardBackgroundColor(color)
+            cardView.setCardBackgroundColor(color)
 
         }
     }
@@ -132,19 +132,19 @@ class ForYouAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityName: TextView = itemView.tvCityName
-        val temperture: TextView = itemView.tvtemperture
+        val temperature: TextView = itemView.tvtemperture
         val time: TextView = itemView.tvTime
-        val regnet: TextView = itemView.tvRegnet
-        val cardview: MaterialCardView = itemView.cvCardViewForYou
+        val rain: TextView = itemView.tvRegnet
+        val cardView: MaterialCardView = itemView.cvCardViewForYou
 
     }
 
     override fun getItemCount(): Int {
-        return forYouConstruktorList.size
+        return forYouConstructorList.size
     }
 
     fun updateFavList(forYouConstruktorList: List<Favorites>) {
-        this.forYouConstruktorList = forYouConstruktorList
+        this.forYouConstructorList = forYouConstruktorList
         notifyDataSetChanged()
     }
 

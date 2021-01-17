@@ -17,7 +17,7 @@
     <string name="delete">delete</string>
     <string name="cancelButton">cancel</string>
     <string name="hinzufügen">Hinzufügen Erfolgreich</string>
-    <string name="temperature">Temperature :</string>
+    <string name="temperature">Temperature : </string>
     <string name="refresh">\" Aktualisierung erfolgreich\"</string>
     <string name="favoritsetzen">Möchten Sie den ausgewählten Ort zu den Favoriten hinzufügen?</string>
     <string name="abbrechen">Abbrechen</string>
@@ -34,10 +34,16 @@
     <string name="error">Es sind leider keine Wetterdaten für die gesuchte Stadt verfügbar, bitte versuchen Sie es erneut</string>
     <string name="tempCelsius">Temperatur der Nächsten Tage in Celsius</string>
     <string name="entfernen">Möchten Sie die ausgewählte Stadt wirklich aus den Favoriten entfernen?</string>
-    <string name="info">Danke für die Nutzung dieser App.Da es sich noch in der Entwicklungsphase befindet kann es zur verzögerten Ladezeiten kommen, bitte warte beim ersten Appstart einige Sekunden bevor du benutzt. Wir bedanken uns,das ProjectRain Entwicklerteam. Diese Info wird nur einmal angezeigt</string>
+    <string name="info">Danke für die Nutzung unserer App.Da es sich noch in der Entwicklungsphase befindet kann es zur verzögerten Ladezeiten kommen, bitte warte beim ersten Appstart einige Sekunden und aktualiesiere die Seite indem du von Oben nach Unten wischt. Wir bedanken uns,das ProjectRain Entwicklerteam. Diese Info wird nur einmal angezeigt</string>
     <string name="keineverbindung">Keine Netzwerkverbindung, gespeicherte Daten werden angezeigt</string>
     <string name="erfolgreich">Verbindung Hergestellt</string>
     <string name="tempnextdays">Temperatur der nächsten Tage in Celsius</string>
     <string name="popnextdays">Niederschlagsmenge der nächsten Tage in mm</string>
     <string name="neustart">Bitte Starte die App neu um die Einstellung zu übernehmen</string>
+    <string name="save"> Speichere die Städteliste ab, bitte warte einen Augenblick</string>
+    <string name="tempNextHours">Temperatur für die nächsten Stunden in Celsius</string>
+    <string name="City">" Die Stadt  "</string>
+    <string name="add">"\"wurde zur Favoriten hinzugefügt "</string>
+    <string name="wouldyou">"Wollen Sie die Stadt "</string>
+    <string name="tothefavorites">" zu den Favoriten hinzufügen?\""</string>
 </resources>

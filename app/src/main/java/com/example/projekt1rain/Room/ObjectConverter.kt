@@ -33,7 +33,7 @@ class ObjectConverter {
     }
 
     @TypeConverter
-    fun fromWeather(weather:  CurrentWeather): String {
+    fun fromWeather(weather: CurrentWeather): String {
         return Gson().toJson(weather)
     }
 
@@ -71,6 +71,7 @@ class ObjectConverter {
     fun toSys(sys: String): Sys? {
         return Gson().fromJson(sys, Sys::class.java)
     }
+
     @TypeConverter
     fun fromMain(main: Main): String {
         return Gson().toJson(main)

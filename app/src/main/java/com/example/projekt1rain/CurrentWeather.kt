@@ -13,21 +13,21 @@ private val klaxon = Klaxon()
 @Entity
 data class CurrentWeather @JvmOverloads constructor(
     @PrimaryKey(autoGenerate = false) var id: Long,
-    val base: String? ,
+    val base: String?,
     val clouds: Int?,
-    val cod: Int? ,
+    val cod: Int?,
     val coord: Coord?,
-    val dt: Int? ,
-    val main: Main? ,
-    val name: String? ,
-    val sys: Sys? ,
-    val timezone: Int? ,
-    val temp:Double?,
-    val visibility: Int? ,
+    val dt: Int?,
+    val main: Main?,
+    val name: String?,
+    val sys: Sys?,
+    val timezone: Int?,
+    val temp: Double?,
+    val visibility: Int?,
     val weather: List<Weather>?,
     @SerializedName("wind_deg")
     val windDeg: Int?,
-    val uvi: Double? ,
+    val uvi: Double?,
     @SerializedName("wind_speed")
     val windSpeed: Double?,
     val wind: Wind?
@@ -37,15 +37,16 @@ data class CurrentWeather @JvmOverloads constructor(
 data class Clouds(
     val all: Int?
 )
+
 data class Coord(
     val lat: Double?,
     val lon: Double?
-    )
+)
 
 data class Main(
     @SerializedName("feels_like")
     val feelsLike: Double?,
-    val humidity: Int? ,
+    val humidity: Int?,
     val pressure: Int?,
     val temp: Double?,
     @SerializedName("temp_max")
@@ -58,9 +59,9 @@ data class Sys(
     val country: String?,
     val id: Int?,
     val message: Double?,
-    val sunrise: Int? ,
-    val sunset: Int? ,
-    val type: Int? ,
+    val sunrise: Int?,
+    val sunset: Int?,
+    val type: Int?,
 )
 
 data class Weather(

@@ -25,7 +25,7 @@
     <string name="stadt">"State "</string>
     <string name="tempCelsius">Temperature for the next Days in Celsius</string>
     <string name="entfernen">Are you sure you want to delete the City from the Favorites?</string>
-    <string name="info">Thanks for using this App. The App is still in the development, there may some delays. Please wait a couple of Seconds before using it for the first time. Thank you, sincerly the ProjectRain development team. This info will shown just once.</string>
+    <string name="info">Thanks for using this App. The App is still in the development, there may some delays. Please wait a couple of Seconds and swipe to refresh the page, before using it for the first time. Thank you, sincerly the ProjectRain development team. This info will shown just once.</string>
     <string name="suche">Enter City here...</string>
     <string name="detilansicht_vom_wetter">"Detailpage from the "</string>
     <string name="error">There is no info avabilable, please search a other city</string>
@@ -36,4 +36,10 @@
     <string name="tempnextdays">Temperature for the next Days in Celsius</string>
     <string name="popnextdays">" Precipitation for the next Days in mm"</string>
     <string name="neustart">Please restart the app to apply the settings</string>
+    <string name="save">Save the cities,please wait a couple of seconds</string>
+    <string name="City">"The City  "</string>
+    <string name="add">" is added to the Favorites"</string>
+    <string name="tempNextHours">"Temperature for the next hours in Celsisus "</string>
+    <string name="wouldyou">"Do you want the City "</string>
+    <string name="tothefavorites">" to the Favorites?"</string>
 </resources>

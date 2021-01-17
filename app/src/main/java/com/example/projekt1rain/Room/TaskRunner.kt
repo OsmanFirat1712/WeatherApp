@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit
 
 class TaskRunner {
     private val threadPoolExecutor: Executor = ThreadPoolExecutor(
-            5, 128, 1,
-            TimeUnit.SECONDS, LinkedBlockingQueue()
+        5, 128, 1,
+        TimeUnit.SECONDS, LinkedBlockingQueue()
     )
     private val handler = Handler(Looper.getMainLooper())
     fun <R> executeAsync(callable: Supplier<R>, callback: Consumer<R>) {
