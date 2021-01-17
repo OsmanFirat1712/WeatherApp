@@ -117,18 +117,18 @@ class MainActivity() : AppCompatActivity() {
             commit()
         }
 
-    private fun showProgressBar(){
+    private fun showProgressBar() {
 
-        val builder  = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.progressbar,null)
-        val message  = dialogView.findViewById<TextView>(R.id.text)
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progressbar, null)
+        val message = dialogView.findViewById<TextView>(R.id.text)
         message.text = getString(R.string.save)
         builder.setView(dialogView)
         builder.setCancelable(false)
-        val dialog  = builder.create()
+        val dialog = builder.create()
         dialog.show()
 
-        Handler().postDelayed({dialog.dismiss()},50000)
+        Handler().postDelayed({ dialog.dismiss() }, 50000)
 
     }
 }

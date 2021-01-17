@@ -1,7 +1,6 @@
 package com.example.projekt1rain.Fragments
 
 //import com.example.projekt1rain.Adapter.ForYouAdapter
-import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -13,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -58,7 +56,6 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -77,7 +74,7 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
 
         forYouAdapter = ForYouAdapter(
 
-            forYouConstruktorList = ArrayList(), requireContext(),
+            forYouConstructorList = ArrayList(), requireContext(),
             this, this
         )
 
@@ -172,30 +169,35 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
         forYouAdapter.notifyDataSetChanged()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray): Unit {
-        if(requestCode==MapViewFragment.LOCATION_PERMISSION_REQUEST_CODE){
-            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+    // ask for permisson when is guranteed get the currentlocation and make a call from the api
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ): Unit {
+        if (requestCode == MapViewFragment.LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val dataService: DataService = (requireActivity().application as MyApp).dataService
 
                 getLocation();
-                forYouAdapter.updateFavList(favorites)
-                dataService.getFavorites(this)
-                forYouAdapter.notifyDataSetChanged()
+
             }
         }
     }
 
-    private fun getLocation(){
+    private fun getLocation() {
         val dataService: DataService = (requireActivity().application as MyApp).dataService
 
         if (ActivityCompat.checkSelfPermission(
-                requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+                requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             requestPermissions(
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 MapViewFragment.LOCATION_PERMISSION_REQUEST_CODE
             )
-        }else{
+        } else {
 
         }
 
@@ -209,17 +211,9 @@ class ForYouFragment() : Fragment(), CallBack, FragmentCallBack, RemoveCallBack 
                 Log.d("TAG", "klagenfurt : ${currentAddress}")
                 retrofitOneCallResponse(location.latitude, location.longitude, currentAddress)
                 dataService.getFavorites(this)
-                forYouAdapter.updateFavList(favorites)
-                forYouAdapter.notifyDataSetChanged()
+
             }
-            forYouAdapter.updateFavList(favorites)
-            dataService.getFavorites(this)
-            forYouAdapter.notifyDataSetChanged()
         }
-
-        dataService.getFavorites(this)
-
-
 
     }
 

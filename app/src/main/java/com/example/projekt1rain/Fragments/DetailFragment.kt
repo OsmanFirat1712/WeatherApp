@@ -118,13 +118,13 @@ class DetailFragment : Fragment() {
             }
 
             val barEntry = dailyList.map { BarEntry(it.x, it.y) }
-            dataset = BarDataSet(barEntry, null)
+            dataset = BarDataSet(barEntry, getString(R.string.popnextdays))
             dataset.color = Color.WHITE
             dataset.barBorderColor = Color.WHITE
             dataset.valueTextColor = Color.WHITE
             dataset.valueTextSize = 10f
-            chart.description.text = getString(R.string.popnextdays)
             chart.legend.isEnabled = true
+            chart.description.isEnabled = false
             chart.invalidate()
             chart.axisRight.isEnabled = false
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
@@ -153,16 +153,16 @@ class DetailFragment : Fragment() {
             val cl: ConstraintLayout = view.findViewById(R.id.constraint)
             val chart: LineChart = view.findViewById(R.id.bcDetailBarchartPop)
             val barEntries = lineChart.map { Entry(it.x, it.y) }
-            val dataSet = LineDataSet(barEntries, null)
+            val dataSet = LineDataSet(barEntries, getString(R.string.tempnextdays))
 
             dataSet.fillAlpha = 5000
             dataSet.color = Color.WHITE
             dataSet.valueTextColor = Color.WHITE
             dataSet.valueTextSize = 7f
             dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-            chart.description.text = getString(R.string.tempnextdays)
             chart.legend.isEnabled = true
             chart.invalidate()
+            chart.description.isEnabled = false
             chart.axisRight.isEnabled = false
             chart.axisLeft.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
             chart.axisRight.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)

@@ -7,7 +7,7 @@ import com.example.projekt1rain.CurrentWeather
 import com.example.projekt1rain.RetrofitApi.CurrentWeatherResponse
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-
+//Entity for the ForYou Page Favorites
 @Entity(tableName = "Favorites")
 data class Favorites  (
     @PrimaryKey(autoGenerate = false) var id:String,
